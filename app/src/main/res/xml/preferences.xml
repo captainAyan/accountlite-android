@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        app:key="@string/notification_pref_key"
+        app:title="@string/notification_pref_label"
+        android:defaultValue="true"/>
+
+    <ListPreference
+        app:key="@string/dark_mode_pref_key"
+        app:title="@string/dark_mode_pref_label"
+        app:defaultValue="@string/dark_mode_default_value"
+        app:entries="@array/dark_mode_pref_entries"
+        app:entryValues="@array/dark_mode_pref_values"
+        app:useSimpleSummaryProvider="true"/>
+
+    <PreferenceCategory
+        app:icon="@drawable/ic_default"
+        app:title="Defaults">
+        <CheckBoxPreference
+            app:key="@string/default_date_as_today_pref_key"
+            app:title="@string/default_date_as_today_label"
+            android:defaultValue="false">
+        </CheckBoxPreference>
+
+        <ListPreference
+            app:key="@string/default_range_pref_key"
+            app:title="@string/default_date_range_pref_label"
+            app:defaultValue="day"
+            app:entries="@array/default_date_range_pref_entries"
+            app:entryValues="@array/range_pref_values"
+            android:dependency="@string/default_date_as_today_pref_key"
+            app:useSimpleSummaryProvider="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:icon="@drawable/ic_info"
+        app:title="Info">
+
+        <Preference
+            app:title="@string/build_version_label"
+            app:summary="@string/build_version"/>
+
+        <Preference
+            app:title="@string/send_feedback_label"
+            app:summary="@string/send_feedback_summary"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

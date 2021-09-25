@@ -1,0 +1,54 @@
+<resources>
+    <!-- Labels -->
+    <string name="app_name">AccountLite</string>
+    <string name="fab_content_desc">Add journal entry button</string>
+    <string name="submit">Submit</string>
+    <string name="build_version">1.0.0-alpha</string>
+
+    <!-- Preference -->
+    <!-- Labels (also entries) -->
+    <string name="notification_pref_label">Notify Me</string>
+
+    <string name="dark_mode_pref_label">Dark Mode</string>
+    <string-array name="dark_mode_pref_entries">
+        <item>System Default</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string name="default_date_as_today_label">Default Date as Today</string>
+
+    <string name="default_date_range_pref_label">Default Range</string>
+    <string-array name="default_date_range_pref_entries">
+        <item>Day</item>
+        <item>Week</item>
+        <item>Fortnite</item>
+        <item>Month</item>
+    </string-array>
+
+    <string name="build_version_label">Build Version</string>
+
+    <string name="send_feedback_label">Send feedback</string>
+    <string name="send_feedback_summary">Report technical issues or suggest new features</string>
+
+    <!-- Keys -->
+    <string name="notification_pref_key">NOTIFICATION</string>
+    <string name="dark_mode_pref_key">DARK_MODE</string>
+    <string name="default_date_as_today_pref_key">DEFAULT_DATE_AS_TODAY</string>
+    <string name="default_range_pref_key">DEFAULT_RANGE</string>
+
+    <!-- Values (also defaults) -->
+    <string-array name="dark_mode_pref_values">
+        <item>MODE_NIGHT_FOLLOW_SYSTEM</item>
+        <item>MODE_NIGHT_NO</item>
+        <item>MODE_NIGHT_YES</item>
+    </string-array>
+    <string name="dark_mode_default_value">MODE_NIGHT_FOLLOW_SYSTEM</string><!-- Default Dark Mode -->
+
+    <string-array name="range_pref_values">
+        <item>day</item>
+        <item>week</item>
+        <item>fortnite</item>
+        <item>month</item>
+    </string-array>
+</resources>

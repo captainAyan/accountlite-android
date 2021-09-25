@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingVertical="8dp"
+    tools:context=".DateRangeSelectionBottomSheetFragment">
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        app:singleSelection="true"
+        app:layout_constraintTop_toBottomOf="@id/datePicker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/weekChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Week"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            app:chipBackgroundColor="?attr/colorSecondary"
+            android:textColor="?attr/colorOnSecondary"
+            app:checkedIcon="@drawable/ic_check"
+            app:checkedIconTint="?attr/colorOnSecondary"
+            app:checkedIconEnabled="true"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/fortniteChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fortnite"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            app:chipBackgroundColor="?attr/colorSecondary"
+            android:textColor="?attr/colorOnSecondary"
+            app:checkedIcon="@drawable/ic_check"
+            app:checkedIconTint="?attr/colorOnSecondary"
+            app:checkedIconEnabled="true"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/monthChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Month"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            app:chipBackgroundColor="?attr/colorSecondary"
+            android:textColor="?attr/colorOnSecondary"
+            app:checkedIcon="@drawable/ic_check"
+            app:checkedIconTint="?attr/colorOnSecondary"
+            app:checkedIconEnabled="true"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submit"
+        android:text="View"
+        app:layout_constraintTop_toBottomOf="@id/chipGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Button"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
