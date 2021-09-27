@@ -2,6 +2,7 @@ package com.github.captainayan.accountlite;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.github.captainayan.accountlite.database.AppDatabase;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.Objects;
@@ -72,6 +74,16 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preferences, rootKey);
+        }
+
+        @Override
+        public boolean onPreferenceTreeClick(Preference preference) {
+            if (preference.getTitle() == getResources().getString(R.string.reset_books)) {
+                Toast.makeText(this.getContext(), "Deleting Database", Toast.LENGTH_SHORT).show();
+                AppDatabase db = AppDatabase.getAppDatabase(this.getContext());
+                db.delete();
+            }
+            return super.onPreferenceTreeClick(preference);
         }
     }
 }

@@ -86,7 +86,7 @@ public class DateRangeSelectionBottomSheetFragment extends BottomSheetDialogFrag
                 i.putExtra("year", datePicker.getYear());
 
                 List<Integer> ids = chipGroup.getCheckedChipIds();
-                if (ids.isEmpty()) i.putExtra("duration", "day");
+                if (ids.isEmpty()) i.putExtra("duration", getResources().getString(R.string.default_date_range_default_values)); // default
                 else if (ids.get(0) == R.id.weekChip) i.putExtra("duration", "week");
                 else if (ids.get(0) == R.id.fortniteChip) i.putExtra("duration", "fortnite");
                 else if (ids.get(0) == R.id.monthChip) i.putExtra("duration", "month");

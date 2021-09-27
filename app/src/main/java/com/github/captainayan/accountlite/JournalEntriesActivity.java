@@ -1,27 +1,74 @@
 package com.github.captainayan.accountlite;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
-import com.github.captainayan.accountlite.utility.Parser;
+import com.github.captainayan.accountlite.adapter.BalanceAdapter;
+import com.github.captainayan.accountlite.adapter.JournalAdapter;
+import com.github.captainayan.accountlite.database.AppDatabase;
+import com.github.captainayan.accountlite.database.EntryDao;
+import com.github.captainayan.accountlite.model.Journal;
+import com.github.captainayan.accountlite.model.TestBalance;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class JournalEntriesActivity extends AppCompatActivity {
 
     private static final String TAG = "JOURNAL_ENTRIES_ACT";
     private MaterialToolbar toolbar;
-    String input = "#BUSINESS=lol co.\n#CURRENCY=Rs.\n#CURRENCY_FORMAT=ind\n#NAME=lol cat\n1,500,1421113156,cash,bank,being cash withdrawn from bank\n2,300,1621193156,bank,cash,being cash deposited into bank";
+
+    private AppDatabase db;
+    private EntryDao entryDao;
+
+    private RecyclerView recyclerView;
+    private LinearLayoutManager manager;
+    private JournalAdapter adapter;
+    private ArrayList<Journal> journalList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journal_entries);
+
+        Intent i = getIntent();
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, i.getIntExtra("day", 0));
+        c.set(Calendar.MONTH, i.getIntExtra("month", 0));
+        c.set(Calendar.YEAR, i.getIntExtra("year", 0));
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        long toDateTimestamp = c.getTimeInMillis();
+        c.set(Calendar.DAY_OF_MONTH, i.getIntExtra("day", 0));
+        c.set(Calendar.MONTH, i.getIntExtra("month", 0));
+        c.set(Calendar.YEAR, i.getIntExtra("year", 0));
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        if (i.getStringExtra("duration").equals("week")) c.add(Calendar.WEEK_OF_MONTH, -1);
+        else if (i.getStringExtra("duration").equals("fortnite")) c.add(Calendar.WEEK_OF_MONTH, -2);
+        else if (i.getStringExtra("duration").equals("month")) c.add(Calendar.MONTH, -1);
+        long fromDateTimestamp = c.getTimeInMillis();
+
+        db = AppDatabase.getAppDatabase(this);
+        entryDao = db.entryDao();
+
+        journalList = (ArrayList<Journal>) entryDao.getJournals(fromDateTimestamp, toDateTimestamp);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        adapter = new JournalAdapter(this, journalList);
+        manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
 
         toolbar = (MaterialToolbar) findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
@@ -32,10 +79,6 @@ public class JournalEntriesActivity extends AppCompatActivity {
                 JournalEntriesActivity.this.finish();
             }
         });
-
-        ArrayList<Parser.Journal> journalList = new ArrayList<>();
-        HashMap<String, String> metaDataMap = new HashMap<>();
-        Parser.parse(input, journalList, metaDataMap);
 
     }
 }

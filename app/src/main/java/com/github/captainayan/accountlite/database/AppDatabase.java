@@ -6,6 +6,9 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.github.captainayan.accountlite.model.Entry;
+import com.github.captainayan.accountlite.model.Ledger;
+
 @Database(entities = {Entry.class, Ledger.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
@@ -15,10 +18,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public static AppDatabase getAppDatabase(Context context) {
         if (INSTANCE == null) {
-            INSTANCE =
-                    Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "user-database")
-                            // allow queries on the main thread.
-                            // Don't do this on a real app! See PersistenceBasicSample for an example.
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "AppDatabase")
                             .allowMainThreadQueries()
                             .build();
         }
@@ -27,5 +27,10 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public static void destroyInstance() {
         INSTANCE = null;
+    }
+
+    public void delete() {
+        entryDao().deleteAll();
+        ledgerDao().deleteAll();
     }
 }

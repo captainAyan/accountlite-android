@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // preference related
     private String defaultDateAsTodayKey ;
     private String defaultRangeKey;
-    private String[] defaultDateRangeValues;
+    private String defaultDateRangeValues;
 
     private Calendar calendar = Calendar.getInstance();
 
@@ -58,17 +58,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         defaultDateAsTodayKey = getResources().getString(R.string.default_date_as_today_pref_key);
-        defaultRangeKey = getResources().getString(R.string.default_range_pref_key);
-        defaultDateRangeValues = getResources().getStringArray(R.array.default_date_range_pref_entries);
+        defaultRangeKey = getResources().getString(R.string.default_date_range_pref_key);
+        defaultDateRangeValues = getResources().getString(R.string.default_date_range_default_values);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         balances = new ArrayList<TestBalance>();
-        balances.add(new TestBalance("Rs.10,000", "Cash"));
-        balances.add(new TestBalance("Rs.400", "Petty Cash"));
-        balances.add(new TestBalance("Rs.900", "Expenses"));
-        balances.add(new TestBalance("Rs.14,500", "Pocket Money"));
-        balances.add(new TestBalance("Rs.2,000", "Investment"));
+        balances.add(new TestBalance("Rs.10,000", "Assets"));
+        balances.add(new TestBalance("Rs.400", "Liabilities"));
+        balances.add(new TestBalance("Rs.900", "Equity"));
+        balances.add(new TestBalance("Rs.14,500", "Revenue"));
+        balances.add(new TestBalance("Rs.2,000", "Expenditure"));
 
         adapter = new BalanceAdapter(this, balances);
         manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -136,7 +136,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 i.putExtra("day", calendar.get(Calendar.DAY_OF_MONTH));
                 i.putExtra("month", calendar.get(Calendar.MONTH));
                 i.putExtra("year", calendar.get(Calendar.YEAR));
-                i.putExtra("duration", PreferenceManager.getDefaultSharedPreferences(this).getString(defaultRangeKey, defaultDateRangeValues[0]));
+                i.putExtra("duration", PreferenceManager.getDefaultSharedPreferences(this)
+                        .getString(defaultRangeKey, defaultDateRangeValues));
                 startActivity(i);
             } else {
                 dateRangeSelectionBottomSheetFragment.setIntent(new Intent(this, LedgerAccountActivity.class));
@@ -149,7 +150,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 i.putExtra("day", calendar.get(Calendar.DAY_OF_MONTH));
                 i.putExtra("month", calendar.get(Calendar.MONTH));
                 i.putExtra("year", calendar.get(Calendar.YEAR));
-                i.putExtra("duration", PreferenceManager.getDefaultSharedPreferences(this).getString(defaultRangeKey, defaultDateRangeValues[0]));
+                i.putExtra("duration", PreferenceManager.getDefaultSharedPreferences(this)
+                        .getString(defaultRangeKey, defaultDateRangeValues));
                 startActivity(i);
             } else {
                 dateRangeSelectionBottomSheetFragment.setIntent(new Intent(this, JournalEntriesActivity.class));

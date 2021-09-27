@@ -12,7 +12,7 @@
     android:backgroundTint="?attr/colorPrimary"
     app:cardCornerRadius="28dp"
     app:cardElevation="16dp"
-    style="@style/CardView.CustomStyle">
+    style="@style/CardView.DarkModeBorder">
 
     <LinearLayout
         android:layout_width="match_parent"
