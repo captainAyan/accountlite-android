@@ -11,10 +11,21 @@ public class StringUtility {
     }
 
     public static String accountNameFormat(String accountName) {
-        return Character.toUpperCase(accountName.charAt(0)) + accountName.substring(1) + " A/c";
+        return capitalizeFirstLetters(accountName) + " A/c";
     }
 
-    public static String amountFormat(int amount, String format, String currency) {
+    public static String capitalizeFirstLetters(String str) {
+        String words[]=str.split("\\s");
+        String capitalizeWord="";
+        for(String w:words){
+            String first=w.substring(0,1);
+            String afterfirst=w.substring(1);
+            capitalizeWord+=first.toUpperCase()+afterfirst+" ";
+        }
+        return capitalizeWord.trim();
+    }
+
+    public static String amountFormat(int amount, String format, String symbol, String symbolPosition) {
         StringBuilder a = new StringBuilder(String.valueOf(amount));
         String result = "";
 
@@ -35,11 +46,12 @@ public class StringUtility {
         }
         else result = a.toString();
 
-        return currency + " " + result;
+        if(symbolPosition.equals("START")) return symbol + result;
+        else return result + symbol;
     }
 
     public static String narrationFormat(String narration) {
-        return "(" + narration + ")";
+        return "(" + Character.toUpperCase(narration.charAt(0)) + narration.substring(1)  + ")";
     }
 
     public static String idFormat(int id) {

@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.github.captainayan.accountlite.model.Entry;
 import com.github.captainayan.accountlite.model.Ledger;
 
-@Database(entities = {Entry.class, Ledger.class}, version = 1)
+@Database(entities = {Entry.class, Ledger.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
 

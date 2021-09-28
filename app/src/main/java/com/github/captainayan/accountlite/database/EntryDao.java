@@ -28,4 +28,8 @@ public interface EntryDao {
     @Transaction
     @Query("SELECT * FROM entry WHERE timestamp >= :fromDate AND timestamp <= :toDate ORDER BY id DESC")
     public List<Journal> getJournals(double fromDate, double toDate);
+
+    @Transaction
+    @Query("SELECT * FROM entry WHERE (:ledgerId = debit_id OR :ledgerId = credit_id) AND (timestamp >= :fromDate AND timestamp <= :toDate) ORDER BY id DESC")
+    public List<Journal> getJournalsByLedger(int ledgerId, double fromDate, double toDate);
 }

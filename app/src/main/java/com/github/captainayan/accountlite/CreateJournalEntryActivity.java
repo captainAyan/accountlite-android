@@ -141,6 +141,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
                     }).show();
                 } else if(!ledgerNameList.contains(debitAccountName)) debitLedgerTypeDialog.show();
                 else if(!ledgerNameList.contains(creditAccountName)) creditLedgerTypeDialog.show();
+                else createEntry(debitAccountName, creditAccountName);
 
             }
         });

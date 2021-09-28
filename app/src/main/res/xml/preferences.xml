@@ -27,11 +27,19 @@
             app:useSimpleSummaryProvider="true"/>
 
         <ListPreference
-            app:key="@string/currency_name_pref_key"
-            app:title="@string/currency_name_pref_label"
-            app:defaultValue="@string/currency_name_default_value"
-            app:entries="@array/currency_name_pref_entries"
-            app:entryValues="@array/currency_name_pref_values"
+            app:key="@string/currency_symbol_pref_key"
+            app:title="@string/currency_symbol_pref_label"
+            app:defaultValue="@string/currency_symbol_default_value"
+            app:entries="@array/currency_symbol_pref_entries"
+            app:entryValues="@array/currency_symbol_pref_values"
+            app:useSimpleSummaryProvider="true"/>
+
+        <ListPreference
+            app:key="@string/currency_symbol_position_pref_key"
+            app:title="@string/currency_symbol_position_pref_label"
+            app:defaultValue="@string/currency_symbol_position_default_value"
+            app:entries="@array/currency_symbol_position_pref_entries"
+            app:entryValues="@array/currency_symbol_position_pref_values"
             app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
 

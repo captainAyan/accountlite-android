@@ -13,6 +13,9 @@ public interface LedgerDao {
     @Query("SELECT * FROM ledger")
     List<Ledger> getAll();
 
+    @Query("SELECT * FROM ledger WHERE id == :id")
+    Ledger getLedgerById(int id);
+
     @Insert
     void insert(Ledger ledger);
 

@@ -8,13 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
-import com.github.captainayan.accountlite.adapter.BalanceAdapter;
 import com.github.captainayan.accountlite.adapter.JournalAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
 import com.github.captainayan.accountlite.database.EntryDao;
 import com.github.captainayan.accountlite.model.Journal;
-import com.github.captainayan.accountlite.model.TestBalance;
+import com.github.captainayan.accountlite.utility.StringUtility;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
@@ -28,6 +28,8 @@ public class JournalEntriesActivity extends AppCompatActivity {
 
     private AppDatabase db;
     private EntryDao entryDao;
+
+    private TextView emptyView;
 
     private RecyclerView recyclerView;
     private LinearLayoutManager manager;
@@ -54,9 +56,19 @@ public class JournalEntriesActivity extends AppCompatActivity {
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
-        if (i.getStringExtra("duration").equals("week")) c.add(Calendar.WEEK_OF_MONTH, -1);
-        else if (i.getStringExtra("duration").equals("fortnite")) c.add(Calendar.WEEK_OF_MONTH, -2);
-        else if (i.getStringExtra("duration").equals("month")) c.add(Calendar.MONTH, -1);
+
+        Log.d(TAG, "onCreate: DURATION" + i.getStringExtra("duration"));
+        switch (i.getStringExtra("duration")) {
+            case "week":
+                c.add(Calendar.WEEK_OF_MONTH, -1);
+                break;
+            case "fortnite":
+                c.add(Calendar.WEEK_OF_MONTH, -2);
+                break;
+            case "month":
+                c.add(Calendar.MONTH, -1);
+                break;
+        }
         long fromDateTimestamp = c.getTimeInMillis();
 
         db = AppDatabase.getAppDatabase(this);
@@ -70,6 +82,9 @@ public class JournalEntriesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
 
+        emptyView = (TextView) findViewById(R.id.emptyView);
+        if (!journalList.isEmpty()) emptyView.setVisibility(View.INVISIBLE);
+
         toolbar = (MaterialToolbar) findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -79,6 +94,9 @@ public class JournalEntriesActivity extends AppCompatActivity {
                 JournalEntriesActivity.this.finish();
             }
         });
-
+        toolbar.setSubtitle(new StringBuilder()
+                .append(StringUtility.dateFormat(fromDateTimestamp))
+                .append(" - ")
+                .append(StringUtility.dateFormat(toDateTimestamp)).toString());
     }
 }

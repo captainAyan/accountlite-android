@@ -1,10 +1,9 @@
-package com.github.captainayan.accountlite;
+package com.github.captainayan.accountlite.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,61 +12,23 @@ import android.view.ViewTreeObserver;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 
+import com.github.captainayan.accountlite.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
 
+import java.util.Date;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DateRangeSelectionBottomSheetFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DateRangeSelectionBottomSheetFragment extends BottomSheetDialogFragment {
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
 
     private DatePicker datePicker;
     private MaterialButton submit;
     private ChipGroup chipGroup;
-    private Intent intent;
 
-    public DateRangeSelectionBottomSheetFragment() {
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BottomSheetFragment.
-     */
-    public static DateRangeSelectionBottomSheetFragment newInstance(String param1, String param2) {
-        DateRangeSelectionBottomSheetFragment fragment = new DateRangeSelectionBottomSheetFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private DateRangeSelectionBottomSheetFragment.OnTimeSelectListener t;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,18 +41,18 @@ public class DateRangeSelectionBottomSheetFragment extends BottomSheetDialogFrag
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = intent;
+                Intent i = new Intent();
                 i.putExtra("day", datePicker.getDayOfMonth());
                 i.putExtra("month", datePicker.getMonth());
                 i.putExtra("year", datePicker.getYear());
 
-                List<Integer> ids = chipGroup.getCheckedChipIds();
-                if (ids.isEmpty()) i.putExtra("duration", getResources().getString(R.string.default_date_range_default_values)); // default
-                else if (ids.get(0) == R.id.weekChip) i.putExtra("duration", "week");
-                else if (ids.get(0) == R.id.fortniteChip) i.putExtra("duration", "fortnite");
-                else if (ids.get(0) == R.id.monthChip) i.putExtra("duration", "month");
+                int id = chipGroup.getCheckedChipId();
+                if (id == -1) i.putExtra("duration", getResources().getString(R.string.default_date_range_default_values)); // default
+                else if (id == R.id.weekChip) i.putExtra("duration", "week");
+                else if (id == R.id.fortniteChip) i.putExtra("duration", "fortnite");
+                else if (id == R.id.monthChip) i.putExtra("duration", "month");
 
-                startActivity(i);
+                if (t != null) t.onSelect(i);
             }
         });
         return v;
@@ -112,7 +73,11 @@ public class DateRangeSelectionBottomSheetFragment extends BottomSheetDialogFrag
         });
     }
 
-    public void setIntent(Intent intent) {
-        this.intent = intent;
+    public void setOnTimeSelectListener(OnTimeSelectListener t) {
+        this.t = t;
+    }
+
+    public interface OnTimeSelectListener {
+        void onSelect(Intent intent);
     }
 }

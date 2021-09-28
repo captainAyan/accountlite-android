@@ -38,7 +38,8 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
     private Context ctx;
 
     private String currencyFormat;
-    private String currencyName;
+    private String currencySymbol;
+    private String currencySymbolPosition;
 
     public JournalAdapter(Context ctx, ArrayList<Journal> journalList) {
         this.journalList = journalList;
@@ -48,9 +49,13 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
                 ctx.getResources().getString(R.string.currency_format_pref_key),
                 ctx.getResources().getString(R.string.currency_format_default_value));
 
-        currencyName = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
-                ctx.getResources().getString(R.string.currency_name_pref_key),
-                ctx.getResources().getString(R.string.currency_name_default_value));
+        currencySymbol = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
+                ctx.getResources().getString(R.string.currency_symbol_pref_key),
+                ctx.getResources().getString(R.string.currency_symbol_default_value));
+
+        currencySymbolPosition = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
+                ctx.getResources().getString(R.string.currency_symbol_position_pref_key),
+                ctx.getResources().getString(R.string.currency_symbol_position_default_value));
     }
 
     @NonNull
@@ -66,10 +71,13 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
         Journal j = journalList.get(position);
         holder.debitAccountName.setText(StringUtility.accountNameFormat(j.getDebitLedger().getName()));
         holder.creditAccountName.setText(StringUtility.accountNameFormat(j.getCreditLedger().getName()));
-        holder.amount.setText(StringUtility.amountFormat(j.getAmount(), currencyFormat, currencyName));
+        holder.amount.setText(StringUtility.amountFormat(j.getAmount(), currencyFormat, currencySymbol, currencySymbolPosition));
         holder.narration.setText(StringUtility.narrationFormat(j.getNarration()));
         holder.time.setText(StringUtility.dateFormat(j.getTimestamp()));
         holder.entryId.setText(StringUtility.idFormat(j.getId()));
+
+        holder.debitAccountName.setSelected(true);
+        holder.creditAccountName.setSelected(true);
     }
 
     @Override

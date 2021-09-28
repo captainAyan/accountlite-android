@@ -4,6 +4,52 @@
     <string name="fab_content_desc">Add journal entry button</string>
     <string name="submit">Submit</string>
 
+    <string name="notification_pref_key">NOTIFICATION</string>
+
+    <!-- Preferences START -->
+    <!-- Notification -->
+    <string name="notification_pref_label">Notify Me</string>
+    <string name="dark_mode_pref_key">DARK_MODE</string>
+
+    <!-- Dark Mode -->
+    <string name="dark_mode_pref_label">Dark Mode</string>
+    <string name="dark_mode_default_value">MODE_NIGHT_FOLLOW_SYSTEM</string>
+    <string name="currency_pref_category">Currency</string>
+    <string name="currency_format_pref_key">CURRENCY_FORMAT</string>
+    <string name="currency_format_pref_label">Format</string><!-- Default Dark Mode -->
+
+    <!-- Currency  Category -->
+    <string name="currency_format_default_value">IND</string>
+
+    <!-- Currency Format -->
+    <string name="currency_symbol_pref_key">CURRENCY_NAME</string>
+    <string name="currency_symbol_pref_label">Name</string>
+    <string name="currency_symbol_default_value">₹</string>
+    <string name="currency_symbol_position_pref_key">CURRENCY_SYMBOL_POSITION</string>
+    <string name="currency_symbol_position_pref_label">Symbol Position</string><!-- Default Currency Format -->
+
+    <!-- Currency Symbol -->
+    <string name="currency_symbol_position_default_value">START</string>
+    <string name="defaults_pref_category">Defaults</string>
+    <string name="default_date_as_today_pref_key">DEFAULT_DATE_AS_TODAY</string>
+    <string name="default_date_as_today_pref_label">Default Date as Today</string>
+    <string name="default_date_range_pref_key">DEFAULT_RANGE</string><!-- Default Currency Name -->
+
+    <!-- Currency Symbol Position -->
+    <string name="default_date_range_pref_label">Default Range</string>
+    <string name="default_date_range_default_values">day</string>
+    <string name="info_pref_category">Defaults</string>
+    <string name="build_version">1.0.0-alpha</string>
+    <string name="build_version_label">Build Version</string><!-- Default Currency Symbol Position -->
+
+    <!-- Defaults Category -->
+    <string name="send_feedback_label">Send feedback</string>
+
+    <!-- Default Date as Today -->
+    <string name="send_feedback_summary">Report technical issues or suggest new features</string>
+    <string name="reset_books">Reset Books</string>
+
+    <!-- Default Range -->
     <string-array name="ledger_types">
         <item>Revenue Account</item>
         <item>Expenditure Account</item>
@@ -11,15 +57,6 @@
         <item>Liabilities Account</item>
         <item>Equity Account</item>
     </string-array>
-
-    <!-- Preferences START -->
-    <!-- Notification -->
-    <string name="notification_pref_key">NOTIFICATION</string>
-    <string name="notification_pref_label">Notify Me</string>
-
-    <!-- Dark Mode -->
-    <string name="dark_mode_pref_key">DARK_MODE</string>
-    <string name="dark_mode_pref_label">Dark Mode</string>
     <string-array name="dark_mode_pref_entries">
         <item>System Default</item>
         <item>Light</item>
@@ -30,28 +67,19 @@
         <item>MODE_NIGHT_NO</item>
         <item>MODE_NIGHT_YES</item>
     </string-array>
-    <string name="dark_mode_default_value">MODE_NIGHT_FOLLOW_SYSTEM</string><!-- Default Dark Mode -->
-
-    <!-- Currency  Category -->
-    <string name="currency_pref_category">Currency</string>
-
-    <!-- Currency Format -->
-    <string name="currency_format_pref_key">CURRENCY_FORMAT</string>
-    <string name="currency_format_pref_label">Format</string>
     <string-array name="currency_format_pref_entries">
         <item>Indian</item>
         <item>International</item>
-    </string-array>
+    </string-array><!-- Default Date Range -->
+
+    <!-- Info Category -->
     <string-array name="currency_format_pref_values">
         <item>IND</item>
         <item>INT</item>
     </string-array>
-    <string name="currency_format_default_value">IND</string><!-- Default Currency Format -->
 
-    <!-- Currency Name -->
-    <string name="currency_name_pref_key">CURRENCY_NAME</string>
-    <string name="currency_name_pref_label">Name</string>
-    <string-array name="currency_name_pref_entries">
+    <!-- Info -->
+    <string-array name="currency_symbol_pref_entries">
         <item>Rupee (₹) 🇮🇳</item>
         <item>Dollar ($) 🇺🇸 🇦🇺 🇨🇦 🇲🇽</item>
         <item>Euro (€) 🇪🇺</item>
@@ -62,7 +90,7 @@
         <item>Won (₩) 🇰🇷</item>
         <item>New Shekel (₪) 🇮🇱</item>
     </string-array>
-    <string-array name="currency_name_pref_values">
+    <string-array name="currency_symbol_pref_values">
         <item>₹</item>
         <item>$</item>
         <item>€</item>
@@ -73,18 +101,14 @@
         <item>₩</item>
         <item>₪</item>
     </string-array>
-    <string name="currency_name_default_value">₹</string><!-- Default Currency Name -->
-
-    <!-- Defaults Category -->
-    <string name="defaults_pref_category">Defaults</string>
-
-    <!-- Default Date as Today -->
-    <string name="default_date_as_today_pref_key">DEFAULT_DATE_AS_TODAY</string>
-    <string name="default_date_as_today_pref_label">Default Date as Today</string>
-
-    <!-- Default Range -->
-    <string name="default_date_range_pref_key">DEFAULT_RANGE</string>
-    <string name="default_date_range_pref_label">Default Range</string>
+    <string-array name="currency_symbol_position_pref_entries">
+        <item>Start (Prefix)</item>
+        <item>End (Suffix)</item>
+    </string-array>
+    <string-array name="currency_symbol_position_pref_values">
+        <item>START</item>
+        <item>END</item>
+    </string-array>
     <string-array name="default_date_range_pref_entries">
         <item>Day</item>
         <item>Week</item>
@@ -97,16 +121,5 @@
         <item>fortnite</item>
         <item>month</item>
     </string-array>
-    <string name="default_date_range_default_values">day</string><!-- Default Date Range -->
-
-    <!-- Info Category -->
-    <string name="info_pref_category">Defaults</string>
-
-    <!-- Info -->
-    <string name="build_version">1.0.0-alpha</string>
-    <string name="build_version_label">Build Version</string>
-    <string name="send_feedback_label">Send feedback</string>
-    <string name="send_feedback_summary">Report technical issues or suggest new features</string>
-    <string name="reset_books">Reset Books</string>
     <!-- Preferences END -->
 </resources>
