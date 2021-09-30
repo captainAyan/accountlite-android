@@ -13,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.captainayan.accountlite.LedgerAccountActivity;
 import com.github.captainayan.accountlite.R;
 import com.github.captainayan.accountlite.adapter.JournalAdapter;
 import com.github.captainayan.accountlite.model.Journal;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class LedgerEntriesFragment extends Fragment {
 
@@ -26,16 +28,16 @@ public class LedgerEntriesFragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager manager;
     private JournalAdapter adapter;
-    private ArrayList<Journal> journalList;
+    private ArrayList<Journal> journalList = new ArrayList<>();
 
-    public LedgerEntriesFragment(ArrayList<Journal> journalList) {
-        this.journalList = journalList;
-    }
+    public LedgerEntriesFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        LedgerAccountActivity l = (LedgerAccountActivity) getActivity();
+        journalList = l.journalList;
         return inflater.inflate(R.layout.fragment_ledger_entries, container, false);
     }
 

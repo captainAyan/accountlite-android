@@ -10,11 +10,11 @@
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_create_journal_entry.xml" value="0.2109375" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_journal_entries.xml" value="0.33" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_ledger_account.xml" value="0.2824074074074074" />
-        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_main.xml" value="0.26944444444444443" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_settings.xml" value="0.35" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/balance_card.xml" value="0.28888888888888886" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/fragment_date_range_selection_bottom_sheet.xml" value="0.1703125" />
-        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/fragment_ledger_details.xml" value="0.35625" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/fragment_ledger_details.xml" value="0.33" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/fragment_ledger_entries.xml" value="0.3421875" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/fragment_ledger_selection_bottom_sheet.xml" value="0.35625" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/journal_card.xml" value="0.33" />

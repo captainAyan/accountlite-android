@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.github.captainayan.accountlite.adapter.LedgerAccountViewPagerAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
@@ -20,7 +20,6 @@ import com.github.captainayan.accountlite.model.Journal;
 import com.github.captainayan.accountlite.model.Ledger;
 import com.github.captainayan.accountlite.utility.StringUtility;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -41,7 +40,12 @@ public class LedgerAccountActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private LedgerAccountViewPagerAdapter fragmentAdapter;
 
-    ArrayList<Journal> journalList;
+    private LedgerEntriesFragment ledgerEntriesFragment;
+    private LedgerDetailsFragment ledgerDetailsFragment;
+
+    public ArrayList<Journal> journalList;
+    public int openingBalance, closingBalance;
+    public Ledger ledger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +65,13 @@ public class LedgerAccountActivity extends AppCompatActivity {
         c.set(Calendar.MINUTE, 59);
         c.set(Calendar.SECOND, 59);
         long toDateTimestamp = c.getTimeInMillis();
+
         c.set(Calendar.DAY_OF_MONTH, i.getIntExtra("day", 0));
         c.set(Calendar.MONTH, i.getIntExtra("month", 0));
         c.set(Calendar.YEAR, i.getIntExtra("year", 0));
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
-
         switch (i.getStringExtra("duration")) {
             case "week":
                 c.add(Calendar.WEEK_OF_MONTH, -1);
@@ -95,16 +99,25 @@ public class LedgerAccountActivity extends AppCompatActivity {
                 .append(" - ")
                 .append(StringUtility.dateFormat(toDateTimestamp)).toString());
 
+        // database queries
+        journalList = (ArrayList<Journal>) entryDao.getJournalsByLedger(
+                i.getIntExtra("ledger_id", 1), fromDateTimestamp, toDateTimestamp);
+        ledger = ledgerDao.getLedgerById(i.getIntExtra("ledger_id", 1));
+        openingBalance = ledgerDao.getLedgerBalance(ledger.getId(), fromDateTimestamp);
+        closingBalance = ledgerDao.getLedgerBalance(ledger.getId(), toDateTimestamp);
+
+        Log.d(TAG, "ACCOUNT BALANCES OP : " + openingBalance + " CL : " + closingBalance);
 
         // tablayout and viewpager
-        journalList = (ArrayList<Journal>) entryDao.getJournalsByLedger(i.getIntExtra("ledger_id", 1), fromDateTimestamp, toDateTimestamp);
+        ledgerEntriesFragment = new LedgerEntriesFragment();
+        ledgerDetailsFragment = new LedgerDetailsFragment();
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager2) findViewById(R.id.viewPager);
         FragmentManager fragmentManager = getSupportFragmentManager();
         viewPager.setOffscreenPageLimit(2);
         fragmentAdapter = new LedgerAccountViewPagerAdapter(fragmentManager, getLifecycle(),
-                new LedgerEntriesFragment(journalList), new LedgerDetailsFragment());
+                ledgerEntriesFragment, ledgerDetailsFragment);
         viewPager.setAdapter(fragmentAdapter);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -130,7 +143,5 @@ public class LedgerAccountActivity extends AppCompatActivity {
                 tabLayout.setScrollPosition(position, positionOffset, false);
             }
         });
-
-
     }
 }
