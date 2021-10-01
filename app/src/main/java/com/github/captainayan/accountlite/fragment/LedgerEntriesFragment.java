@@ -16,7 +16,11 @@ import android.widget.TextView;
 import com.github.captainayan.accountlite.LedgerAccountActivity;
 import com.github.captainayan.accountlite.R;
 import com.github.captainayan.accountlite.adapter.JournalAdapter;
+import com.github.captainayan.accountlite.database.AppDatabase;
+import com.github.captainayan.accountlite.database.EntryDao;
+import com.github.captainayan.accountlite.database.LedgerDao;
 import com.github.captainayan.accountlite.model.Journal;
+import com.github.captainayan.accountlite.model.Ledger;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -28,7 +32,11 @@ public class LedgerEntriesFragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager manager;
     private JournalAdapter adapter;
+
     private ArrayList<Journal> journalList = new ArrayList<>();
+    private Ledger ledger;
+    private EntryDao entryDao;
+    private LedgerDao ledgerDao;
 
     public LedgerEntriesFragment() {}
 
@@ -36,8 +44,12 @@ public class LedgerEntriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        entryDao = AppDatabase.getAppDatabase(getContext()).entryDao();
+        ledgerDao = AppDatabase.getAppDatabase(getContext()).ledgerDao();
+
         LedgerAccountActivity l = (LedgerAccountActivity) getActivity();
-        journalList = l.journalList;
+        journalList = (ArrayList<Journal>) entryDao.getJournalsByLedger(l.ledgerId, l.fromDateTimestamp, l.toDateTimestamp);
+        ledger = ledgerDao.getLedgerById(l.ledgerId);
         return inflater.inflate(R.layout.fragment_ledger_entries, container, false);
     }
 
@@ -48,6 +60,7 @@ public class LedgerEntriesFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
         adapter = new JournalAdapter(getContext(), journalList);
+        adapter.setLedger(ledger);
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);

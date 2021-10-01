@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class LedgerSelectionBottomSheetFragment extends BottomSheetDialogFragment {
 
-     private ArrayList<String> ledgerNameList;
+    private ArrayList<String> ledgerNameList;
 
     private MaterialButton submit;
     private ChipGroup chipGroup;
@@ -57,7 +57,7 @@ public class LedgerSelectionBottomSheetFragment extends BottomSheetDialogFragmen
                             .findViewById(chipGroup.getCheckedChipId())
                     ).getText();
 
-                    t.onSelect(ledgerNameList.indexOf(val.substring(0, val.length()-4).toLowerCase())); // the substring removes the " A/c" part
+                    t.onSelect(ledgerNameList.indexOf(val.substring(0, val.length()-4))); // the substring removes the " A/c" part
                 }
             }
         });

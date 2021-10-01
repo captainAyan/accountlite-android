@@ -46,9 +46,9 @@ public class Ledger {
         return type;
     }
 
-    interface LedgerType {
+    public interface Type {
         int REVENUE = 0;
-        int EXPENSES = 1;
+        int EXPENDITURE = 1;
         int ASSET = 2;
         int LIABILITY = 3;
         int EQUITY = 4;

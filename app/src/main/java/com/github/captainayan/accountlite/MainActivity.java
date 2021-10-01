@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.captainayan.accountlite.adapter.BalanceAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
@@ -36,10 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MaterialToolbar toolbar;
     private FloatingActionButton fab;
 
-    private CardView trialBalanceButton;
-    private CardView ledgerAccountButton;
-    private CardView journalEntriesButton;
-    private CardView finalStatementButton;
+    private CardView trialBalanceButton, ledgerAccountButton, journalEntriesButton, finalStatementButton;
 
     private RecyclerView recyclerView;
     private LinearLayoutManager manager;
@@ -155,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 onClickLedgerAccountButton();
             }
         } else if (id == R.id.journal_entries_button) {
-
             if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(defaultDateAsTodayKey, false)) {
                 Intent i = new Intent(this, JournalEntriesActivity.class);
                 addDefaultExtraToIntent(i);
@@ -179,27 +173,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void onClickJournalEntriesButton() {
-        dateRangeSelectionBottomSheetFragment.show(getSupportFragmentManager(), dateRangeSelectionBottomSheetFragment.getTag());
-        dateRangeSelectionBottomSheetFragment.setOnTimeSelectListener(new DateRangeSelectionBottomSheetFragment.OnTimeSelectListener() {
-            @Override
-            public void onSelect(Intent intent) {
+        if (!dateRangeSelectionBottomSheetFragment.isAdded()) {
+            dateRangeSelectionBottomSheetFragment.show(getSupportFragmentManager(), dateRangeSelectionBottomSheetFragment.getTag());
+            dateRangeSelectionBottomSheetFragment.setOnTimeSelectListener(intent -> {
                 intent.setClass(MainActivity.this, JournalEntriesActivity.class);
                 dateRangeSelectionBottomSheetFragment.dismiss();
                 startActivity(intent);
-            }
-        });
+            });
+        }
     }
 
     private void onClickLedgerAccountButton() {
-        dateRangeSelectionBottomSheetFragment.show(getSupportFragmentManager(), dateRangeSelectionBottomSheetFragment.getTag());
-        dateRangeSelectionBottomSheetFragment.setOnTimeSelectListener(new DateRangeSelectionBottomSheetFragment.OnTimeSelectListener() {
-            @Override
-            public void onSelect(Intent intent) {
+        if (!dateRangeSelectionBottomSheetFragment.isAdded()) {
+            dateRangeSelectionBottomSheetFragment.show(getSupportFragmentManager(), dateRangeSelectionBottomSheetFragment.getTag());
+            dateRangeSelectionBottomSheetFragment.setOnTimeSelectListener(intent -> {
                 intent.setClass(MainActivity.this, LedgerAccountActivity.class);
                 dateRangeSelectionBottomSheetFragment.dismiss();
                 ledgerSelection(intent);
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -220,19 +212,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param i
      */
     private void ledgerSelection(Intent i) {
-        ArrayList<String> ledgerNameList = new ArrayList<String>();
-        for (Ledger n : ledgerList) ledgerNameList.add(n.getName());
+        if (!ledgerSelectionBottomSheetFragment.isAdded()) {
+            ArrayList<String> ledgerNameList = new ArrayList<String>();
+            for (Ledger n : ledgerList) ledgerNameList.add(n.getName());
 
-        ledgerSelectionBottomSheetFragment.setLedgerNameList(ledgerNameList);
-        ledgerSelectionBottomSheetFragment.show(getSupportFragmentManager(), ledgerSelectionBottomSheetFragment.getTag());
-        ledgerSelectionBottomSheetFragment.setOnLedgerSelectListener(new LedgerSelectionBottomSheetFragment.OnLedgerSelectListener() {
-            @Override
-            public void onSelect(int checkedChipId) {
-                i.putExtra("ledger_id", ledgerList.get(checkedChipId).getId());
-                ledgerSelectionBottomSheetFragment.dismiss();
-                startActivity(i);
-            }
-        });
+            ledgerSelectionBottomSheetFragment.setLedgerNameList(ledgerNameList);
+            ledgerSelectionBottomSheetFragment.show(getSupportFragmentManager(), ledgerSelectionBottomSheetFragment.getTag());
+            ledgerSelectionBottomSheetFragment.setOnLedgerSelectListener(new LedgerSelectionBottomSheetFragment.OnLedgerSelectListener() {
+                @Override
+                public void onSelect(int checkedChipId) {
+                    i.putExtra("ledger_id", ledgerList.get(checkedChipId).getId());
+                    ledgerSelectionBottomSheetFragment.dismiss();
+                    startActivity(i);
+                }
+            });
+        }
     }
 
 

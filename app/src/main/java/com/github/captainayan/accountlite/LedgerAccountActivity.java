@@ -1,6 +1,7 @@
 package com.github.captainayan.accountlite;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -8,7 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.captainayan.accountlite.adapter.LedgerAccountViewPagerAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
@@ -31,10 +32,6 @@ public class LedgerAccountActivity extends AppCompatActivity {
     private static final String TAG = "LEDGER_ACCOUNT_ACT";
     private MaterialToolbar toolbar;
 
-    private AppDatabase db;
-    private EntryDao entryDao;
-    private LedgerDao ledgerDao;
-
     // tablayout and viewpager
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
@@ -43,18 +40,13 @@ public class LedgerAccountActivity extends AppCompatActivity {
     private LedgerEntriesFragment ledgerEntriesFragment;
     private LedgerDetailsFragment ledgerDetailsFragment;
 
-    public ArrayList<Journal> journalList;
-    public int openingBalance, closingBalance;
-    public Ledger ledger;
+    public int ledgerId;
+    public long toDateTimestamp, fromDateTimestamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ledger_account);
-
-        db = AppDatabase.getAppDatabase(this);
-        entryDao = db.entryDao();
-        ledgerDao = db.ledgerDao();
 
         Intent i = getIntent();
         Calendar c = Calendar.getInstance();
@@ -64,7 +56,7 @@ public class LedgerAccountActivity extends AppCompatActivity {
         c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MINUTE, 59);
         c.set(Calendar.SECOND, 59);
-        long toDateTimestamp = c.getTimeInMillis();
+        toDateTimestamp = c.getTimeInMillis();
 
         c.set(Calendar.DAY_OF_MONTH, i.getIntExtra("day", 0));
         c.set(Calendar.MONTH, i.getIntExtra("month", 0));
@@ -83,7 +75,9 @@ public class LedgerAccountActivity extends AppCompatActivity {
                 c.add(Calendar.MONTH, -1);
                 break;
         }
-        long fromDateTimestamp = c.getTimeInMillis();
+        fromDateTimestamp = c.getTimeInMillis();
+
+        ledgerId = i.getIntExtra("ledger_id", 1);
 
         toolbar = (MaterialToolbar) findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
@@ -91,22 +85,13 @@ public class LedgerAccountActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LedgerAccountActivity.this.finish();
+                LedgerAccountActivity.this.onBackPressed();
             }
         });
         toolbar.setSubtitle(new StringBuilder()
                 .append(StringUtility.dateFormat(fromDateTimestamp))
                 .append(" - ")
                 .append(StringUtility.dateFormat(toDateTimestamp)).toString());
-
-        // database queries
-        journalList = (ArrayList<Journal>) entryDao.getJournalsByLedger(
-                i.getIntExtra("ledger_id", 1), fromDateTimestamp, toDateTimestamp);
-        ledger = ledgerDao.getLedgerById(i.getIntExtra("ledger_id", 1));
-        openingBalance = ledgerDao.getLedgerBalance(ledger.getId(), fromDateTimestamp);
-        closingBalance = ledgerDao.getLedgerBalance(ledger.getId(), toDateTimestamp);
-
-        Log.d(TAG, "ACCOUNT BALANCES OP : " + openingBalance + " CL : " + closingBalance);
 
         // tablayout and viewpager
         ledgerEntriesFragment = new LedgerEntriesFragment();
@@ -143,5 +128,11 @@ public class LedgerAccountActivity extends AppCompatActivity {
                 tabLayout.setScrollPosition(position, positionOffset, false);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem() != 0) viewPager.setCurrentItem(0, true);
+        else finish();
     }
 }

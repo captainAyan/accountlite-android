@@ -3,6 +3,7 @@ package com.github.captainayan.accountlite.database;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.github.captainayan.accountlite.model.Ledger;
 
@@ -12,6 +13,9 @@ import java.util.List;
 public interface LedgerDao {
     @Query("SELECT * FROM ledger")
     List<Ledger> getAll();
+
+    @Query("SELECT name FROM ledger")
+    List<String> getAllNames();
 
     @Query("SELECT * FROM ledger WHERE id == :id")
     Ledger getLedgerById(int id);
@@ -24,6 +28,9 @@ public interface LedgerDao {
 
     @Insert
     void insert(Ledger ledger);
+
+    @Update
+    void update(Ledger ledger);
 
     @Query("DELETE FROM ledger")
     void deleteAll();

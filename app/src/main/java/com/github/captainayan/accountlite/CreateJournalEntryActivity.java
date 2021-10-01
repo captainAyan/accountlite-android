@@ -81,18 +81,18 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
 
         debitLedgerTypeDialog = new MaterialAlertDialogBuilder(this)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                        ledgerDao.insert(new Ledger(debitAccount.getText().toString().trim().toLowerCase(), debitLedgerType));
-                        createEntry(debitAccount.getText().toString().trim().toLowerCase(),
-                                creditAccount.getText().toString().trim().toLowerCase());
+                        ledgerDao.insert(new Ledger(debitAccount.getText().toString().trim(), debitLedgerType));
+                        createEntry(debitAccount.getText().toString().trim(),
+                                creditAccount.getText().toString().trim());
                 })
                 .setSingleChoiceItems(ledgerTypes, 0, (dialogInterface, i) -> debitLedgerType = i)
                 .setCancelable(false);
 
         creditLedgerTypeDialog = new MaterialAlertDialogBuilder(this)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                        ledgerDao.insert(new Ledger(creditAccount.getText().toString().trim().toLowerCase(), creditLedgerType));
-                        createEntry(debitAccount.getText().toString().trim().toLowerCase(),
-                                creditAccount.getText().toString().trim().toLowerCase());
+                        ledgerDao.insert(new Ledger(creditAccount.getText().toString().trim(), creditLedgerType));
+                        createEntry(debitAccount.getText().toString().trim(),
+                                creditAccount.getText().toString().trim());
                 })
                 .setSingleChoiceItems(ledgerTypes, 0, (dialogInterface, i) -> creditLedgerType = i)
                 .setCancelable(false);
@@ -101,8 +101,8 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String debitAccountName = debitAccount.getText().toString().trim().toLowerCase();
-                String creditAccountName = creditAccount.getText().toString().trim().toLowerCase();
+                String debitAccountName = debitAccount.getText().toString().trim();
+                String creditAccountName = creditAccount.getText().toString().trim();
 
                 if(debitAccountName.isEmpty() || creditAccountName.isEmpty()) {
                     Toast.makeText(CreateJournalEntryActivity.this, "Accounts cannot be empty.", Toast.LENGTH_SHORT).show();
@@ -145,8 +145,6 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void createEntry(String debitAccountName, String creditAccountName) {

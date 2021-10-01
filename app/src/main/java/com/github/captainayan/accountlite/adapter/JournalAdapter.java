@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.captainayan.accountlite.R;
 import com.github.captainayan.accountlite.model.Journal;
+import com.github.captainayan.accountlite.model.Ledger;
 import com.github.captainayan.accountlite.utility.StringUtility;
 
 import java.util.ArrayList;
 
 class JournalViewHolder extends RecyclerView.ViewHolder {
 
-    TextView debitAccountName, creditAccountName, amount, narration, time, entryId;
+    public TextView debitAccountName, creditAccountName, amount, narration, time, entryId;
 
     public JournalViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -40,6 +41,9 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
     private String currencyFormat;
     private String currencySymbol;
     private String currencySymbolPosition;
+
+    // for ledger entries fragment
+    private Ledger ledger = null;
 
     public JournalAdapter(Context ctx, ArrayList<Journal> journalList) {
         this.journalList = journalList;
@@ -68,6 +72,17 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull JournalViewHolder holder, int position) {
+
+        if (ledger != null) {
+
+            boolean isDebitBalance = (ledger.getType() == Ledger.Type.EXPENDITURE || ledger.getType() == Ledger.Type.ASSET);
+            boolean isDebitEntry = journalList.get(position).getDebitLedger().getId() == ledger.getId();
+
+            if ((isDebitBalance && !isDebitEntry) || (!isDebitBalance && isDebitEntry))
+                holder.amount.setTextColor(ctx.getResources().getColor(R.color.red));
+            else holder.amount.setTextColor(ctx.getResources().getColor(R.color.green));
+        }
+
         Journal j = journalList.get(position);
         holder.debitAccountName.setText(StringUtility.accountNameFormat(j.getDebitLedger().getName()));
         holder.creditAccountName.setText(StringUtility.accountNameFormat(j.getCreditLedger().getName()));
@@ -83,5 +98,9 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
     @Override
     public int getItemCount() {
         return journalList.size();
+    }
+
+    public void setLedger(Ledger l) {
+        this.ledger = l;
     }
 }
