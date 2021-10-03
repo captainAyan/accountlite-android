@@ -54,67 +54,26 @@ public class LedgerDetailsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_ledger_details, container, false);
 
+        // preferences
         currencyFormat = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(
                 getContext().getResources().getString(R.string.currency_format_pref_key),
                 getContext().getResources().getString(R.string.currency_format_default_value));
-
         currencySymbol = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(
                 getContext().getResources().getString(R.string.currency_symbol_pref_key),
                 getContext().getResources().getString(R.string.currency_symbol_default_value));
-
         currencySymbolPosition = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(
                 getContext().getResources().getString(R.string.currency_symbol_position_pref_key),
                 getContext().getResources().getString(R.string.currency_symbol_position_default_value));
 
-        ledgerDao = AppDatabase.getAppDatabase(getContext()).ledgerDao();
+        // get values
         LedgerAccountActivity l = (LedgerAccountActivity) getActivity();
+        ledgerDao = AppDatabase.getAppDatabase(getContext()).ledgerDao();
 
         ledger = ledgerDao.getLedgerById(l.ledgerId);
         openingBalance = ledgerDao.getLedgerBalance(ledger.getId(), l.fromDateTimestamp);
         closingBalance = ledgerDao.getLedgerBalance(ledger.getId(), l.toDateTimestamp);
-
-        ledgerTypeChangeDialog = new MaterialAlertDialogBuilder(getContext())
-                .setTitle("Change Account Type")
-                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                    Ledger newLedger = ledger;
-                    newLedger.setType(selectedLedgerType);
-                    ledgerDao.update(newLedger);
-                    Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-                    getActivity().recreate();
-                })
-                .setSingleChoiceItems(getResources().getStringArray(R.array.ledger_types),
-                        ledger.getType(), (dialogInterface, i) -> selectedLedgerType = i);
-
-        v = LayoutInflater.from(getContext())
-                .inflate(R.layout.ledger_name_change_dialog, container, false);
-
-        newAccountNameEditText = (TextView) v.findViewById(R.id.newAccountNameEditText);
-
-        ledgerNameList = (ArrayList<String>) ledgerDao.getAllNames();
-        ledgerNameChangeDialog = new MaterialAlertDialogBuilder(getContext())
-                .setTitle("Change Account Name")
-                .setView(v)
-                .setPositiveButton(android.R.string.ok, ((dialogInterface, i) -> {
-                    if (!ledgerNameList.contains(newAccountNameEditText.getText().toString())
-                            && !newAccountNameEditText.getText().toString().trim().isEmpty()) {
-                        Ledger newLedger = ledger;
-                        newLedger.setName(newAccountNameEditText.getText().toString().trim());
-                        ledgerDao.update(newLedger);
-                        Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-                        getActivity().recreate();
-                    } else {
-                        Toast.makeText(getContext(), "Invalid Account Name", Toast.LENGTH_SHORT).show();
-                        if(v.getParent() != null) ((ViewGroup)v.getParent()).removeView(v);
-                    }
-                }))
-                .setOnCancelListener(dialogInterface -> {
-                    if(v.getParent() != null) ((ViewGroup)v.getParent()).removeView(v);
-                });
-
-        Toast.makeText(getContext(), "onViewCreated " + ledger.getName(), Toast.LENGTH_SHORT).show();
 
         accountNameTv = (TextView) view.findViewById(R.id.accountName);
         accountTypeTv = (TextView) view.findViewById(R.id.accountType);
@@ -166,6 +125,47 @@ public class LedgerDetailsFragment extends Fragment implements View.OnClickListe
 
         String accountType = getResources().getStringArray(R.array.ledger_types)[ledger.getType()];
         accountTypeTv.setText(accountType);
+
+        // EDITING DIALOGS
+        ledgerTypeChangeDialog = new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Change Account Type")
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                    Ledger newLedger = ledger;
+                    newLedger.setType(selectedLedgerType);
+                    ledgerDao.update(newLedger);
+                    Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+                    getActivity().recreate();
+                })
+                .setSingleChoiceItems(getResources().getStringArray(R.array.ledger_types),
+                        ledger.getType(), (dialogInterface, i) -> selectedLedgerType = i);
+
+        v = LayoutInflater.from(getContext())
+                .inflate(R.layout.ledger_name_change_dialog, container, false);
+
+        newAccountNameEditText = (TextView) v.findViewById(R.id.newAccountNameEditText);
+        newAccountNameEditText.setText(ledger.getName());
+
+        ledgerNameList = (ArrayList<String>) ledgerDao.getAllNames();
+        ledgerNameChangeDialog = new MaterialAlertDialogBuilder(getContext())
+                .setTitle("Change Account Name")
+                .setView(v)
+                .setPositiveButton(android.R.string.ok, ((dialogInterface, i) -> {
+                    if (!ledgerNameList.contains(newAccountNameEditText.getText().toString())
+                            && !newAccountNameEditText.getText().toString().trim().isEmpty()) {
+                        Ledger newLedger = ledger;
+                        newLedger.setName(newAccountNameEditText.getText().toString().trim());
+                        ledgerDao.update(newLedger);
+                        Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+
+                        // this is a weird fix
+                        accountNameTv.setText(StringUtility.accountNameFormat(newAccountNameEditText.getText().toString().trim()));
+                        getActivity().recreate();
+                    } else {
+                        Toast.makeText(getContext(), "Invalid Account Name", Toast.LENGTH_SHORT).show();
+                        if(v.getParent() != null) ((ViewGroup)v.getParent()).removeView(v);
+                    }
+                }))
+                .setOnCancelListener(dialogInterface -> {if(v.getParent() != null) ((ViewGroup)v.getParent()).removeView(v);});
 
         return view;
     }

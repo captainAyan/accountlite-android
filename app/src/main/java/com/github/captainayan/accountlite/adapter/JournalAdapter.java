@@ -38,9 +38,7 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
     private ArrayList<Journal> journalList;
     private Context ctx;
 
-    private String currencyFormat;
-    private String currencySymbol;
-    private String currencySymbolPosition;
+    private final String currencyFormat, currencySymbol, currencySymbolPosition;
 
     // for ledger entries fragment
     private Ledger ledger = null;

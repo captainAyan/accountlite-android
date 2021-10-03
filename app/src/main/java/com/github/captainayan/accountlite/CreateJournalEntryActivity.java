@@ -15,6 +15,7 @@ import com.github.captainayan.accountlite.model.Entry;
 import com.github.captainayan.accountlite.database.EntryDao;
 import com.github.captainayan.accountlite.model.Ledger;
 import com.github.captainayan.accountlite.database.LedgerDao;
+import com.github.captainayan.accountlite.utility.StringUtility;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -132,8 +133,8 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
                 }
 
                 // create new ledger
-                debitLedgerTypeDialog.setTitle("Select Account Type of " + debitAccountName);
-                creditLedgerTypeDialog.setTitle("Select Account Type of " + creditAccountName);
+                debitLedgerTypeDialog.setTitle("Select Account Type of " + StringUtility.accountNameFormat(debitAccountName));
+                creditLedgerTypeDialog.setTitle("Select Account Type of " + StringUtility.accountNameFormat(creditAccountName));
                 if(!ledgerNameList.contains(debitAccountName) && !ledgerNameList.contains(creditAccountName)) {
                     debitLedgerTypeDialog.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                         ledgerDao.insert(new Ledger(debitAccountName, debitLedgerType));

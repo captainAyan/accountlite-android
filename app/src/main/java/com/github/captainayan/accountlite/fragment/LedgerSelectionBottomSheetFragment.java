@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.github.captainayan.accountlite.R;
+import com.github.captainayan.accountlite.model.Ledger;
 import com.github.captainayan.accountlite.utility.StringUtility;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -24,15 +25,15 @@ import java.util.ArrayList;
 
 public class LedgerSelectionBottomSheetFragment extends BottomSheetDialogFragment {
 
-    private ArrayList<String> ledgerNameList;
+    private ArrayList<Ledger> ledgerList;
 
     private MaterialButton submit;
     private ChipGroup chipGroup;
 
     private LedgerSelectionBottomSheetFragment.OnLedgerSelectListener t;
 
-    public void setLedgerNameList(ArrayList<String> ledgerNameList) {
-        this.ledgerNameList = ledgerNameList;
+    public void setLedgerNameList(ArrayList<Ledger> ledgerList) {
+        this.ledgerList = ledgerList;
     }
 
     @Override
@@ -41,24 +42,19 @@ public class LedgerSelectionBottomSheetFragment extends BottomSheetDialogFragmen
         submit = v.findViewById(R.id.submit);
         chipGroup = (ChipGroup) v.findViewById(R.id.chipGroup);
 
-        for (String ledgerName : ledgerNameList) {
+        for (Ledger l : ledgerList) {
             Chip chip = (Chip) inflater.inflate(R.layout.ledger_selection_chip, chipGroup, false);
-            chip.setText(StringUtility.accountNameFormat(ledgerName));
+            chip.setText(StringUtility.accountNameFormat(l.getName()));
+            chip.setId(l.getId());
             chipGroup.addView(chip);
         }
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (chipGroup.getCheckedChipIds().isEmpty()) {
+                if (chipGroup.getCheckedChipIds().isEmpty())
                     Toast.makeText(getContext(), "Select one Account", Toast.LENGTH_SHORT).show();
-                } else {
-                    String val = (String) ((Chip)chipGroup
-                            .findViewById(chipGroup.getCheckedChipId())
-                    ).getText();
-
-                    t.onSelect(ledgerNameList.indexOf(val.substring(0, val.length()-4))); // the substring removes the " A/c" part
-                }
+                else t.onSelect(chipGroup.getCheckedChipId());
             }
         });
 
@@ -85,6 +81,6 @@ public class LedgerSelectionBottomSheetFragment extends BottomSheetDialogFragmen
     }
 
     public interface OnLedgerSelectListener {
-        void onSelect(int checkedChipId);
+        void onSelect(int selectedLedgerId);
     }
 }

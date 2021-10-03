@@ -1,14 +1,8 @@
 package com.github.captainayan.accountlite.model;
 
-import android.text.Editable;
-
-import androidx.room.Dao;
+import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.Insert;
 import androidx.room.PrimaryKey;
-import androidx.room.Query;
-
-import java.util.List;
 
 @Entity
 public class Ledger {
@@ -52,6 +46,45 @@ public class Ledger {
         int ASSET = 2;
         int LIABILITY = 3;
         int EQUITY = 4;
+    }
+
+    public static class LedgerWithBalance {
+        private int id;
+        private String name;
+        private int type;
+        private int balance;
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public int getBalance() {
+            return balance;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public void setBalance(int balance) {
+            this.balance = balance;
+        }
     }
 
 }

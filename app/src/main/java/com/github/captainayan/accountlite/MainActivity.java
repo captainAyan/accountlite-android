@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.github.captainayan.accountlite.adapter.BalanceAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
@@ -110,8 +111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         ledgerList = (ArrayList<Ledger>) ledgerDao.getAll();
     }
 
@@ -146,17 +147,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent i = new Intent(this, LedgerAccountActivity.class);
                 addDefaultExtraToIntent(i);
                 ledgerSelection(i);
-            } else {
-                onClickLedgerAccountButton();
-            }
+            } else onClickLedgerAccountButton();
         } else if (id == R.id.journal_entries_button) {
             if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(defaultDateAsTodayKey, false)) {
                 Intent i = new Intent(this, JournalEntriesActivity.class);
                 addDefaultExtraToIntent(i);
                 startActivity(i);
-            } else {
-                onClickJournalEntriesButton();
-            }
+            } else onClickJournalEntriesButton();
         }
     }
 
@@ -172,6 +169,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
+    /**
+     * show date selector THEN start journal entries activity
+     */
     private void onClickJournalEntriesButton() {
         if (!dateRangeSelectionBottomSheetFragment.isAdded()) {
             dateRangeSelectionBottomSheetFragment.show(getSupportFragmentManager(), dateRangeSelectionBottomSheetFragment.getTag());
@@ -183,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * show date selector THEN show ledger selector
+     */
     private void onClickLedgerAccountButton() {
         if (!dateRangeSelectionBottomSheetFragment.isAdded()) {
             dateRangeSelectionBottomSheetFragment.show(getSupportFragmentManager(), dateRangeSelectionBottomSheetFragment.getTag());
@@ -213,15 +216,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void ledgerSelection(Intent i) {
         if (!ledgerSelectionBottomSheetFragment.isAdded()) {
-            ArrayList<String> ledgerNameList = new ArrayList<String>();
-            for (Ledger n : ledgerList) ledgerNameList.add(n.getName());
-
-            ledgerSelectionBottomSheetFragment.setLedgerNameList(ledgerNameList);
+            ledgerSelectionBottomSheetFragment.setLedgerNameList(ledgerList);
             ledgerSelectionBottomSheetFragment.show(getSupportFragmentManager(), ledgerSelectionBottomSheetFragment.getTag());
             ledgerSelectionBottomSheetFragment.setOnLedgerSelectListener(new LedgerSelectionBottomSheetFragment.OnLedgerSelectListener() {
                 @Override
-                public void onSelect(int checkedChipId) {
-                    i.putExtra("ledger_id", ledgerList.get(checkedChipId).getId());
+                public void onSelect(int selectedLedgerId) {
+                    //Toast.makeText(MainActivity.this, ""+checkedChipId, Toast.LENGTH_SHORT).show();
+                    i.putExtra("ledger_id", selectedLedgerId);
                     ledgerSelectionBottomSheetFragment.dismiss();
                     startActivity(i);
                 }
