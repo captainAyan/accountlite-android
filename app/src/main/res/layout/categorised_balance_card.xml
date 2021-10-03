@@ -21,7 +21,7 @@
         android:gravity="center_vertical"
         android:padding="24dp">
         <TextView
-            android:id="@+id/amountView"
+            android:id="@+id/balanceView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rs.50,000"
@@ -30,7 +30,7 @@
             android:textColor="?attr/colorOnPrimary"
             android:textAppearance="?attr/textAppearanceHeadline4"/>
         <TextView
-            android:id="@+id/accountView"
+            android:id="@+id/categoryView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

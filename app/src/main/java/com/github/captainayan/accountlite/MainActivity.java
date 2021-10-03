@@ -14,13 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.github.captainayan.accountlite.adapter.BalanceAdapter;
+import com.github.captainayan.accountlite.adapter.CategorisedBalanceAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
 import com.github.captainayan.accountlite.database.LedgerDao;
 import com.github.captainayan.accountlite.fragment.DateRangeSelectionBottomSheetFragment;
 import com.github.captainayan.accountlite.fragment.LedgerSelectionBottomSheetFragment;
+import com.github.captainayan.accountlite.model.CategorisedBalance;
 import com.github.captainayan.accountlite.model.Ledger;
-import com.github.captainayan.accountlite.model.TestBalance;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private RecyclerView recyclerView;
     private LinearLayoutManager manager;
-    private BalanceAdapter adapter;
-    private ArrayList<TestBalance> balances;
+    private CategorisedBalanceAdapter adapter;
+    private ArrayList<CategorisedBalance> categorisedBalanceList;
 
     private LedgerDao ledgerDao;
 
@@ -47,13 +47,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LedgerSelectionBottomSheetFragment ledgerSelectionBottomSheetFragment;
 
     // preference related
-    private String defaultDateAsTodayKey ;
-    private String defaultRangeKey;
-    private String defaultDateRangeValues;
+    private String defaultDateAsTodayKey, defaultRangeKey, defaultDateRangeValues;
 
     private Calendar calendar = Calendar.getInstance();
 
-    ArrayList<Ledger> ledgerList;
+    private ArrayList<Ledger> ledgerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,23 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         defaultDateAsTodayKey = getResources().getString(R.string.default_date_as_today_pref_key);
         defaultRangeKey = getResources().getString(R.string.default_date_range_pref_key);
         defaultDateRangeValues = getResources().getString(R.string.default_date_range_default_values);
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-        balances = new ArrayList<TestBalance>();
-        balances.add(new TestBalance("Rs.10,000", "Assets"));
-        balances.add(new TestBalance("Rs.400", "Liabilities"));
-        balances.add(new TestBalance("Rs.900", "Equity"));
-        balances.add(new TestBalance("Rs.14,500", "Revenue"));
-        balances.add(new TestBalance("Rs.2,000", "Expenditure"));
-
-        adapter = new BalanceAdapter(this, balances);
-        manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
-        SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerView);
 
         fab = (FloatingActionButton) findViewById(R.id.floating_action_button);
         fab.setOnClickListener(this);
@@ -107,6 +88,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         dateRangeSelectionBottomSheetFragment = new DateRangeSelectionBottomSheetFragment();
         ledgerSelectionBottomSheetFragment = new LedgerSelectionBottomSheetFragment();
+
+        /// Categorised Balances
+        categorisedBalanceList = new ArrayList<>();
+        categorisedBalanceList.add(new CategorisedBalance(0, 0));
+        categorisedBalanceList.add(new CategorisedBalance(1, 0));
+        categorisedBalanceList.add(new CategorisedBalance(2, 0));
+        categorisedBalanceList.add(new CategorisedBalance(3, 0));
+        categorisedBalanceList.add(new CategorisedBalance(4, 0));
+        /*for (Ledger.LedgerWithBalance lb: (ArrayList<Ledger.LedgerWithBalance>) ledgerDao.getLedgersWithBalance(calendar.getTimeInMillis())) {
+            int prevBal = categorisedBalanceList.get(lb.getType()).getBalance();
+            categorisedBalanceList.get(lb.getType()).setBalance(
+                    prevBal += lb.getBalance()
+            );
+        }*/
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        adapter = new CategorisedBalanceAdapter(this, categorisedBalanceList);
+        manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override

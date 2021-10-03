@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.github.captainayan.accountlite.database.AppDatabase;
+import com.github.captainayan.accountlite.database.LedgerDao;
+import com.github.captainayan.accountlite.model.Ledger;
 import com.google.android.material.appbar.MaterialToolbar;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class FinalStatementActivity extends AppCompatActivity {
 
-    MaterialToolbar toolbar;
+    private MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
