@@ -11,6 +11,8 @@
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/ic_ledger_account_icon.xml" value="0.36666666666666664" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/ic_ledger_account_type_change_icon.xml" value="0.36666666666666664" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/ic_money.xml" value="0.36666666666666664" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/ic_warning.xml" value="0.3880208333333333" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/splash_background.xml" value="0.3723958333333333" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_create_journal_entry.xml" value="0.2109375" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_journal_entries.xml" value="0.33" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_ledger_account.xml" value="0.2824074074074074" />

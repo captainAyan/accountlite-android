@@ -3,6 +3,7 @@ package com.github.captainayan.accountlite.database;
 import android.content.Context;
 
 import androidx.room.Database;
+import androidx.room.Query;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
@@ -29,8 +30,7 @@ public abstract class AppDatabase extends RoomDatabase {
         INSTANCE = null;
     }
 
-    public void delete() {
-        entryDao().deleteAll();
-        ledgerDao().deleteAll();
+    public void delete(Context context) {
+        context.deleteDatabase("AppDatabase");
     }
 }

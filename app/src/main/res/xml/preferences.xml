@@ -74,8 +74,14 @@
             app:title="@string/send_feedback_label"
             app:summary="@string/send_feedback_summary"/>
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:icon="@drawable/ic_warning"
+        app:title="@string/action_pref_category">
         <Preference
             app:title="@string/reset_books"/>
     </PreferenceCategory>
+
 
 </PreferenceScreen>

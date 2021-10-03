@@ -38,7 +38,8 @@
     <!-- Currency Symbol Position -->
     <string name="default_date_range_pref_label">Default Range</string>
     <string name="default_date_range_default_values">day</string>
-    <string name="info_pref_category">Defaults</string>
+    <string name="info_pref_category">Information</string>
+    <string name="action_pref_category">Action</string>
     <string name="build_version">1.0.0-alpha</string>
     <string name="build_version_label">Build Version</string><!-- Default Currency Symbol Position -->
 

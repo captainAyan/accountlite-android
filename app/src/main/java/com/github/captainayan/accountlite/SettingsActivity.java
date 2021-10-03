@@ -6,6 +6,9 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -79,9 +82,9 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
             if (preference.getTitle() == getResources().getString(R.string.reset_books)) {
-                Toast.makeText(this.getContext(), "Deleting Database", Toast.LENGTH_SHORT).show();
                 AppDatabase db = AppDatabase.getAppDatabase(this.getContext());
-                db.delete();
+                db.delete(getContext());
+                Toast.makeText(this.getContext(), "Restart the app to view effect", Toast.LENGTH_LONG).show();
             }
             return super.onPreferenceTreeClick(preference);
         }
