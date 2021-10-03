@@ -1,6 +1,7 @@
 package com.github.captainayan.accountlite;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import com.github.captainayan.accountlite.adapter.TrialBalanceAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
 import com.github.captainayan.accountlite.database.LedgerDao;
 import com.github.captainayan.accountlite.model.Ledger;
+import com.github.captainayan.accountlite.utility.StringUtility;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
@@ -37,11 +39,13 @@ public class TrialBalanceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trial_balance);
 
+        double asOnDate = Calendar.getInstance().getTimeInMillis();
+
         db = AppDatabase.getAppDatabase(this);
         ledgerDao = db.ledgerDao();
 
         ledgerWithBalanceList = (ArrayList<Ledger.LedgerWithBalance>) ledgerDao
-                .getLedgersWithBalance(Calendar.getInstance().getTimeInMillis());
+                .getLedgersWithBalance(asOnDate);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         adapter = new TrialBalanceAdapter(this, ledgerWithBalanceList);
@@ -61,5 +65,9 @@ public class TrialBalanceActivity extends AppCompatActivity {
                 TrialBalanceActivity.this.finish();
             }
         });
+        toolbar.setSubtitle(new StringBuilder()
+                .append("As On Date ")
+                .append(StringUtility.dateFormat(asOnDate))
+                .toString());
     }
 }
