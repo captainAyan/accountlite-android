@@ -16,6 +16,20 @@
         app:useSimpleSummaryProvider="true"/>
 
     <PreferenceCategory
+        app:icon="@drawable/ic_person"
+        app:title="@string/user_pref_category">
+        <EditTextPreference
+            app:key="@string/user_name_pref_key"
+            app:title="@string/user_name_pref_label"
+            app:useSimpleSummaryProvider="true"/>
+
+        <EditTextPreference
+            app:key="@string/business_name_pref_key"
+            app:title="@string/business_name_pref_label"
+            app:useSimpleSummaryProvider="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:icon="@drawable/ic_money"
         app:title="@string/currency_pref_category">
         <ListPreference

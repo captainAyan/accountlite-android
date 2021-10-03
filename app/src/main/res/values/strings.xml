@@ -16,6 +16,10 @@
     <string name="dark_mode_default_value">MODE_NIGHT_FOLLOW_SYSTEM</string>
     <string name="currency_pref_category">Currency</string>
     <string name="currency_format_pref_key">CURRENCY_FORMAT</string>
+    <string name="user_name_pref_key">USER_NAME</string>
+    <string name="business_name_pref_key">BUSINESS_NAME</string>
+    <string name="user_name_pref_label">User Name</string>
+    <string name="business_name_pref_label">Business Name</string>
     <string name="currency_format_pref_label">Format</string><!-- Default Dark Mode -->
 
     <!-- Currency  Category -->
@@ -49,6 +53,8 @@
     <!-- Default Date as Today -->
     <string name="send_feedback_summary">Report technical issues or suggest new features</string>
     <string name="reset_books">Reset Books</string>
+    <string name="user_pref_category">User</string>
+    <string name="first_time_launch_pref_key">FIRST_TIME_LAUNCH</string>
 
     <!-- Default Range -->
     <string-array name="ledger_types">

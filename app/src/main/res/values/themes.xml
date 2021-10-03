@@ -19,16 +19,6 @@
         <item name="titleTextColor">?attr/colorOnPrimary</item>
     </style>
 
-    <style name="Button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">64dp</item>
-        <item name="android:layout_margin">16dp</item>
-        <item name="android:elevation">0dp</item>
-        <item name="android:backgroundTint">?attr/colorSecondary</item>
-        <item name="android:textColor">?attr/colorOnSecondary</item>
-        <item name="cornerRadius">8dp</item>
-    </style>
-
     <!-- This is for the Create Journal Activity (P.S. don't mess with this) -->
     <style name="Theme.Form" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/black</item>
