@@ -90,23 +90,25 @@
         <item>Rupee (₹) 🇮🇳</item>
         <item>Dollar ($) 🇺🇸 🇦🇺 🇨🇦 🇲🇽</item>
         <item>Euro (€) 🇪🇺</item>
-        <item>Rubles (₽) 🇷🇺</item>
-        <item>Pound (£) 🇬🇧</item>
-        <item>Taka (৳) 🇧🇩</item>
-        <item>Yen (¥) 🇯🇵 🇨🇳</item>
-        <item>Won (₩) 🇰🇷</item>
+        <item>Naira (₦) 🇳🇬</item>
         <item>New Shekel (₪) 🇮🇱</item>
+        <item>Pound (£) 🇬🇧</item>
+        <item>Ruble (₽) 🇷🇺</item>
+        <item>Taka (৳) 🇧🇩</item>
+        <item>Won (₩) 🇰🇷</item>
+        <item>Yen (¥) 🇯🇵 🇨🇳</item>
     </string-array>
     <string-array name="currency_symbol_pref_values">
         <item>₹</item>
         <item>$</item>
         <item>€</item>
-        <item>₽</item>
-        <item>£</item>
-        <item>৳</item>
-        <item>¥</item>
-        <item>₩</item>
+        <item>₦</item>
         <item>₪</item>
+        <item>£</item>
+        <item>₽</item>
+        <item>৳</item>
+        <item>₩</item>
+        <item>¥</item>
     </string-array>
     <string-array name="currency_symbol_position_pref_entries">
         <item>Start (Prefix)</item>

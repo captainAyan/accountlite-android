@@ -21,6 +21,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Objects;
 
 public class CreateJournalEntryActivity extends AppCompatActivity {
@@ -29,8 +30,8 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
 
     private Button submitBtn;
     private MaterialToolbar toolbar;
-    private AutoCompleteTextView debitAccount, creditAccount;
-    private EditText amount, narration;
+    private AutoCompleteTextView debitAccountEditText, creditAccountEditText;
+    private EditText amountEditText, narrationEditText;
 
     private AppDatabase db;
     private LedgerDao ledgerDao;
@@ -40,6 +41,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
     private String[] ledgerTypes;
     private ArrayList<Ledger> ledgerList;
     private ArrayList<String> ledgerNameList;
+    private ArrayAdapter ledgerListArrayAdapter;
     private int debitLedgerType = 0;
     private int creditLedgerType = 0;
     private MaterialAlertDialogBuilder debitLedgerTypeDialog;
@@ -57,17 +59,16 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
         ledgerTypes = getResources().getStringArray(R.array.ledger_types);
 
         ledgerList = (ArrayList<Ledger>) ledgerDao.getAll();
-        ledgerNameList = new ArrayList<>();
-        for(Ledger l : ledgerList) { ledgerNameList.add(l.getName()); }
-        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ledgerNameList);
+        ledgerNameList = (ArrayList<String>) ledgerDao.getAllNames();
+        ledgerListArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ledgerNameList);
 
-        debitAccount = (AutoCompleteTextView) findViewById(R.id.debitEditText);
-        creditAccount = (AutoCompleteTextView) findViewById(R.id.creditEditText);
-        debitAccount.setAdapter(arrayAdapter);
-        creditAccount.setAdapter(arrayAdapter);
+        debitAccountEditText = (AutoCompleteTextView) findViewById(R.id.debitEditText);
+        creditAccountEditText = (AutoCompleteTextView) findViewById(R.id.creditEditText);
+        debitAccountEditText.setAdapter(ledgerListArrayAdapter);
+        creditAccountEditText.setAdapter(ledgerListArrayAdapter);
 
-        amount = (EditText) findViewById(R.id.amountEditText);
-        narration = (EditText) findViewById(R.id.narrationEditText);
+        amountEditText = (EditText) findViewById(R.id.amountEditText);
+        narrationEditText = (EditText) findViewById(R.id.narrationEditText);
         submitBtn = (Button) findViewById(R.id.submit);
 
         toolbar = (MaterialToolbar) findViewById(R.id.topAppBar);
@@ -80,30 +81,26 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
             }
         });
 
-        debitLedgerTypeDialog = new MaterialAlertDialogBuilder(this)
-                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                        ledgerDao.insert(new Ledger(debitAccount.getText().toString().trim(), debitLedgerType));
-                        createEntry(debitAccount.getText().toString().trim(),
-                                creditAccount.getText().toString().trim());
+        debitLedgerTypeDialog = new MaterialAlertDialogBuilder(this,
+                R.style.ThemeOverlay_App_MaterialAlertDialog)
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {;
+                        createEntry(debitAccountEditText.getText().toString().trim(), creditAccountEditText.getText().toString().trim());
                 })
-                .setSingleChoiceItems(ledgerTypes, 0, (dialogInterface, i) -> debitLedgerType = i)
-                .setCancelable(false);
+                .setSingleChoiceItems(ledgerTypes, 0, (dialogInterface, i) -> debitLedgerType = i);
 
-        creditLedgerTypeDialog = new MaterialAlertDialogBuilder(this)
+        creditLedgerTypeDialog = new MaterialAlertDialogBuilder(this,
+                R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                        ledgerDao.insert(new Ledger(creditAccount.getText().toString().trim(), creditLedgerType));
-                        createEntry(debitAccount.getText().toString().trim(),
-                                creditAccount.getText().toString().trim());
+                        createEntry(debitAccountEditText.getText().toString().trim(), creditAccountEditText.getText().toString().trim());
                 })
-                .setSingleChoiceItems(ledgerTypes, 0, (dialogInterface, i) -> creditLedgerType = i)
-                .setCancelable(false);
+                .setSingleChoiceItems(ledgerTypes, 0, (dialogInterface, i) -> creditLedgerType = i);
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String debitAccountName = debitAccount.getText().toString().trim();
-                String creditAccountName = creditAccount.getText().toString().trim();
+                String debitAccountName = debitAccountEditText.getText().toString().trim();
+                String creditAccountName = creditAccountEditText.getText().toString().trim();
 
                 if(debitAccountName.isEmpty() || creditAccountName.isEmpty()) {
                     Toast.makeText(CreateJournalEntryActivity.this, "Accounts cannot be empty.", Toast.LENGTH_SHORT).show();
@@ -113,12 +110,12 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
                     Toast.makeText(CreateJournalEntryActivity.this, "Debit and Credit account cannot be the same.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(amount.getText().toString().isEmpty()) {
+                if(amountEditText.getText().toString().isEmpty()) {
                     Toast.makeText(CreateJournalEntryActivity.this, "Invalid Amount.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {
-                    if (Integer.parseInt(amount.getText().toString()) == 0) {
+                    if (Integer.parseInt(amountEditText.getText().toString()) == 0) {
                         Toast.makeText(CreateJournalEntryActivity.this, "Invalid Amount.", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -127,7 +124,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
                     Toast.makeText(CreateJournalEntryActivity.this, "Invalid Amount.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(narration.getText().toString().isEmpty()) {
+                if(narrationEditText.getText().toString().isEmpty()) {
                     Toast.makeText(CreateJournalEntryActivity.this, "Narration cannot be empty.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -136,8 +133,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
                 debitLedgerTypeDialog.setTitle("Select Account Type of " + StringUtility.accountNameFormat(debitAccountName));
                 creditLedgerTypeDialog.setTitle("Select Account Type of " + StringUtility.accountNameFormat(creditAccountName));
                 if(!ledgerNameList.contains(debitAccountName) && !ledgerNameList.contains(creditAccountName)) {
-                    debitLedgerTypeDialog.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                        ledgerDao.insert(new Ledger(debitAccountName, debitLedgerType));
+                    debitLedgerTypeDialog.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {;
                         creditLedgerTypeDialog.show();
                     }).show();
                 } else if(!ledgerNameList.contains(debitAccountName)) debitLedgerTypeDialog.show();
@@ -149,20 +145,34 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
     }
 
     private void createEntry(String debitAccountName, String creditAccountName) {
+
+        if (!ledgerNameList.contains(debitAccountName)) ledgerDao.insert(new Ledger(debitAccountName, debitLedgerType));
+        if (!ledgerNameList.contains(creditAccountName)) ledgerDao.insert(new Ledger(creditAccountName, creditLedgerType));
+
         ledgerList = (ArrayList<Ledger>) ledgerDao.getAll();
         ledgerNameList.clear();
-        for(Ledger l : ledgerList) { ledgerNameList.add(l.getName()); }
+        ledgerNameList = (ArrayList<String>) ledgerDao.getAllNames();
+        ledgerListArrayAdapter.clear();
+        ledgerListArrayAdapter.addAll(ledgerNameList);
+        ledgerListArrayAdapter.notifyDataSetChanged();
 
         entryDao.insert(new Entry(
                 ledgerList.get(ledgerNameList.indexOf(debitAccountName)).getId(),
                 ledgerList.get(ledgerNameList.indexOf(creditAccountName)).getId(),
-                Integer.parseInt(amount.getText().toString()),
+                Integer.parseInt(amountEditText.getText().toString()),
                 Calendar.getInstance().getTimeInMillis(),
-                narration.getText().toString()
+                narrationEditText.getText().toString()
         ));
 
-        Toast.makeText(CreateJournalEntryActivity.this, "Saved Entry", Toast.LENGTH_SHORT).show();
-        finish();
+        Toast.makeText(CreateJournalEntryActivity.this, "Entry Saved", Toast.LENGTH_SHORT).show();
+        resetForm();
+    }
+
+    private void resetForm() {
+        debitAccountEditText.setText("");
+        creditAccountEditText.setText("");
+        amountEditText.setText("");
+        narrationEditText.setText("");
     }
 
 }

@@ -127,7 +127,8 @@ public class LedgerDetailsFragment extends Fragment implements View.OnClickListe
         accountTypeTv.setText(accountType);
 
         // EDITING DIALOGS
-        ledgerTypeChangeDialog = new MaterialAlertDialogBuilder(getContext())
+        ledgerTypeChangeDialog = new MaterialAlertDialogBuilder(getContext(),
+                R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setTitle("Change Account Type")
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                     Ledger newLedger = ledger;
@@ -146,7 +147,8 @@ public class LedgerDetailsFragment extends Fragment implements View.OnClickListe
         newAccountNameEditText.setText(ledger.getName());
 
         ledgerNameList = (ArrayList<String>) ledgerDao.getAllNames();
-        ledgerNameChangeDialog = new MaterialAlertDialogBuilder(getContext())
+        ledgerNameChangeDialog = new MaterialAlertDialogBuilder(getContext(),
+                R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setTitle("Change Account Name")
                 .setView(v)
                 .setPositiveButton(android.R.string.ok, ((dialogInterface, i) -> {
