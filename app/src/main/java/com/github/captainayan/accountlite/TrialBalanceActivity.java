@@ -22,7 +22,7 @@ import java.util.Objects;
 
 public class TrialBalanceActivity extends AppCompatActivity {
 
-    MaterialToolbar toolbar;
+    private MaterialToolbar toolbar;
 
     private AppDatabase db;
     private LedgerDao ledgerDao;

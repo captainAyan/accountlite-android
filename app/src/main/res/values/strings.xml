@@ -68,24 +68,24 @@
         <item>System Default</item>
         <item>Light</item>
         <item>Dark</item>
-    </string-array>
+    </string-array><!-- Default Date Range -->
+
+    <!-- Info Category -->
     <string-array name="dark_mode_pref_values">
         <item>MODE_NIGHT_FOLLOW_SYSTEM</item>
         <item>MODE_NIGHT_NO</item>
         <item>MODE_NIGHT_YES</item>
     </string-array>
+
+    <!-- Info -->
     <string-array name="currency_format_pref_entries">
         <item>Indian</item>
         <item>International</item>
-    </string-array><!-- Default Date Range -->
-
-    <!-- Info Category -->
+    </string-array>
     <string-array name="currency_format_pref_values">
         <item>IND</item>
         <item>INT</item>
     </string-array>
-
-    <!-- Info -->
     <string-array name="currency_symbol_pref_entries">
         <item>Rupee (₹) 🇮🇳</item>
         <item>Dollar ($) 🇺🇸 🇦🇺 🇨🇦 🇲🇽</item>
