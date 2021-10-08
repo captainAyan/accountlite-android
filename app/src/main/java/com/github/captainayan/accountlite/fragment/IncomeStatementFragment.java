@@ -25,12 +25,14 @@ public class IncomeStatementFragment  extends Fragment {
     private TextView totalExpenditureTextView;
     private TextView totalRevenueTextView;
     private TextView surplusOrDeficitTextView;
+    private TextView surplusOrDeficitLabelTextView;
     private LinearLayout expenditureListView;
     private LinearLayout revenueListView;
 
     // data
     private int totalExpenditure = 0;
     private int totalRevenue = 0;
+    private int surplusOrDeficit = 0;
     private ArrayList<Ledger.LedgerWithBalance> expenditureLedgerWithBalanceList;
     private ArrayList<Ledger.LedgerWithBalance> revenueLedgerWithBalanceList;
 
@@ -49,7 +51,7 @@ public class IncomeStatementFragment  extends Fragment {
                 expenditureLedgerWithBalanceList.add(l);
             }
             else if (l.getType() == Ledger.Type.REVENUE) {
-                totalRevenue += l.getBalance();
+                totalRevenue += l.getBalance()*-1;
                 revenueLedgerWithBalanceList.add(l);
             }
         }
@@ -69,16 +71,20 @@ public class IncomeStatementFragment  extends Fragment {
         totalExpenditureTextView = (TextView) v.findViewById(R.id.expenditure_total_amount);
         totalRevenueTextView = (TextView) v.findViewById(R.id.revenue_total_amount);
         surplusOrDeficitTextView = (TextView) v.findViewById(R.id.surplus_amount);
-
+        surplusOrDeficitLabelTextView = (TextView) v.findViewById(R.id.surplus_label);
         expenditureListView = (LinearLayout) v.findViewById(R.id.expenditure_list);
         revenueListView = (LinearLayout) v.findViewById(R.id.revenue_list);
+
+        surplusOrDeficit = totalRevenue-totalExpenditure;
 
         totalExpenditureTextView.setText(
                 StringUtility.amountFormat(totalExpenditure,currencyFormat, currencySymbol, currencySymbolPosition));
         totalRevenueTextView.setText(
-                StringUtility.amountFormat(totalRevenue*-1,currencyFormat, currencySymbol, currencySymbolPosition));
+                StringUtility.amountFormat(totalRevenue,currencyFormat, currencySymbol, currencySymbolPosition));
         surplusOrDeficitTextView.setText(
-                StringUtility.amountFormat((totalRevenue*-1)-totalExpenditure,currencyFormat, currencySymbol, currencySymbolPosition));
+                StringUtility.amountFormat(surplusOrDeficit,currencyFormat, currencySymbol, currencySymbolPosition));
+        if(surplusOrDeficit >= 0) surplusOrDeficitLabelTextView.setText("Surplus");
+        else surplusOrDeficitLabelTextView.setText("Deficit");
 
         for (Ledger.LedgerWithBalance l : expenditureLedgerWithBalanceList) {
             View i = getLayoutInflater().inflate(R.layout.statement_item, expenditureListView, false);
