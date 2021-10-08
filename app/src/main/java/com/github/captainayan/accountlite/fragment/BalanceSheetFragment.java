@@ -15,6 +15,8 @@ import com.github.captainayan.accountlite.R;
 import com.github.captainayan.accountlite.model.Ledger;
 import com.github.captainayan.accountlite.utility.StringUtility;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class BalanceSheetFragment extends Fragment {
@@ -25,8 +27,10 @@ public class BalanceSheetFragment extends Fragment {
     // views
     private TextView totalLiabilityTextView;
     private TextView totalAssetTextView;
+    private TextView totalEquityTextView;
     private LinearLayout liabilityListView;
     private LinearLayout assetListView;
+    private LinearLayout equityListView;
 
     // data
     private int totalLiability = 0;
@@ -78,8 +82,10 @@ public class BalanceSheetFragment extends Fragment {
         // views
         totalLiabilityTextView = (TextView) v.findViewById(R.id.liability_total_amount);
         totalAssetTextView = (TextView) v.findViewById(R.id.asset_total_amount);
+        totalEquityTextView = (TextView) v.findViewById(R.id.equity_total_amount);
         liabilityListView = (LinearLayout) v.findViewById(R.id.liability_list);
         assetListView = (LinearLayout) v.findViewById(R.id.asset_list);
+        equityListView = (LinearLayout) v.findViewById(R.id.equity_list);
 
         totalEquity += surplusOrDeficit;
         totalLiability += totalEquity;
@@ -88,23 +94,25 @@ public class BalanceSheetFragment extends Fragment {
                 StringUtility.amountFormat(totalLiability, currencyFormat, currencySymbol, currencySymbolPosition));
         totalAssetTextView.setText(
                 StringUtility.amountFormat(totalAsset, currencyFormat, currencySymbol, currencySymbolPosition));
+        totalEquityTextView.setText(
+                StringUtility.amountFormat(totalEquity, currencyFormat, currencySymbol, currencySymbolPosition));
 
         // EQUITY
         for (Ledger.LedgerWithBalance l : equityLedgerWithBalanceList) {
-            View i = getLayoutInflater().inflate(R.layout.statement_item, liabilityListView, false);
+            View i = getLayoutInflater().inflate(R.layout.statement_item, equityListView, false);
             ((TextView)i.findViewById(R.id.item_name)).setText(StringUtility.accountNameFormat(l.getName()));
             ((TextView)i.findViewById(R.id.item_amount)).setText(
                     StringUtility.amountFormat(l.getBalance()*-1,currencyFormat, currencySymbol, currencySymbolPosition));
-            liabilityListView.addView(i);
+            equityListView.addView(i);
         }
 
-        // Adding Surplus or Deficit to EQUITY
-        View _i = getLayoutInflater().inflate(R.layout.statement_item, liabilityListView, false);
+        // Adjusting Surplus or Deficit to EQUITY
+        View _i = getLayoutInflater().inflate(R.layout.statement_item, equityListView, false);
         if(surplusOrDeficit >= 0) ((TextView)_i.findViewById(R.id.item_name)).setText("Add: Surplus");
         else ((TextView)_i.findViewById(R.id.item_name)).setText("Less: Deficit");
         ((TextView)_i.findViewById(R.id.item_amount)).setText(
                 StringUtility.amountFormat(surplusOrDeficit,currencyFormat, currencySymbol, currencySymbolPosition));
-        liabilityListView.addView(_i);
+        equityListView.addView(_i);
 
         // LIABILITY
         for (Ledger.LedgerWithBalance l : liabilityLedgerWithBalanceList) {
