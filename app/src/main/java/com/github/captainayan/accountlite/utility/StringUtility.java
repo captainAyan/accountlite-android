@@ -26,6 +26,9 @@ public class StringUtility {
     }
 
     public static String amountFormat(int amount, String format, String symbol, String symbolPosition) {
+        boolean isNegative = (amount < 0);
+        if (amount<0) amount *= -1;
+
         StringBuilder a = new StringBuilder(String.valueOf(amount));
         String result = "";
 
@@ -46,8 +49,11 @@ public class StringUtility {
         }
         else result = a.toString();
 
-        if(symbolPosition.equals("START")) return symbol + result;
-        else return result + symbol;
+        if(symbolPosition.equals("START")) result = symbol + result;
+        else result = result + symbol;
+
+        if(isNegative) return "(" + result + ")";
+        else return result;
     }
 
     public static String narrationFormat(String narration) {

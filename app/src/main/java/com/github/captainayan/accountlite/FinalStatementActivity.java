@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.github.captainayan.accountlite.adapter.FinalStatementViewPagerAdapter;
-import com.github.captainayan.accountlite.adapter.LedgerAccountViewPagerAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
 import com.github.captainayan.accountlite.database.LedgerDao;
 import com.github.captainayan.accountlite.fragment.BalanceSheetFragment;
@@ -26,9 +25,6 @@ public class FinalStatementActivity extends AppCompatActivity {
 
     private MaterialToolbar toolbar;
 
-    private AppDatabase db;
-    private LedgerDao ledgerDao;
-
     // tablayout and viewpager
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
@@ -37,20 +33,21 @@ public class FinalStatementActivity extends AppCompatActivity {
     private IncomeStatementFragment incomeStatementFragment;
     private BalanceSheetFragment balanceSheetFragment;
 
-    private ArrayList<Ledger.LedgerWithBalance> ledgerWithBalanceList;
+    // data
+    private double asOnDate;
+    public ArrayList<Ledger.LedgerWithBalance> ledgerWithBalanceList; // accessed by fragments
+
+    // database
+    LedgerDao ledgerDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_statement);
 
-        double asOnDate = Calendar.getInstance().getTimeInMillis();
+        ledgerDao = AppDatabase.getAppDatabase(this).ledgerDao();
 
-        db = AppDatabase.getAppDatabase(this);
-        ledgerDao = db.ledgerDao();
-
-        ledgerWithBalanceList = (ArrayList<Ledger.LedgerWithBalance>) ledgerDao
-                .getLedgersWithBalance(asOnDate);
+        asOnDate = Calendar.getInstance().getTimeInMillis();
 
         toolbar = (MaterialToolbar) findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
@@ -65,6 +62,8 @@ public class FinalStatementActivity extends AppCompatActivity {
                 .append("As On Date ")
                 .append(StringUtility.dateFormat(asOnDate))
                 .toString());
+
+        ledgerWithBalanceList = (ArrayList<Ledger.LedgerWithBalance>) ledgerDao.getLedgersWithBalance(asOnDate);
 
         // tablayout and viewpager
         incomeStatementFragment = new IncomeStatementFragment();
