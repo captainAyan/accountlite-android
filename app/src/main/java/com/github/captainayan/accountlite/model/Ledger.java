@@ -2,6 +2,7 @@ package com.github.captainayan.accountlite.model;
 
 import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -24,6 +25,13 @@ public class Ledger {
     }
 
     public Ledger(String name, int type) {
+        this.name = name;
+        this.type = type;
+    }
+
+    @Ignore
+    public Ledger(int id, String name, int type) {
+        this.id = id;
         this.name = name;
         this.type = type;
     }

@@ -14,12 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.github.captainayan.accountlite.adapter.CategorisedBalanceAdapter;
+import com.github.captainayan.accountlite.adapter.OverviewBalanceAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
 import com.github.captainayan.accountlite.database.LedgerDao;
 import com.github.captainayan.accountlite.fragment.DateRangeSelectionBottomSheetFragment;
 import com.github.captainayan.accountlite.fragment.LedgerSelectionBottomSheetFragment;
-import com.github.captainayan.accountlite.model.CategorisedBalance;
+import com.github.captainayan.accountlite.model.OverviewBalance;
 import com.github.captainayan.accountlite.model.Ledger;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private RecyclerView recyclerView;
     private LinearLayoutManager manager;
-    private CategorisedBalanceAdapter adapter;
-    private ArrayList<CategorisedBalance> categorisedBalanceList;
+    private OverviewBalanceAdapter adapter;
+    private ArrayList<OverviewBalance> overviewBalanceList;
 
     private LedgerDao ledgerDao;
 
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         ledgerDao = AppDatabase.getAppDatabase(this).ledgerDao();
+        ledgerList = new ArrayList<Ledger>();
 
         defaultDateAsTodayKey = getResources().getString(R.string.default_date_as_today_pref_key);
         defaultRangeKey = getResources().getString(R.string.default_date_range_pref_key);
@@ -89,22 +90,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dateRangeSelectionBottomSheetFragment = new DateRangeSelectionBottomSheetFragment();
         ledgerSelectionBottomSheetFragment = new LedgerSelectionBottomSheetFragment();
 
-        /// Categorised Balances
-        categorisedBalanceList = new ArrayList<>();
-        categorisedBalanceList.add(new CategorisedBalance(0, 0));
-        categorisedBalanceList.add(new CategorisedBalance(1, 0));
-        categorisedBalanceList.add(new CategorisedBalance(2, 0));
-        categorisedBalanceList.add(new CategorisedBalance(3, 0));
-        categorisedBalanceList.add(new CategorisedBalance(4, 0));
-        /*for (Ledger.LedgerWithBalance lb: (ArrayList<Ledger.LedgerWithBalance>) ledgerDao.getLedgersWithBalance(calendar.getTimeInMillis())) {
-            int prevBal = categorisedBalanceList.get(lb.getType()).getBalance();
-            categorisedBalanceList.get(lb.getType()).setBalance(
-                    prevBal += lb.getBalance()
-            );
-        }*/
+        /// Overview Balances
+        overviewBalanceList = new ArrayList<>();
+        overviewBalanceList.add(new OverviewBalance(0, 0));
+        overviewBalanceList.add(new OverviewBalance(1, 0));
+        overviewBalanceList.add(new OverviewBalance(2, 0));
+        overviewBalanceList.add(new OverviewBalance(3, 0));
+        overviewBalanceList.add(new OverviewBalance(4, 0));
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        adapter = new CategorisedBalanceAdapter(this, categorisedBalanceList);
+        adapter = new OverviewBalanceAdapter(this, overviewBalanceList);
         manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         recyclerView.setLayoutManager(manager);
@@ -116,7 +111,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        ledgerList = (ArrayList<Ledger>) ledgerDao.getAll();
+        ArrayList<Ledger.LedgerWithBalance> _ledgerWithBalanceList = (ArrayList<Ledger.LedgerWithBalance>)
+                ledgerDao.getLedgersWithBalance(Calendar.getInstance().getTimeInMillis());
+
+        for (Ledger.LedgerWithBalance lb: _ledgerWithBalanceList) {
+            ledgerList.add(new Ledger(lb.getId(), lb.getName(), lb.getType()));
+            int prevBal = overviewBalanceList.get(lb.getType()).getBalance();
+            overviewBalanceList.get(lb.getType()).setBalance(prevBal + lb.getBalance());
+        }
+
+        adapter.notifyDataSetChanged();
     }
 
     // adding menu items

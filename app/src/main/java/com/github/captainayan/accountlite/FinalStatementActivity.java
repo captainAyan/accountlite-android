@@ -4,8 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.print.PrintAttributes;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.github.captainayan.accountlite.adapter.FinalStatementViewPagerAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
@@ -39,6 +48,8 @@ public class FinalStatementActivity extends AppCompatActivity {
 
     // database
     LedgerDao ledgerDao;
+
+    private static final int CREATE_FILE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,9 +114,45 @@ public class FinalStatementActivity extends AppCompatActivity {
 
     }
 
+    // adding menu items
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.final_statement_menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.final_statement_menu_save) {
+
+            /*Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("application/pdf");
+            intent.putExtra(Intent.EXTRA_TITLE, "Final Statement "+StringUtility.dateFormat(asOnDate)+".pdf");
+
+            startActivityForResult(intent, CREATE_FILE);*/
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
+        if (requestCode == CREATE_FILE && resultCode == Activity.RESULT_OK) {
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                Toast.makeText(this, uri.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (viewPager.getCurrentItem() != 0) viewPager.setCurrentItem(0, true);
         else finish();
     }
+
 }

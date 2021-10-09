@@ -1,10 +1,10 @@
 package com.github.captainayan.accountlite.model;
 
-public class CategorisedBalance {
+public class OverviewBalance {
 
     private int type, balance;
 
-    public CategorisedBalance(int type, int balance) {
+    public OverviewBalance(int type, int balance) {
         this.type = type;
         this.balance = balance;
     }

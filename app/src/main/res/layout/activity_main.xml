@@ -42,7 +42,7 @@
         android:paddingStart="12dp"
         android:paddingEnd="4dp"
 
-        tools:listitem="@layout/categorised_balance_card"
+        tools:listitem="@layout/overview_balance_card"
         tools:itemCount="2"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

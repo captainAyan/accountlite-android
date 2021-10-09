@@ -12,32 +12,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.captainayan.accountlite.MainActivity;
 import com.github.captainayan.accountlite.R;
-import com.github.captainayan.accountlite.model.CategorisedBalance;
+import com.github.captainayan.accountlite.model.OverviewBalance;
 import com.github.captainayan.accountlite.model.Ledger;
 import com.github.captainayan.accountlite.utility.StringUtility;
 
 import java.util.ArrayList;
 
-class CategorisedBalanceViewHolder extends RecyclerView.ViewHolder {
+class OverviewBalanceViewHolder extends RecyclerView.ViewHolder {
 
     public TextView balance, category;
 
-    CategorisedBalanceViewHolder(@NonNull View itemView) {
+    OverviewBalanceViewHolder(@NonNull View itemView) {
         super(itemView);
         balance = itemView.findViewById(R.id.balanceView);
         category = itemView.findViewById(R.id.categoryView);
     }
 }
 
-public class CategorisedBalanceAdapter extends RecyclerView.Adapter<CategorisedBalanceViewHolder>  {
+public class OverviewBalanceAdapter extends RecyclerView.Adapter<OverviewBalanceViewHolder>  {
 
-    private ArrayList<CategorisedBalance> categorisedBalanceList;
+    private ArrayList<OverviewBalance> overviewBalanceList;
     private Context ctx;
 
     private final String currencyFormat, currencySymbol, currencySymbolPosition;
 
-    public CategorisedBalanceAdapter(MainActivity ctx, ArrayList<CategorisedBalance> categorisedBalanceList) {
-        this.categorisedBalanceList = categorisedBalanceList;
+    public OverviewBalanceAdapter(MainActivity ctx, ArrayList<OverviewBalance> overviewBalanceList) {
+        this.overviewBalanceList = overviewBalanceList;
         this.ctx = ctx;
 
         currencyFormat = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
@@ -55,15 +55,15 @@ public class CategorisedBalanceAdapter extends RecyclerView.Adapter<CategorisedB
 
     @NonNull
     @Override
-    public CategorisedBalanceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public OverviewBalanceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.categorised_balance_card, parent, false);
-        return new CategorisedBalanceViewHolder(view);
+        View view = layoutInflater.inflate(R.layout.overview_balance_card, parent, false);
+        return new OverviewBalanceViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategorisedBalanceViewHolder holder, int position) {
-        final CategorisedBalance b = categorisedBalanceList.get(position);
+    public void onBindViewHolder(@NonNull OverviewBalanceViewHolder holder, int position) {
+        final OverviewBalance b = overviewBalanceList.get(position);
 
         // BALANCE
         boolean isDebitBalance = (b.getType() == Ledger.Type.EXPENDITURE || b.getType() == Ledger.Type.ASSET);
@@ -86,6 +86,6 @@ public class CategorisedBalanceAdapter extends RecyclerView.Adapter<CategorisedB
 
     @Override
     public int getItemCount() {
-        return categorisedBalanceList.size();
+        return overviewBalanceList.size();
     }
 }

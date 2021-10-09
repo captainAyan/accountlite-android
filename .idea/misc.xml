@@ -12,6 +12,8 @@
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/ic_ledger_account_icon.xml" value="0.36666666666666664" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/ic_ledger_account_type_change_icon.xml" value="0.36666666666666664" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/ic_money.xml" value="0.36666666666666664" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/ic_save.xml" value="0.382051282051282" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/ic_settings.xml" value="0.382051282051282" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/ic_warning.xml" value="0.3880208333333333" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/splash_background.xml" value="0.3723958333333333" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/textline.xml" value="0.382051282051282" />
@@ -34,7 +36,10 @@
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/journal_card.xml" value="0.33" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/ledger_card.xml" value="0.33" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/ledger_name_change_dialog.xml" value="0.33" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/overview_balance_card.xml" value="0.371875" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/statement_item.xml" value="0.371875" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/menu/final_statement_menu.xml" value="0.371875" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/menu/main_menu.xml" value="0.371875" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/xml/preferences.xml" value="0.28125" />
       </map>
     </option>
