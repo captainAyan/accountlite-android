@@ -19,9 +19,12 @@ import android.widget.Toast;
 
 import com.github.captainayan.accountlite.adapter.OverviewBalanceAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
+import com.github.captainayan.accountlite.database.EntryDao;
 import com.github.captainayan.accountlite.database.LedgerDao;
+import com.github.captainayan.accountlite.fragment.CreateVoucherBottomSheetFragment;
 import com.github.captainayan.accountlite.fragment.DateRangeSelectionBottomSheetFragment;
 import com.github.captainayan.accountlite.fragment.LedgerSelectionBottomSheetFragment;
+import com.github.captainayan.accountlite.model.Entry;
 import com.github.captainayan.accountlite.model.OverviewBalance;
 import com.github.captainayan.accountlite.model.Ledger;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -51,16 +54,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<OverviewBalance> overviewBalanceList;
 
     private LedgerDao ledgerDao;
+    private EntryDao entryDao;
 
     private DateRangeSelectionBottomSheetFragment dateRangeSelectionBottomSheetFragment;
     private LedgerSelectionBottomSheetFragment ledgerSelectionBottomSheetFragment;
+    private CreateVoucherBottomSheetFragment createVoucherBottomSheetFragment;
 
     // preference related
     private String defaultDateAsTodayKey, defaultRangeKey, defaultDateRangeValues;
 
     private Calendar calendar = Calendar.getInstance();
 
-    private ArrayList<Ledger> ledgerList;
+    public ArrayList<Ledger> ledgerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         ledgerDao = AppDatabase.getAppDatabase(this).ledgerDao();
+        entryDao = AppDatabase.getAppDatabase(this).entryDao();
         ledgerList = new ArrayList<Ledger>();
 
         defaultDateAsTodayKey = getResources().getString(R.string.default_date_as_today_pref_key);
@@ -93,11 +99,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         finalStatementButton = (CardView) findViewById(R.id.final_statement_button);
         finalStatementButton.setOnClickListener(this);
-        finalStatementButton.setOnLongClickListener(this);
 
         trialBalanceButton = (CardView) findViewById(R.id.trial_balance_button);
         trialBalanceButton.setOnClickListener(this);
-        trialBalanceButton.setOnLongClickListener(this);
 
         ledgerAccountButton = (CardView) findViewById(R.id.ledger_account_button);
         ledgerAccountButton.setOnClickListener(this);
@@ -112,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         dateRangeSelectionBottomSheetFragment = new DateRangeSelectionBottomSheetFragment();
         ledgerSelectionBottomSheetFragment = new LedgerSelectionBottomSheetFragment();
+        createVoucherBottomSheetFragment = new CreateVoucherBottomSheetFragment();
 
         /// Overview Balances
         overviewBalanceList = new ArrayList<>();
@@ -134,24 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        ledgerList.clear();
-
-        ArrayList<Ledger.LedgerWithBalance> _ledgerWithBalanceList = (ArrayList<Ledger.LedgerWithBalance>)
-                ledgerDao.getLedgersWithBalance(Calendar.getInstance().getTimeInMillis());
-
-        overviewBalanceList.get(0).setBalance(0);
-        overviewBalanceList.get(1).setBalance(0);
-        overviewBalanceList.get(2).setBalance(0);
-        overviewBalanceList.get(3).setBalance(0);
-        overviewBalanceList.get(4).setBalance(0);
-
-        for (Ledger.LedgerWithBalance lb: _ledgerWithBalanceList) {
-            ledgerList.add(new Ledger(lb.getId(), lb.getName(), lb.getType()));
-            overviewBalanceList.get(lb.getType()).addBalance(lb.getBalance());
-        }
-
-        adapter.updatePreference();
-        adapter.notifyItemRangeChanged(0,5);
+        updateOverview();
     }
 
     // adding menu items
@@ -176,8 +164,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.mainFab) {
             changeFABMenuStatus(!isAllFabsVisible);
         } else if (id == R.id.voucherFab) {
-            startActivity(new Intent(MainActivity.this, CreateVoucherActivity.class));
+            changeFABMenuStatus(false);
+            createVoucher();
         } else if (id == R.id.journalFab) {
+            changeFABMenuStatus(false);
             startActivity(new Intent(MainActivity.this, CreateJournalEntryActivity.class));
         } else if (id == R.id.final_statement_button) {
             startActivity(new Intent(MainActivity.this, FinalStatementActivity.class));
@@ -209,6 +199,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return false;
     }
+
+    public void updateOverview() {
+        ledgerList.clear();
+
+        ArrayList<Ledger.LedgerWithBalance> _ledgerWithBalanceList = (ArrayList<Ledger.LedgerWithBalance>)
+                ledgerDao.getLedgersWithBalance(Calendar.getInstance().getTimeInMillis());
+
+        overviewBalanceList.get(0).setBalance(0);
+        overviewBalanceList.get(1).setBalance(0);
+        overviewBalanceList.get(2).setBalance(0);
+        overviewBalanceList.get(3).setBalance(0);
+        overviewBalanceList.get(4).setBalance(0);
+
+        for (Ledger.LedgerWithBalance lb: _ledgerWithBalanceList) {
+            ledgerList.add(new Ledger(lb.getId(), lb.getName(), lb.getType()));
+            overviewBalanceList.get(lb.getType()).addBalance(lb.getBalance());
+        }
+
+        adapter.updatePreference();
+        adapter.notifyItemRangeChanged(0,5);
+    }
+
 
     /**
      * show date selector THEN start journal entries activity
@@ -257,16 +269,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void ledgerSelection(Intent i) {
         if (!ledgerSelectionBottomSheetFragment.isAdded()) {
-            ledgerSelectionBottomSheetFragment.setLedgerNameList(ledgerList);
             ledgerSelectionBottomSheetFragment.show(getSupportFragmentManager(), ledgerSelectionBottomSheetFragment.getTag());
-            ledgerSelectionBottomSheetFragment.setOnLedgerSelectListener(new LedgerSelectionBottomSheetFragment.OnLedgerSelectListener() {
-                @Override
-                public void onSelect(int selectedLedgerId) {
-                    //Toast.makeText(MainActivity.this, ""+checkedChipId, Toast.LENGTH_SHORT).show();
-                    i.putExtra("ledger_id", selectedLedgerId);
-                    ledgerSelectionBottomSheetFragment.dismiss();
-                    startActivity(i);
-                }
+            ledgerSelectionBottomSheetFragment.setOnLedgerSelectListener(selectedLedgerId -> {
+                i.putExtra("ledger_id", selectedLedgerId);
+                ledgerSelectionBottomSheetFragment.dismiss();
+                startActivity(i);
+            });
+        }
+    }
+
+    /**
+     * Opens voucher creation bottom sheet
+     */
+    private void createVoucher() {
+        if (!createVoucherBottomSheetFragment.isAdded()) {
+            createVoucherBottomSheetFragment.show(getSupportFragmentManager(), ledgerSelectionBottomSheetFragment.getTag());
+            createVoucherBottomSheetFragment.setOnVoucherCreateListener(e -> {
+                entryDao.insert(e);
+                updateOverview();
             });
         }
     }

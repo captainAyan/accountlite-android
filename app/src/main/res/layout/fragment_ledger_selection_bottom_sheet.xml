@@ -14,7 +14,7 @@
         android:paddingVertical="16dp"
         android:paddingHorizontal="16dp"
         android:text="Select Ledger"
-        android:textAppearance="?attr/textAppearanceHeadline4"
+        android:textAppearance="?attr/textAppearanceHeadline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

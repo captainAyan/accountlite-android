@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.github.captainayan.accountlite.MainActivity;
 import com.github.captainayan.accountlite.R;
 import com.github.captainayan.accountlite.model.Ledger;
 import com.github.captainayan.accountlite.utility.StringUtility;
@@ -32,15 +33,13 @@ public class LedgerSelectionBottomSheetFragment extends BottomSheetDialogFragmen
 
     private LedgerSelectionBottomSheetFragment.OnLedgerSelectListener t;
 
-    public void setLedgerNameList(ArrayList<Ledger> ledgerList) {
-        this.ledgerList = ledgerList;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_ledger_selection_bottom_sheet, container, false);
         submit = v.findViewById(R.id.submit);
         chipGroup = (ChipGroup) v.findViewById(R.id.chipGroup);
+
+        ledgerList = ((MainActivity)getActivity()).ledgerList;
 
         for (Ledger l : ledgerList) {
             Chip chip = (Chip) inflater.inflate(R.layout.ledger_selection_chip, chipGroup, false);

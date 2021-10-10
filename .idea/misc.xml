@@ -31,6 +31,7 @@
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/balance_card.xml" value="0.28888888888888886" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/fragment_balance_sheet.xml" value="0.35625" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/fragment_create_journal_entry.xml" value="0.35625" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/fragment_create_voucher_bottom_sheet.xml" value="0.27760416666666665" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/fragment_date_range_selection_bottom_sheet.xml" value="0.1703125" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/fragment_income_statement.xml" value="0.35625" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/fragment_ledger_details.xml" value="0.33" />
