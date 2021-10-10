@@ -3,6 +3,7 @@ package com.github.captainayan.accountlite;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
@@ -39,6 +40,8 @@ public class LedgerAccountActivity extends AppCompatActivity {
 
     private LedgerEntriesFragment ledgerEntriesFragment;
     private LedgerDetailsFragment ledgerDetailsFragment;
+
+    private String dateFormat, dateSeparator;
 
     public int ledgerId;
     public long toDateTimestamp, fromDateTimestamp;
@@ -79,6 +82,14 @@ public class LedgerAccountActivity extends AppCompatActivity {
 
         ledgerId = i.getIntExtra("ledger_id", 1);
 
+        dateFormat = PreferenceManager.getDefaultSharedPreferences(this).getString(
+                getResources().getString(R.string.date_format_pref_key),
+                getResources().getString(R.string.date_format_default_value));
+
+        dateSeparator = PreferenceManager.getDefaultSharedPreferences(this).getString(
+                getResources().getString(R.string.date_separator_pref_key),
+                getResources().getString(R.string.date_separator_default_value));
+
         toolbar = (MaterialToolbar) findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -89,9 +100,9 @@ public class LedgerAccountActivity extends AppCompatActivity {
             }
         });
         toolbar.setSubtitle(new StringBuilder()
-                .append(StringUtility.dateFormat(fromDateTimestamp))
+                .append(StringUtility.dateFormat(fromDateTimestamp, dateFormat, dateSeparator))
                 .append(" - ")
-                .append(StringUtility.dateFormat(toDateTimestamp)).toString());
+                .append(StringUtility.dateFormat(toDateTimestamp, dateFormat, dateSeparator)).toString());
 
         // tablayout and viewpager
         ledgerEntriesFragment = new LedgerEntriesFragment();

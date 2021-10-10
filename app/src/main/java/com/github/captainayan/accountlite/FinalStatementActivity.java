@@ -2,15 +2,13 @@ package com.github.captainayan.accountlite;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.print.PrintAttributes;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +47,8 @@ public class FinalStatementActivity extends AppCompatActivity {
     // database
     LedgerDao ledgerDao;
 
+    private String dateFormat, dateSeparator;
+
     private static final int CREATE_FILE = 1;
 
     @Override
@@ -59,6 +59,14 @@ public class FinalStatementActivity extends AppCompatActivity {
         ledgerDao = AppDatabase.getAppDatabase(this).ledgerDao();
 
         asOnDate = Calendar.getInstance().getTimeInMillis();
+
+        dateFormat = PreferenceManager.getDefaultSharedPreferences(this).getString(
+                getResources().getString(R.string.date_format_pref_key),
+                getResources().getString(R.string.date_format_default_value));
+
+        dateSeparator = PreferenceManager.getDefaultSharedPreferences(this).getString(
+                getResources().getString(R.string.date_separator_pref_key),
+                getResources().getString(R.string.date_separator_default_value));
 
         toolbar = (MaterialToolbar) findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
@@ -71,7 +79,7 @@ public class FinalStatementActivity extends AppCompatActivity {
         });
         toolbar.setSubtitle(new StringBuilder()
                 .append("As On Date ")
-                .append(StringUtility.dateFormat(asOnDate))
+                .append(StringUtility.dateFormat(asOnDate, dateFormat, dateSeparator))
                 .toString());
 
         ledgerWithBalanceList = (ArrayList<Ledger.LedgerWithBalance>) ledgerDao.getLedgersWithBalance(asOnDate);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateJournalEntryActivity">
+    tools:context=".CreateVoucherActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -19,7 +19,7 @@
             style="@style/Widget.AppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Create Journal Entry" />
+            app:title="Create Voucher" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-        app:layout_constraintBottom_toTopOf="@id/submit"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout02"
         android:theme="@style/Theme.Form"
         android:layout_margin="16dp">
 
@@ -37,18 +37,18 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/debitTextField"
+                android:id="@+id/accountTextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Debit A/c"
+                android:hint="Account"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                 <AutoCompleteTextView
-                    android:id="@+id/debitEditText"
+                    android:id="@+id/accountEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
@@ -58,18 +58,18 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/creditTextField"
+                android:id="@+id/headTextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Credit A/c"
-                app:layout_constraintTop_toBottomOf="@id/debitTextField"
+                android:hint="Head"
+                app:layout_constraintTop_toBottomOf="@id/accountTextField"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                 <AutoCompleteTextView
-                    android:id="@+id/creditEditText"
+                    android:id="@+id/headEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Amount"
-                app:layout_constraintTop_toBottomOf="@id/creditTextField"
+                app:layout_constraintTop_toBottomOf="@id/headTextField"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -126,19 +126,39 @@
 
     </ScrollView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/submit"
+    <LinearLayout
+        android:id="@+id/linearLayout02"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:textColor="?attr/colorOnSecondary"
-        android:backgroundTint="?attr/colorSecondary"
-        android:text="@string/submit"
+        android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/receiptBtn"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:textColor="?attr/colorOnSecondary"
+            android:backgroundTint="@color/green"
+            android:text="Receipt"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            app:cornerRadius="8dp">
+        </com.google.android.material.button.MaterialButton>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/paymentBtn"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:textColor="?attr/colorOnSecondary"
+            android:backgroundTint="@color/red"
+            android:text="Payment"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            app:cornerRadius="8dp">
+        </com.google.android.material.button.MaterialButton>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

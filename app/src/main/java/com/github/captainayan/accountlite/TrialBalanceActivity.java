@@ -34,6 +34,8 @@ public class TrialBalanceActivity extends AppCompatActivity {
     private TrialBalanceAdapter adapter;
     private ArrayList<Ledger.LedgerWithBalance> ledgerWithBalanceList;
 
+    private String dateFormat, dateSeparator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,14 @@ public class TrialBalanceActivity extends AppCompatActivity {
         emptyView = (TextView) findViewById(R.id.emptyView);
         if (!ledgerWithBalanceList.isEmpty()) emptyView.setVisibility(View.INVISIBLE);
 
+        dateFormat = PreferenceManager.getDefaultSharedPreferences(this).getString(
+                getResources().getString(R.string.date_format_pref_key),
+                getResources().getString(R.string.date_format_default_value));
+
+        dateSeparator = PreferenceManager.getDefaultSharedPreferences(this).getString(
+                getResources().getString(R.string.date_separator_pref_key),
+                getResources().getString(R.string.date_separator_default_value));
+
         toolbar = (MaterialToolbar) findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -67,7 +77,7 @@ public class TrialBalanceActivity extends AppCompatActivity {
         });
         toolbar.setSubtitle(new StringBuilder()
                 .append("As On Date ")
-                .append(StringUtility.dateFormat(asOnDate))
+                .append(StringUtility.dateFormat(asOnDate, dateFormat, dateSeparator))
                 .toString());
     }
 }

@@ -17,6 +17,10 @@ public class OverviewBalance {
         this.balance = balance;
     }
 
+    public void addBalance(int additionBalance) {
+        this.balance += additionBalance;
+    }
+
     public int getType() {
         return type;
     }

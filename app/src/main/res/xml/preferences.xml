@@ -2,11 +2,6 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
-        app:key="@string/notification_pref_key"
-        app:title="@string/notification_pref_label"
-        android:defaultValue="true"/>
-
     <ListPreference
         app:key="@string/dark_mode_pref_key"
         app:title="@string/dark_mode_pref_label"
@@ -77,6 +72,25 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        app:icon="@drawable/ic_calendar"
+        app:title="@string/date_pref_category">
+        <ListPreference
+            app:key="@string/date_format_pref_key"
+            app:title="@string/date_format_pref_label"
+            app:defaultValue="@string/date_format_default_value"
+            app:entries="@array/date_format_pref_entries"
+            app:entryValues="@array/date_format_pref_values"
+            app:useSimpleSummaryProvider="true"/>
+        <ListPreference
+            app:key="@string/date_separator_pref_key"
+            app:title="@string/date_separator_pref_label"
+            app:defaultValue="@string/date_separator_default_value"
+            app:entries="@array/date_separator_pref_entries"
+            app:entryValues="@array/date_separator_pref_values"
+            app:useSimpleSummaryProvider="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:icon="@drawable/ic_info"
         app:title="@string/info_pref_category">
 
@@ -85,14 +99,17 @@
             app:summary="@string/build_version"/>
 
         <Preference
-            app:title="@string/send_feedback_label"
-            app:summary="@string/send_feedback_summary"/>
+            app:title="@string/developer_name_label"
+            app:summary="@string/developer_github_label"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
         app:icon="@drawable/ic_warning"
         app:title="@string/action_pref_category">
+        <Preference
+            app:title="@string/send_feedback_label"
+            app:summary="@string/send_feedback_summary"/>
         <Preference
             app:title="@string/reset_books"/>
     </PreferenceCategory>

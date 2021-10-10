@@ -1,13 +1,17 @@
 package com.github.captainayan.accountlite.utility;
 
-import androidx.preference.PreferenceManager;
-
 import java.text.SimpleDateFormat;
 
 public class StringUtility {
 
-    public static String dateFormat(double timestamp) {
-        return new SimpleDateFormat("dd/MM/yyyy").format(timestamp);
+    public static String dateFormat(double timestamp, String dateFormat, String dateSeparator) {
+        if(dateFormat.equals("DMY"))
+            return new SimpleDateFormat("dd"+dateSeparator+"MM"+dateSeparator+"yyyy").format(timestamp);
+        else if(dateFormat.equals("MDY"))
+            return new SimpleDateFormat("MM"+dateSeparator+"dd"+dateSeparator+"yyyy").format(timestamp);
+        else if(dateFormat.equals("YMD"))
+            return new SimpleDateFormat("yyyy"+dateSeparator+"MM"+dateSeparator+"dd").format(timestamp);
+        else return "";
     }
 
     public static String accountNameFormat(String accountName) {

@@ -38,7 +38,7 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
     private ArrayList<Journal> journalList;
     private Context ctx;
 
-    private final String currencyFormat, currencySymbol, currencySymbolPosition;
+    private final String currencyFormat, currencySymbol, currencySymbolPosition, dateFormat, dateSeparator;
 
     // for ledger entries fragment
     private Ledger ledger = null;
@@ -58,6 +58,14 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
         currencySymbolPosition = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
                 ctx.getResources().getString(R.string.currency_symbol_position_pref_key),
                 ctx.getResources().getString(R.string.currency_symbol_position_default_value));
+
+        dateFormat = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
+                ctx.getResources().getString(R.string.date_format_pref_key),
+                ctx.getResources().getString(R.string.date_format_default_value));
+
+        dateSeparator = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
+                ctx.getResources().getString(R.string.date_separator_pref_key),
+                ctx.getResources().getString(R.string.date_separator_default_value));
     }
 
     @NonNull
@@ -86,7 +94,7 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
         holder.creditAccountName.setText(StringUtility.accountNameFormat(j.getCreditLedger().getName()));
         holder.amount.setText(StringUtility.amountFormat(j.getAmount(), currencyFormat, currencySymbol, currencySymbolPosition));
         holder.narration.setText(StringUtility.narrationFormat(j.getNarration()));
-        holder.time.setText(StringUtility.dateFormat(j.getTimestamp()));
+        holder.time.setText(StringUtility.dateFormat(j.getTimestamp(), dateFormat, dateSeparator));
         holder.entryId.setText(StringUtility.idFormat(j.getId()));
 
         holder.debitAccountName.setSelected(true);

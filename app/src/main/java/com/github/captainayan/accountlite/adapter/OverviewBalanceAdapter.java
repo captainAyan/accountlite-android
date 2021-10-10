@@ -34,23 +34,12 @@ public class OverviewBalanceAdapter extends RecyclerView.Adapter<OverviewBalance
     private ArrayList<OverviewBalance> overviewBalanceList;
     private Context ctx;
 
-    private final String currencyFormat, currencySymbol, currencySymbolPosition;
+    private String currencyFormat, currencySymbol, currencySymbolPosition;
 
     public OverviewBalanceAdapter(MainActivity ctx, ArrayList<OverviewBalance> overviewBalanceList) {
         this.overviewBalanceList = overviewBalanceList;
         this.ctx = ctx;
-
-        currencyFormat = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
-                ctx.getResources().getString(R.string.currency_format_pref_key),
-                ctx.getResources().getString(R.string.currency_format_default_value));
-
-        currencySymbol = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
-                ctx.getResources().getString(R.string.currency_symbol_pref_key),
-                ctx.getResources().getString(R.string.currency_symbol_default_value));
-
-        currencySymbolPosition = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
-                ctx.getResources().getString(R.string.currency_symbol_position_pref_key),
-                ctx.getResources().getString(R.string.currency_symbol_position_default_value));
+        updatePreference();
     }
 
     @NonNull
@@ -87,5 +76,19 @@ public class OverviewBalanceAdapter extends RecyclerView.Adapter<OverviewBalance
     @Override
     public int getItemCount() {
         return overviewBalanceList.size();
+    }
+
+    public void updatePreference() {
+        this.currencyFormat = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
+                ctx.getResources().getString(R.string.currency_format_pref_key),
+                ctx.getResources().getString(R.string.currency_format_default_value));
+
+        this.currencySymbol = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
+                ctx.getResources().getString(R.string.currency_symbol_pref_key),
+                ctx.getResources().getString(R.string.currency_symbol_default_value));
+
+        this.currencySymbolPosition = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
+                ctx.getResources().getString(R.string.currency_symbol_position_pref_key),
+                ctx.getResources().getString(R.string.currency_symbol_position_default_value));
     }
 }

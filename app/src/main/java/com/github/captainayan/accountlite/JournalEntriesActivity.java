@@ -1,6 +1,7 @@
 package com.github.captainayan.accountlite;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,8 @@ public class JournalEntriesActivity extends AppCompatActivity {
     private LinearLayoutManager manager;
     private JournalAdapter adapter;
     private ArrayList<Journal> journalList;
+
+    private String dateFormat, dateSeparator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,14 @@ public class JournalEntriesActivity extends AppCompatActivity {
         emptyView = (TextView) findViewById(R.id.emptyView);
         if (!journalList.isEmpty()) emptyView.setVisibility(View.INVISIBLE);
 
+        dateFormat = PreferenceManager.getDefaultSharedPreferences(this).getString(
+                getResources().getString(R.string.date_format_pref_key),
+                getResources().getString(R.string.date_format_default_value));
+
+        dateSeparator = PreferenceManager.getDefaultSharedPreferences(this).getString(
+                getResources().getString(R.string.date_separator_pref_key),
+                getResources().getString(R.string.date_separator_default_value));
+
         toolbar = (MaterialToolbar) findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -95,8 +106,8 @@ public class JournalEntriesActivity extends AppCompatActivity {
             }
         });
         toolbar.setSubtitle(new StringBuilder()
-                .append(StringUtility.dateFormat(fromDateTimestamp))
+                .append(StringUtility.dateFormat(fromDateTimestamp, dateFormat, dateSeparator))
                 .append(" - ")
-                .append(StringUtility.dateFormat(toDateTimestamp)).toString());
+                .append(StringUtility.dateFormat(toDateTimestamp, dateFormat, dateSeparator)).toString());
     }
 }

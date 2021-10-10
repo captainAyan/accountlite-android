@@ -10,8 +10,11 @@ import androidx.preference.PreferenceManager;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 
 import com.github.captainayan.accountlite.database.AppDatabase;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 
@@ -84,10 +88,33 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
+            Context c = getContext();
             if (preference.getTitle() == getResources().getString(R.string.reset_books)) {
-                AppDatabase db = AppDatabase.getAppDatabase(this.getContext());
-                db.delete(getContext());
-                Toast.makeText(this.getContext(), "Restart the app to view effect", Toast.LENGTH_LONG).show();
+                new MaterialAlertDialogBuilder(c)
+                        .setTitle("Are you sure about resetting?")
+                        .setMessage("Once deleted, the date cannot be retrieved.")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                AppDatabase db = AppDatabase.getAppDatabase(c);
+                                db.delete(c);
+                                Toast.makeText(c, "Restart the app to view effect", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .create().show();
+            }
+            else if (preference.getTitle() == getResources().getString(R.string.developer_name_label)) {
+                String url = "https://github.com/captainAyan";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+            else if (preference.getTitle() == getResources().getString(R.string.send_feedback_label)) {
+                String url = "https://github.com/captainAyan#-contact-me";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
             }
             return super.onPreferenceTreeClick(preference);
         }

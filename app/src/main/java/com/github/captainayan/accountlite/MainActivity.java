@@ -2,6 +2,7 @@ package com.github.captainayan.accountlite;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.captainayan.accountlite.adapter.OverviewBalanceAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
@@ -32,7 +35,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String TAG = "MAIN_ACT";
 
     private MaterialToolbar toolbar;
-    private FloatingActionButton fab;
+
+    private FloatingActionButton mainFab;
+    private FloatingActionButton journalFab;
+    private TextView journalFabLabel;
+    private FloatingActionButton voucherFab;
+    private TextView voucherFabLabel;
+    private boolean isAllFabsVisible;
 
     private CardView trialBalanceButton, ledgerAccountButton, journalEntriesButton, finalStatementButton;
 
@@ -65,8 +74,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         defaultRangeKey = getResources().getString(R.string.default_date_range_pref_key);
         defaultDateRangeValues = getResources().getString(R.string.default_date_range_default_values);
 
-        fab = (FloatingActionButton) findViewById(R.id.floating_action_button);
-        fab.setOnClickListener(this);
+        mainFab = (FloatingActionButton) findViewById(R.id.mainFab);
+        mainFab.setOnClickListener(this);
+
+        journalFab = (FloatingActionButton) findViewById(R.id.journalFab);
+        journalFabLabel = (TextView) findViewById(R.id.journalFabLabel);
+        journalFab.setOnClickListener(this);
+        journalFab.hide();
+        journalFabLabel.setVisibility(View.GONE);
+
+        voucherFab = (FloatingActionButton) findViewById(R.id.voucherFab);
+        voucherFabLabel = (TextView) findViewById(R.id.voucherFabLabel);
+        voucherFab.setOnClickListener(this);
+        voucherFab.hide();
+        voucherFabLabel.setVisibility(View.GONE);
+
+        isAllFabsVisible = false;
 
         finalStatementButton = (CardView) findViewById(R.id.final_statement_button);
         finalStatementButton.setOnClickListener(this);
@@ -111,16 +134,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+        ledgerList.clear();
+
         ArrayList<Ledger.LedgerWithBalance> _ledgerWithBalanceList = (ArrayList<Ledger.LedgerWithBalance>)
                 ledgerDao.getLedgersWithBalance(Calendar.getInstance().getTimeInMillis());
 
+        overviewBalanceList.get(0).setBalance(0);
+        overviewBalanceList.get(1).setBalance(0);
+        overviewBalanceList.get(2).setBalance(0);
+        overviewBalanceList.get(3).setBalance(0);
+        overviewBalanceList.get(4).setBalance(0);
+
         for (Ledger.LedgerWithBalance lb: _ledgerWithBalanceList) {
             ledgerList.add(new Ledger(lb.getId(), lb.getName(), lb.getType()));
-            int prevBal = overviewBalanceList.get(lb.getType()).getBalance();
-            overviewBalanceList.get(lb.getType()).setBalance(prevBal + lb.getBalance());
+            overviewBalanceList.get(lb.getType()).addBalance(lb.getBalance());
         }
 
-        adapter.notifyDataSetChanged();
+        adapter.updatePreference();
+        adapter.notifyItemRangeChanged(0,5);
     }
 
     // adding menu items
@@ -139,13 +170,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.floating_action_button) {
+        if (id == R.id.mainFab) {
+            changeFABMenuStatus(!isAllFabsVisible);
+        } else if (id == R.id.voucherFab) {
+            startActivity(new Intent(MainActivity.this, CreateVoucherActivity.class));
+        } else if (id == R.id.journalFab) {
             startActivity(new Intent(MainActivity.this, CreateJournalEntryActivity.class));
-        } else if(id == R.id.final_statement_button) {
+        } else if (id == R.id.final_statement_button) {
             startActivity(new Intent(MainActivity.this, FinalStatementActivity.class));
         } else if (id == R.id.trial_balance_button) {
             startActivity(new Intent(MainActivity.this, TrialBalanceActivity.class));
@@ -237,5 +271,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Shows the fab menu (if true is passed) and assigns true isAllFabsVisible
+     * Hides the fab menu (if false is passed) and assigns false isAllFabsVisible
+     * @param show if true then shows menu
+     */
+    private void changeFABMenuStatus(boolean show) {
+        isAllFabsVisible = show;
 
+        if (show) {
+            journalFab.show();
+            voucherFab.show();
+            journalFabLabel.setVisibility(View.VISIBLE);
+            voucherFabLabel.setVisibility(View.VISIBLE);
+            mainFab.animate().rotationBy(135f);
+        } else {
+            journalFab.hide();
+            voucherFab.hide();
+            journalFabLabel.setVisibility(View.GONE);
+            voucherFabLabel.setVisibility(View.GONE);
+            mainFab.animate().rotationBy(-135f);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!isAllFabsVisible) super.onBackPressed();
+        else changeFABMenuStatus(false);
+    }
 }

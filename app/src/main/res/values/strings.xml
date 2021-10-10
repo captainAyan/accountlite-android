@@ -4,11 +4,7 @@
     <string name="fab_content_desc">Add journal entry button</string>
     <string name="submit">Submit</string>
 
-    <string name="notification_pref_key">NOTIFICATION</string>
-
     <!-- Preferences START -->
-    <!-- Notification -->
-    <string name="notification_pref_label">Notify Me</string>
     <string name="dark_mode_pref_key">DARK_MODE</string>
 
     <!-- Dark Mode -->
@@ -55,6 +51,15 @@
     <string name="reset_books">Reset Books</string>
     <string name="user_pref_category">User</string>
     <string name="first_time_launch_pref_key">FIRST_TIME_LAUNCH</string>
+    <string name="date_format_pref_key">DATE_FORMAT</string>
+    <string name="date_format_pref_label">Date Format</string>
+    <string name="date_format_default_value">DMY</string>
+    <string name="date_pref_category">Date</string>
+    <string name="date_separator_pref_key">DATE_SEPARATOR</string>
+    <string name="date_separator_pref_label">Date Separator</string>
+    <string name="date_separator_default_value">/</string>
+    <string name="developer_name_label">Ayan Chakraborty</string>
+    <string name="developer_github_label">\@CaptainAyan (Github)</string>
 
     <!-- Default Range -->
     <string-array name="ledger_types">
@@ -86,6 +91,30 @@
         <item>IND</item>
         <item>INT</item>
     </string-array>
+    <string-array name="date_format_pref_entries">
+        <item>DMY (Other)</item>
+        <item>YMD (Standard)</item>
+        <item>MDY (American)</item>
+    </string-array>
+    <string-array name="date_format_pref_values">
+        <item>DMY</item>
+        <item>YMD</item>
+        <item>MDY</item>
+    </string-array>
+
+    date_separator_pref_entries
+    <string-array name="date_separator_pref_entries">
+        <item>Dot</item>
+        <item>Dash (Standard)</item>
+        <item>Slash</item>
+    </string-array>
+    <string-array name="date_separator_pref_values">
+        <item>.</item>
+        <item>-</item>
+        <item>/</item>
+    </string-array>
+
+
     <string-array name="currency_symbol_pref_entries">
         <item>Rupee (₹) 🇮🇳</item>
         <item>Dollar ($) 🇺🇸 🇦🇺 🇨🇦 🇲🇽</item>
