@@ -40,7 +40,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
     private String[] ledgerTypes;
     private ArrayList<Ledger> ledgerList;
     private ArrayList<String> ledgerNameList;
-    private ArrayAdapter ledgerListArrayAdapter;
+    private ArrayAdapter<String> ledgerListArrayAdapter;
     private int debitLedgerType = 0;
     private int creditLedgerType = 0;
     private MaterialAlertDialogBuilder debitLedgerTypeDialog;
