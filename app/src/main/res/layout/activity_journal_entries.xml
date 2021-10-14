@@ -19,14 +19,14 @@
             style="@style/Widget.AppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Journal Entries" />
+            app:title="@string/journal_entries" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Data"
+        android:text="@string/no_data"
         android:textAppearance="?attr/textAppearanceHeadline3"
         app:layout_constraintTop_toTopOf="@id/recyclerView"
         app:layout_constraintBottom_toBottomOf="@id/recyclerView"

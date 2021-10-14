@@ -17,7 +17,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Home"
+            app:title="@string/home"
             app:menu="@menu/main_menu"
             style="@style/Widget.AppBar" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -26,7 +26,7 @@
         android:id="@+id/overview_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Overview"
+        android:text="@string/overview_section"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:textAppearance="?attr/textAppearanceOverline"
@@ -67,7 +67,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Statements"
+            android:text="@string/statement_section"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:textAppearance="?attr/textAppearanceOverline" />
@@ -93,7 +93,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Final Statement"
+                    android:text="@string/final_statement"
                     android:layout_marginStart="12dp"
                     android:layout_gravity="center"
                     android:textAppearance="?attr/textAppearanceBody1" />
@@ -120,7 +120,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Trial Balance"
+                    android:text="@string/trial_balance"
                     android:layout_marginStart="12dp"
                     android:layout_gravity="center"
                     android:textAppearance="?attr/textAppearanceBody1" />
@@ -147,7 +147,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ledger Account"
+                    android:text="@string/ledger_account"
                     android:layout_marginStart="12dp"
                     android:layout_gravity="center"
                     android:textAppearance="?attr/textAppearanceBody1" />
@@ -175,7 +175,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Journal Entries"
+                    android:text="@string/journal_entries"
                     android:layout_marginStart="12dp"
                     android:layout_gravity="center"
                     android:textAppearance="?attr/textAppearanceBody1" />
@@ -200,7 +200,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="Add Entry"
+        android:text="@string/add_entry"
         app:layout_constraintBottom_toBottomOf="@+id/journalFab"
         app:layout_constraintEnd_toStartOf="@+id/journalFab"
         app:layout_constraintTop_toTopOf="@+id/journalFab" />
@@ -222,7 +222,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="Add Voucher"
+        android:text="@string/add_voucher"
         app:layout_constraintBottom_toBottomOf="@+id/voucherFab"
         app:layout_constraintEnd_toStartOf="@+id/voucherFab"
         app:layout_constraintTop_toTopOf="@+id/voucherFab" />

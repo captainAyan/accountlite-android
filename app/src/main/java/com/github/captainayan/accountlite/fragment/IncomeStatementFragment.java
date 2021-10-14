@@ -83,8 +83,8 @@ public class IncomeStatementFragment  extends Fragment {
                 StringUtility.amountFormat(totalRevenue,currencyFormat, currencySymbol, currencySymbolPosition));
         surplusOrDeficitTextView.setText(
                 StringUtility.amountFormat(surplusOrDeficit,currencyFormat, currencySymbol, currencySymbolPosition));
-        if(surplusOrDeficit >= 0) surplusOrDeficitLabelTextView.setText("Surplus");
-        else surplusOrDeficitLabelTextView.setText("Deficit");
+        if(surplusOrDeficit >= 0) surplusOrDeficitLabelTextView.setText(R.string.surplus);
+        else surplusOrDeficitLabelTextView.setText(R.string.deficit);
 
         for (Ledger.LedgerWithBalance l : expenditureLedgerWithBalanceList) {
             View i = getLayoutInflater().inflate(R.layout.statement_item, expenditureListView, false);

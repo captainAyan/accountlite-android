@@ -52,7 +52,7 @@ public class LedgerSelectionBottomSheetFragment extends BottomSheetDialogFragmen
             @Override
             public void onClick(View view) {
                 if (chipGroup.getCheckedChipIds().isEmpty())
-                    Toast.makeText(getContext(), "Select one Account", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.error_message_select_account, Toast.LENGTH_SHORT).show();
                 else t.onSelect(chipGroup.getCheckedChipId());
             }
         });

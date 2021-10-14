@@ -17,7 +17,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Settings"
+            app:title="@string/settings"
             app:menu="@menu/main_menu"
             style="@style/Widget.AppBar" />
     </com.google.android.material.appbar.AppBarLayout>

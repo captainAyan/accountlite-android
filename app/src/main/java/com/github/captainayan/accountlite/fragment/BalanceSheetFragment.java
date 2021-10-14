@@ -108,8 +108,8 @@ public class BalanceSheetFragment extends Fragment {
 
         // Adjusting Surplus or Deficit to EQUITY
         View _i = getLayoutInflater().inflate(R.layout.statement_item, equityListView, false);
-        if(surplusOrDeficit >= 0) ((TextView)_i.findViewById(R.id.item_name)).setText("Add: Surplus");
-        else ((TextView)_i.findViewById(R.id.item_name)).setText("Less: Deficit");
+        if(surplusOrDeficit >= 0) ((TextView)_i.findViewById(R.id.item_name)).setText(R.string.balance_sheet_surplus_label);
+        else ((TextView)_i.findViewById(R.id.item_name)).setText(R.string.balance_sheet_deficit_label);
         ((TextView)_i.findViewById(R.id.item_amount)).setText(
                 StringUtility.amountFormat(surplusOrDeficit,currencyFormat, currencySymbol, currencySymbolPosition));
         equityListView.addView(_i);

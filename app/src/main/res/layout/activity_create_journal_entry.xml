@@ -19,7 +19,7 @@
             style="@style/Widget.AppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Create Journal Entry" />
+            app:title="@string/create_journal_entry" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Debit A/c"
+                android:hint="@string/debit_account_hint"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Credit A/c"
+                android:hint="@string/credit_account_hint"
                 app:layout_constraintTop_toBottomOf="@id/debitTextField"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Amount"
+                android:hint="@string/amount_hint"
                 app:layout_constraintTop_toBottomOf="@id/creditTextField"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Narration"
+                android:hint="@string/narration_hint"
                 app:layout_constraintTop_toBottomOf="@id/amountTextField"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

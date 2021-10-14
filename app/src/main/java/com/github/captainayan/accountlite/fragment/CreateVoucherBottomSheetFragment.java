@@ -72,21 +72,21 @@ public class CreateVoucherBottomSheetFragment extends BottomSheetDialogFragment 
     
     public void createVoucher(boolean isReceipt) {
         if (headChipGroup.getCheckedChipId()==-1 || accountChipGroup.getCheckedChipId()==-1) {
-            Toast.makeText(getContext(), "Select one from each", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.error_message_select_account, Toast.LENGTH_SHORT).show();
             return;
         }
         if(amountEditText.getText().toString().isEmpty()) {
-            Toast.makeText(getContext(), "Invalid Amount.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.error_message_invalid_amount, Toast.LENGTH_SHORT).show();
             return;
         }
         try {
             if (Integer.parseInt(amountEditText.getText().toString()) == 0) {
-                Toast.makeText(getContext(), "Invalid Amount.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.error_message_invalid_amount, Toast.LENGTH_SHORT).show();
                 return;
             }
         }
         catch(NumberFormatException e) {
-            Toast.makeText(getContext(), "Invalid Amount.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.error_message_invalid_amount, Toast.LENGTH_SHORT).show();
             return;
         }
         if (isReceipt)
@@ -98,7 +98,7 @@ public class CreateVoucherBottomSheetFragment extends BottomSheetDialogFragment 
                     Integer.parseInt(amountEditText.getText().toString()), Calendar.getInstance().getTimeInMillis(),
                     "Payment Voucher"));
 
-        Toast.makeText(getContext(), "Voucher Created", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.voucher_created_success, Toast.LENGTH_SHORT).show();
         headChipGroup.clearCheck();
         accountChipGroup.clearCheck();
         amountEditText.setText("");

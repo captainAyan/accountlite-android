@@ -1,67 +1,136 @@
 <resources>
-    <!-- Labels -->
     <string name="app_name">AccountLite</string>
     <string name="fab_content_desc">Add journal entry button</string>
     <string name="submit">Submit</string>
+    <string name="view">View</string>
+    <string name="saved">Saved</string>
+    <string name="as_on_date">\"As On Date \"</string>
+    <string name="asset">Asset</string>
+    <string name="total">TOTAL</string>
+    <string name="liability">Liability</string>
+    <string name="equity">Equity</string>
+    <string name="account">Account</string>
+    <string name="head">Head</string>
+    <string name="receipt">Receipt</string>
+    <string name="payment">Payment</string>
+    <string name="revenue">Revenue</string>
+    <string name="expenditure">Expenditure</string>
+    <string name="surplus">Surplus</string>
+    <string name="deficit">Deficit</string>
+    <string name="surplus_or_deficit">Surplus/(Deficit)</string>
+    <string name="opening_balance">Opening Balance</string>
+    <string name="closing_balance">Closing Balance</string>
+    <string name="no_data">No Data</string>
 
-    <!-- Preferences START -->
     <string name="dark_mode_pref_key">DARK_MODE</string>
-
-    <!-- Dark Mode -->
     <string name="dark_mode_pref_label">Dark Mode</string>
     <string name="dark_mode_default_value">MODE_NIGHT_FOLLOW_SYSTEM</string>
+
     <string name="currency_pref_category">Currency</string>
+
     <string name="currency_format_pref_key">CURRENCY_FORMAT</string>
+    <string name="currency_format_pref_label">Format</string>
+    <string name="currency_format_default_value">IND</string>
+
+    <string name="user_pref_category">User</string>
+
     <string name="user_name_pref_key">USER_NAME</string>
     <string name="business_name_pref_key">BUSINESS_NAME</string>
     <string name="user_name_pref_label">User Name</string>
     <string name="business_name_pref_label">Business Name</string>
-    <string name="currency_format_pref_label">Format</string><!-- Default Dark Mode -->
 
-    <!-- Currency  Category -->
-    <string name="currency_format_default_value">IND</string>
-
-    <!-- Currency Format -->
     <string name="currency_symbol_pref_key">CURRENCY_NAME</string>
     <string name="currency_symbol_pref_label">Name</string>
     <string name="currency_symbol_default_value">₹</string>
-    <string name="currency_symbol_position_pref_key">CURRENCY_SYMBOL_POSITION</string>
-    <string name="currency_symbol_position_pref_label">Symbol Position</string><!-- Default Currency Format -->
 
-    <!-- Currency Symbol -->
+    <string name="currency_symbol_position_pref_key">CURRENCY_SYMBOL_POSITION</string>
+    <string name="currency_symbol_position_pref_label">Symbol Position</string>
     <string name="currency_symbol_position_default_value">START</string>
+
     <string name="defaults_pref_category">Defaults</string>
+
     <string name="default_date_as_today_pref_key">DEFAULT_DATE_AS_TODAY</string>
     <string name="default_date_as_today_pref_label">Default Date as Today</string>
-    <string name="default_date_range_pref_key">DEFAULT_RANGE</string><!-- Default Currency Name -->
 
-    <!-- Currency Symbol Position -->
+    <string name="default_date_range_pref_key">DEFAULT_RANGE</string>
     <string name="default_date_range_pref_label">Default Range</string>
     <string name="default_date_range_default_values">day</string>
+
     <string name="info_pref_category">Information</string>
-    <string name="action_pref_category">Action</string>
+
     <string name="build_version">1.0.0-alpha</string>
-    <string name="build_version_label">Build Version</string><!-- Default Currency Symbol Position -->
+    <string name="build_version_label">Build Version</string>
 
-    <!-- Defaults Category -->
+    <string name="developer_label">Ayan Chakraborty</string>
+    <string name="developer_github_label">\@CaptainAyan (Github)</string>
+    <string name="developer_url">https://github.com/captainAyan</string>
+
+    <string name="action_pref_category">Action</string>
+
     <string name="send_feedback_label">Send feedback</string>
-
-    <!-- Default Date as Today -->
     <string name="send_feedback_summary">Report technical issues or suggest new features</string>
+    <string name="send_feedback_url">https://github.com/captainAyan#-contact-me</string>
     <string name="reset_books">Reset Books</string>
-    <string name="user_pref_category">User</string>
-    <string name="first_time_launch_pref_key">FIRST_TIME_LAUNCH</string>
+
+    <string name="date_pref_category">Date</string>
+
     <string name="date_format_pref_key">DATE_FORMAT</string>
     <string name="date_format_pref_label">Date Format</string>
     <string name="date_format_default_value">DMY</string>
-    <string name="date_pref_category">Date</string>
+
     <string name="date_separator_pref_key">DATE_SEPARATOR</string>
     <string name="date_separator_pref_label">Date Separator</string>
     <string name="date_separator_default_value">/</string>
-    <string name="developer_name_label">Ayan Chakraborty</string>
-    <string name="developer_github_label">\@CaptainAyan (Github)</string>
 
-    <!-- Default Range -->
+    <string name="first_time_launch_pref_key">FIRST_TIME_LAUNCH</string>
+
+    <string name="reset_books_dialog_toast">Restart the app to view effect</string>
+    <string name="reset_books_dialog_message">Once deleted, the data cannot be retrieved.</string>
+    <string name="reset_books_dialog_title">Are you sure about resetting?</string>
+
+    <string name="error_message_empty_accounts">Accounts cannot be empty.</string>
+    <string name="error_message_same_account">Debit and Credit account cannot be the same.</string>
+    <string name="error_message_invalid_amount">Invalid Amount.</string>
+    <string name="error_message_empty_narration">Narration cannot be empty.</string>
+    <string name="error_message_select_account">Select one Account.</string>
+    <string name="error_message_invalid_account_name">Invalid Account Name</string>
+
+    <string name="voucher_created_success">Voucher Created</string>
+    <string name="journal_entry_create_success">Entry Saved</string>
+
+    <string name="balance_sheet_surplus_label">Add: Surplus</string>
+    <string name="balance_sheet_deficit_label">Less: Deficit</string>
+    <string name="week_range_chip_label">Week</string>
+    <string name="fortnite_range_chip_label">Fortnite</string>
+    <string name="month_range_chip_label">Month</string>
+    <string name="change_ledger_type_dialog_title">Change Account Type</string>
+    <string name="change_ledger_name_dialog_title">Change Account Name</string>
+    <string name="debit_account_hint">Debit A/c</string>
+    <string name="credit_account_hint">Credit A/c</string>
+    <string name="amount_hint">Amount</string>
+    <string name="narration_hint">Narration</string>
+    <string name="your_name_hint">Your Name</string>
+    <string name="business_name_hint">Business Name</string>
+    <string name="account_name_hint">Account Name</string>
+
+    <string name="create_journal_entry">Create Journal Entry</string>
+    <string name="final_statement">Final Statement</string>
+    <string name="revenue_and_expense_statement"><![CDATA[Revenue & Expense Statement]]></string>
+    <string name="balance_sheet_statement">Balance Sheet Statement</string>
+    <string name="journal_entries">Journal Entries</string>
+    <string name="ledger_account">Ledger Account</string>
+    <string name="change_name">Change Name</string>
+    <string name="change_type">Change Type</string>
+    <string name="home">Home</string>
+    <string name="add_entry">Add Entry</string>
+    <string name="add_voucher">Add Voucher</string>
+    <string name="select_ledger">Select Ledger</string>
+    <string name="settings">Settings</string>
+    <string name="setup">Setup</string>
+    <string name="overview_section">Overview</string>
+    <string name="statement_section">Statements</string>
+    <string name="trial_balance">Trial Balance</string>
+
     <string-array name="ledger_types">
         <item>Revenue Account</item>
         <item>Expenditure Account</item>
@@ -69,20 +138,17 @@
         <item>Liabilities Account</item>
         <item>Equity Account</item>
     </string-array>
+
     <string-array name="dark_mode_pref_entries">
         <item>System Default</item>
         <item>Light</item>
         <item>Dark</item>
-    </string-array><!-- Default Date Range -->
-
-    <!-- Info Category -->
+    </string-array>
     <string-array name="dark_mode_pref_values">
         <item>MODE_NIGHT_FOLLOW_SYSTEM</item>
         <item>MODE_NIGHT_NO</item>
         <item>MODE_NIGHT_YES</item>
     </string-array>
-
-    <!-- Info -->
     <string-array name="currency_format_pref_entries">
         <item>Indian</item>
         <item>International</item>
@@ -101,8 +167,6 @@
         <item>YMD</item>
         <item>MDY</item>
     </string-array>
-
-    date_separator_pref_entries
     <string-array name="date_separator_pref_entries">
         <item>Dot</item>
         <item>Dash (Standard)</item>
@@ -113,8 +177,6 @@
         <item>-</item>
         <item>/</item>
     </string-array>
-
-
     <string-array name="currency_symbol_pref_entries">
         <item>Rupee (₹) 🇮🇳</item>
         <item>Dollar ($) 🇺🇸 🇦🇺 🇨🇦 🇲🇽</item>
@@ -159,5 +221,4 @@
         <item>fortnite</item>
         <item>month</item>
     </string-array>
-    <!-- Preferences END -->
 </resources>

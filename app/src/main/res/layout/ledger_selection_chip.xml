@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.chip.Chip android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Month"
     style="@style/Widget.MaterialComponents.Chip.Choice"
     app:chipBackgroundColor="?attr/colorSecondary"
     android:textColor="?attr/colorOnSecondary"

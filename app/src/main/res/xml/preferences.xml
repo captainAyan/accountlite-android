@@ -99,7 +99,7 @@
             app:summary="@string/build_version"/>
 
         <Preference
-            app:title="@string/developer_name_label"
+            app:title="@string/developer_label"
             app:summary="@string/developer_github_label"/>
 
     </PreferenceCategory>

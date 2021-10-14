@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         updateOverview();
+        if(isAllFabsVisible) changeFABMenuStatus(false);
     }
 
     // adding menu items
@@ -169,9 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.journalFab) {
             changeFABMenuStatus(false);
             startActivity(new Intent(MainActivity.this, CreateJournalEntryActivity.class));
-        } else if(isAllFabsVisible) changeFABMenuStatus(false);
-
-        if (id == R.id.final_statement_button) {
+        } else if (id == R.id.final_statement_button) {
             startActivity(new Intent(MainActivity.this, FinalStatementActivity.class));
         } else if (id == R.id.trial_balance_button) {
             startActivity(new Intent(MainActivity.this, TrialBalanceActivity.class));

@@ -102,29 +102,29 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
                 String creditAccountName = creditAccountEditText.getText().toString().trim();
 
                 if(debitAccountName.isEmpty() || creditAccountName.isEmpty()) {
-                    Toast.makeText(CreateJournalEntryActivity.this, "Accounts cannot be empty.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateJournalEntryActivity.this, R.string.error_message_empty_accounts, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(debitAccountName.equals(creditAccountName)) {
-                    Toast.makeText(CreateJournalEntryActivity.this, "Debit and Credit account cannot be the same.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateJournalEntryActivity.this, R.string.error_message_same_account, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(amountEditText.getText().toString().isEmpty()) {
-                    Toast.makeText(CreateJournalEntryActivity.this, "Invalid Amount.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateJournalEntryActivity.this, R.string.error_message_invalid_amount, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {
                     if (Integer.parseInt(amountEditText.getText().toString()) == 0) {
-                        Toast.makeText(CreateJournalEntryActivity.this, "Invalid Amount.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateJournalEntryActivity.this, R.string.error_message_invalid_amount, Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
                 catch(NumberFormatException e) {
-                    Toast.makeText(CreateJournalEntryActivity.this, "Invalid Amount.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateJournalEntryActivity.this, R.string.error_message_invalid_amount, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(narrationEditText.getText().toString().isEmpty()) {
-                    Toast.makeText(CreateJournalEntryActivity.this, "Narration cannot be empty.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateJournalEntryActivity.this, R.string.error_message_empty_narration, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -163,7 +163,7 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
                 narrationEditText.getText().toString()
         ));
 
-        Toast.makeText(CreateJournalEntryActivity.this, "Entry Saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(CreateJournalEntryActivity.this, R.string.journal_entry_create_success, Toast.LENGTH_SHORT).show();
         resetForm();
     }
 

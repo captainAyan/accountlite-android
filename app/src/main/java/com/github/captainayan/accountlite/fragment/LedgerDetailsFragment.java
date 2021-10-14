@@ -2,8 +2,6 @@ package com.github.captainayan.accountlite.fragment;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
@@ -129,12 +127,12 @@ public class LedgerDetailsFragment extends Fragment implements View.OnClickListe
         // EDITING DIALOGS
         ledgerTypeChangeDialog = new MaterialAlertDialogBuilder(getContext(),
                 R.style.ThemeOverlay_App_MaterialAlertDialog)
-                .setTitle("Change Account Type")
+                .setTitle(R.string.change_ledger_type_dialog_title)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                     Ledger newLedger = ledger;
                     newLedger.setType(selectedLedgerType);
                     ledgerDao.update(newLedger);
-                    Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.saved, Toast.LENGTH_SHORT).show();
                     getActivity().recreate();
                 })
                 .setSingleChoiceItems(getResources().getStringArray(R.array.ledger_types),
@@ -149,7 +147,7 @@ public class LedgerDetailsFragment extends Fragment implements View.OnClickListe
         ledgerNameList = (ArrayList<String>) ledgerDao.getAllNames();
         ledgerNameChangeDialog = new MaterialAlertDialogBuilder(getContext(),
                 R.style.ThemeOverlay_App_MaterialAlertDialog)
-                .setTitle("Change Account Name")
+                .setTitle(R.string.change_ledger_name_dialog_title)
                 .setView(v)
                 .setPositiveButton(android.R.string.ok, ((dialogInterface, i) -> {
                     if (!ledgerNameList.contains(newAccountNameEditText.getText().toString())
@@ -157,13 +155,13 @@ public class LedgerDetailsFragment extends Fragment implements View.OnClickListe
                         Ledger newLedger = ledger;
                         newLedger.setName(newAccountNameEditText.getText().toString().trim());
                         ledgerDao.update(newLedger);
-                        Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.saved, Toast.LENGTH_SHORT).show();
 
                         // this is a weird fix
                         accountNameTv.setText(StringUtility.accountNameFormat(newAccountNameEditText.getText().toString().trim()));
                         getActivity().recreate();
                     } else {
-                        Toast.makeText(getContext(), "Invalid Account Name", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.error_message_invalid_account_name, Toast.LENGTH_SHORT).show();
                         if(v.getParent() != null) ((ViewGroup)v.getParent()).removeView(v);
                     }
                 }))

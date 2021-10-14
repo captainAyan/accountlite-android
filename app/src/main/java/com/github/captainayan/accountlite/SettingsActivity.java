@@ -1,24 +1,18 @@
 package com.github.captainayan.accountlite;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.github.captainayan.accountlite.database.AppDatabase;
@@ -91,27 +85,27 @@ public class SettingsActivity extends AppCompatActivity {
             Context c = getContext();
             if (preference.getTitle() == getResources().getString(R.string.reset_books)) {
                 new MaterialAlertDialogBuilder(c)
-                        .setTitle("Are you sure about resetting?")
-                        .setMessage("Once deleted, the date cannot be retrieved.")
+                        .setTitle(R.string.reset_books_dialog_title)
+                        .setMessage(R.string.reset_books_dialog_message)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 AppDatabase db = AppDatabase.getAppDatabase(c);
                                 db.delete(c);
-                                Toast.makeText(c, "Restart the app to view effect", Toast.LENGTH_LONG).show();
+                                Toast.makeText(c, getResources().getString(R.string.reset_books_dialog_toast), Toast.LENGTH_LONG).show();
                             }
                         })
                         .setNegativeButton(android.R.string.no, null)
                         .create().show();
             }
-            else if (preference.getTitle() == getResources().getString(R.string.developer_name_label)) {
-                String url = "https://github.com/captainAyan";
+            else if (preference.getTitle() == getResources().getString(R.string.developer_label)) {
+                String url = c.getResources().getString(R.string.developer_url);
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
             }
             else if (preference.getTitle() == getResources().getString(R.string.send_feedback_label)) {
-                String url = "https://github.com/captainAyan#-contact-me";
+                String url = c.getResources().getString(R.string.send_feedback_url);
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);

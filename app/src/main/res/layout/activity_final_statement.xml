@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/final_statement_menu"
-            app:title="Final Statement" />
+            app:title="@string/final_statement" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.tabs.TabLayout
@@ -37,12 +37,12 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Revenue &amp; Expense Statement" />
+            android:text="@string/revenue_and_expense_statement" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Balance Sheet Statement" />
+            android:text="@string/balance_sheet_statement" />
 
     </com.google.android.material.tabs.TabLayout>
 
