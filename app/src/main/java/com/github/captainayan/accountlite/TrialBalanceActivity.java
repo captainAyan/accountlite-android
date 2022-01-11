@@ -76,7 +76,8 @@ public class TrialBalanceActivity extends AppCompatActivity {
             }
         });
         toolbar.setSubtitle(new StringBuilder()
-                .append("As On Date ")
+                .append(getString(R.string.as_on_date))
+                .append(" ")
                 .append(StringUtility.dateFormat(asOnDate, dateFormat, dateSeparator))
                 .toString());
     }

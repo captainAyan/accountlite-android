@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Accountlite">
         <activity
+            android:name=".CreateLedgerActivity"
+            android:exported="false" />
+        <activity
             android:name=".SetupActivity"
             android:exported="true"
             android:screenOrientation="portrait" />

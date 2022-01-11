@@ -184,50 +184,6 @@
 
     </GridLayout>
 
-    <!--SECOND MINI FAB-->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/journalFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/mainFab"
-        app:layout_constraintEnd_toEndOf="@+id/mainFab"
-        app:layout_constraintStart_toStartOf="@+id/mainFab"
-        app:srcCompat="@drawable/ic_plus" />
-    <TextView
-        android:id="@+id/journalFabLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/add_entry"
-        app:layout_constraintBottom_toBottomOf="@+id/journalFab"
-        app:layout_constraintEnd_toStartOf="@+id/journalFab"
-        app:layout_constraintTop_toTopOf="@+id/journalFab" />
-    <!--SECOND MINI FAB-->
-
-    <!--FIRST MINI FAB-->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/voucherFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/journalFab"
-        app:layout_constraintEnd_toEndOf="@+id/journalFab"
-        app:layout_constraintStart_toStartOf="@+id/journalFab"
-        app:srcCompat="@drawable/ic_file" />
-    <TextView
-        android:id="@+id/voucherFabLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/add_voucher"
-        app:layout_constraintBottom_toBottomOf="@+id/voucherFab"
-        app:layout_constraintEnd_toStartOf="@+id/voucherFab"
-        app:layout_constraintTop_toTopOf="@+id/voucherFab" />
-    <!--FIRST MINI FAB-->
-
     <!-- Main FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/mainFab"

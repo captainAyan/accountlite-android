@@ -155,16 +155,17 @@ public class CreateJournalEntryActivity extends AppCompatActivity {
         ledgerListArrayAdapter.addAll(ledgerNameList);
         ledgerListArrayAdapter.notifyDataSetChanged();
 
-        entryDao.insert(new Entry(
-                ledgerList.get(ledgerNameList.indexOf(debitAccountName)).getId(),
-                ledgerList.get(ledgerNameList.indexOf(creditAccountName)).getId(),
-                Integer.parseInt(amountEditText.getText().toString()),
-                Calendar.getInstance().getTimeInMillis(),
-                narrationEditText.getText().toString()
-        ));
-
-        Toast.makeText(CreateJournalEntryActivity.this, R.string.journal_entry_create_success, Toast.LENGTH_SHORT).show();
-        resetForm();
+        if(entryDao.getLatestEntryTimestamp() < Calendar.getInstance().getTimeInMillis()) {
+            entryDao.insert(new Entry(
+                    ledgerList.get(ledgerNameList.indexOf(debitAccountName)).getId(),
+                    ledgerList.get(ledgerNameList.indexOf(creditAccountName)).getId(),
+                    Integer.parseInt(amountEditText.getText().toString()),
+                    Calendar.getInstance().getTimeInMillis(),
+                    narrationEditText.getText().toString()
+            ));
+            Toast.makeText(CreateJournalEntryActivity.this, R.string.journal_entry_create_success, Toast.LENGTH_SHORT).show();
+            resetForm();
+        } else Toast.makeText(CreateJournalEntryActivity.this, R.string.error_message_invalid_date_error, Toast.LENGTH_LONG).show();
     }
 
     private void resetForm() {

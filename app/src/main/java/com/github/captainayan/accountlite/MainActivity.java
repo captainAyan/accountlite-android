@@ -2,7 +2,6 @@ package com.github.captainayan.accountlite;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -14,17 +13,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.captainayan.accountlite.adapter.OverviewBalanceAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
 import com.github.captainayan.accountlite.database.EntryDao;
 import com.github.captainayan.accountlite.database.LedgerDao;
-import com.github.captainayan.accountlite.fragment.CreateVoucherBottomSheetFragment;
 import com.github.captainayan.accountlite.fragment.DateRangeSelectionBottomSheetFragment;
 import com.github.captainayan.accountlite.fragment.LedgerSelectionBottomSheetFragment;
-import com.github.captainayan.accountlite.model.Entry;
 import com.github.captainayan.accountlite.model.OverviewBalance;
 import com.github.captainayan.accountlite.model.Ledger;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -38,13 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String TAG = "MAIN_ACT";
 
     private MaterialToolbar toolbar;
-
     private FloatingActionButton mainFab;
-    private FloatingActionButton journalFab;
-    private TextView journalFabLabel;
-    private FloatingActionButton voucherFab;
-    private TextView voucherFabLabel;
-    private boolean isAllFabsVisible;
 
     private CardView trialBalanceButton, ledgerAccountButton, journalEntriesButton, finalStatementButton;
 
@@ -58,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private DateRangeSelectionBottomSheetFragment dateRangeSelectionBottomSheetFragment;
     private LedgerSelectionBottomSheetFragment ledgerSelectionBottomSheetFragment;
-    private CreateVoucherBottomSheetFragment createVoucherBottomSheetFragment;
 
     // preference related
     private String defaultDateAsTodayKey, defaultRangeKey, defaultDateRangeValues;
@@ -82,20 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mainFab = (FloatingActionButton) findViewById(R.id.mainFab);
         mainFab.setOnClickListener(this);
-
-        journalFab = (FloatingActionButton) findViewById(R.id.journalFab);
-        journalFabLabel = (TextView) findViewById(R.id.journalFabLabel);
-        journalFab.setOnClickListener(this);
-        journalFab.hide();
-        journalFabLabel.setVisibility(View.GONE);
-
-        voucherFab = (FloatingActionButton) findViewById(R.id.voucherFab);
-        voucherFabLabel = (TextView) findViewById(R.id.voucherFabLabel);
-        voucherFab.setOnClickListener(this);
-        voucherFab.hide();
-        voucherFabLabel.setVisibility(View.GONE);
-
-        isAllFabsVisible = false;
+        mainFab.setOnLongClickListener(this);
 
         finalStatementButton = (CardView) findViewById(R.id.final_statement_button);
         finalStatementButton.setOnClickListener(this);
@@ -116,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         dateRangeSelectionBottomSheetFragment = new DateRangeSelectionBottomSheetFragment();
         ledgerSelectionBottomSheetFragment = new LedgerSelectionBottomSheetFragment();
-        createVoucherBottomSheetFragment = new CreateVoucherBottomSheetFragment();
 
         /// Overview Balances
         overviewBalanceList = new ArrayList<>();
@@ -140,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         updateOverview();
-        if(isAllFabsVisible) changeFABMenuStatus(false);
     }
 
     // adding menu items
@@ -163,12 +136,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.mainFab) {
-            changeFABMenuStatus(!isAllFabsVisible);
-        } else if (id == R.id.voucherFab) {
-            changeFABMenuStatus(false);
-            createVoucher();
-        } else if (id == R.id.journalFab) {
-            changeFABMenuStatus(false);
             startActivity(new Intent(MainActivity.this, CreateJournalEntryActivity.class));
         } else if (id == R.id.final_statement_button) {
             startActivity(new Intent(MainActivity.this, FinalStatementActivity.class));
@@ -196,6 +163,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         } else if (view.getId() == R.id.journal_entries_button) {
             onClickJournalEntriesButton();
+            return true;
+        } else if (view.getId() == R.id.mainFab) {
+            startActivity(new Intent(MainActivity.this, CreateLedgerActivity.class));
             return true;
         }
         return false;
@@ -253,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Adds default (preference values) period and date to the intent.
-     * @param i
+     * @param i intent that will be updated
      */
     private void addDefaultExtraToIntent(Intent i) {
         i.putExtra("day", calendar.get(Calendar.DAY_OF_MONTH));
@@ -266,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Shows a bottom sheet with ledgers, and then starts LedgerAccountActivity with the selected
      * ledger's id.
-     * @param i
+     * @param i intent that will be start
      */
     private void ledgerSelection(Intent i) {
         if (!ledgerSelectionBottomSheetFragment.isAdded()) {
@@ -277,47 +247,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(i);
             });
         }
-    }
-
-    /**
-     * Opens voucher creation bottom sheet
-     */
-    private void createVoucher() {
-        if (!createVoucherBottomSheetFragment.isAdded()) {
-            createVoucherBottomSheetFragment.show(getSupportFragmentManager(), ledgerSelectionBottomSheetFragment.getTag());
-            createVoucherBottomSheetFragment.setOnVoucherCreateListener(e -> {
-                entryDao.insert(e);
-                updateOverview();
-            });
-        }
-    }
-
-    /**
-     * Shows the fab menu (if true is passed) and assigns true isAllFabsVisible
-     * Hides the fab menu (if false is passed) and assigns false isAllFabsVisible
-     * @param show if true then shows menu
-     */
-    private void changeFABMenuStatus(boolean show) {
-        isAllFabsVisible = show;
-
-        if (show) {
-            journalFab.show();
-            voucherFab.show();
-            journalFabLabel.setVisibility(View.VISIBLE);
-            voucherFabLabel.setVisibility(View.VISIBLE);
-            mainFab.animate().rotationBy(135f);
-        } else {
-            journalFab.hide();
-            voucherFab.hide();
-            journalFabLabel.setVisibility(View.GONE);
-            voucherFabLabel.setVisibility(View.GONE);
-            mainFab.animate().rotationBy(-135f);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!isAllFabsVisible) super.onBackPressed();
-        else changeFABMenuStatus(false);
     }
 }

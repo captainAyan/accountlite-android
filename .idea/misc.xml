@@ -20,7 +20,8 @@
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/ic_warning.xml" value="0.3880208333333333" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/splash_background.xml" value="0.3723958333333333" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/drawable/textline.xml" value="0.382051282051282" />
-        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_create_journal_entry.xml" value="0.2109375" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_create_journal_entry.xml" value="0.36615384615384616" />
+        <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_create_ledger.xml" value="0.371875" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_create_voucher.xml" value="0.371875" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_final_statement.xml" value="0.33" />
         <entry key="..\:/MiscProjects/accountlite/android/app/src/main/res/layout/activity_journal_entries.xml" value="0.33" />

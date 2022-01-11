@@ -4,7 +4,7 @@
     <string name="submit">Submit</string>
     <string name="view">View</string>
     <string name="saved">Saved</string>
-    <string name="as_on_date">\"As On Date \"</string>
+    <string name="as_on_date">As On Date</string>
     <string name="asset">Asset</string>
     <string name="total">TOTAL</string>
     <string name="liability">Liability</string>
@@ -94,9 +94,13 @@
     <string name="error_message_empty_narration">Narration cannot be empty.</string>
     <string name="error_message_select_account">Select one Account.</string>
     <string name="error_message_invalid_account_name">Invalid Account Name</string>
+    <string name="error_message_invalid_date_error">Invalid Date Error</string>
+    <string name="error_message_invalid_ledger_name">Invalid Ledger Name</string>
+    <string name="error_message_invalid_ledger_type">Invalid Ledger Type</string>
 
     <string name="voucher_created_success">Voucher Created</string>
     <string name="journal_entry_create_success">Entry Saved</string>
+    <string name="ledger_create_success">Ledger Saved</string>
 
     <string name="balance_sheet_surplus_label">Add: Surplus</string>
     <string name="balance_sheet_deficit_label">Less: Deficit</string>
@@ -114,6 +118,7 @@
     <string name="account_name_hint">Account Name</string>
 
     <string name="create_journal_entry">Create Journal Entry</string>
+    <string name="create_ledger">Create Ledger</string>
     <string name="final_statement">Final Statement</string>
     <string name="revenue_and_expense_statement"><![CDATA[Revenue & Expense Statement]]></string>
     <string name="balance_sheet_statement">Balance Sheet Statement</string>
@@ -121,6 +126,8 @@
     <string name="ledger_account">Ledger Account</string>
     <string name="change_name">Change Name</string>
     <string name="change_type">Change Type</string>
+    <string name="ledger_name">Ledger Name</string>
+    <string name="ledger_type">Ledger Type</string>
     <string name="home">Home</string>
     <string name="add_entry">Add Entry</string>
     <string name="add_voucher">Add Voucher</string>

@@ -32,4 +32,7 @@ public interface EntryDao {
     @Query("SELECT * FROM entry WHERE (:ledgerId = debit_id OR :ledgerId = credit_id) AND (timestamp >= :fromDate AND timestamp <= :toDate) ORDER BY id DESC")
     public List<Journal> getJournalsByLedger(int ledgerId, double fromDate, double toDate);
 
+    @Query("SELECT timestamp FROM entry ORDER BY timestamp DESC LIMIT 1")
+    public double getLatestEntryTimestamp();
+
 }
