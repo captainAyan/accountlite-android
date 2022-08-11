@@ -137,6 +137,7 @@
     <string name="overview_section">Overview</string>
     <string name="statement_section">Statements</string>
     <string name="trial_balance">Trial Balance</string>
+    <string name="made_in_india">Made with ❤️ in India</string>
 
     <string-array name="ledger_types">
         <item>Revenue Account</item>
