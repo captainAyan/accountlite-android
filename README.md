@@ -8,7 +8,7 @@
   </p>
 </p>
 <p align="center">
-<a href="https://github.com/captainAyan/accountlite-android"><img src="https://raw.githubusercontent.com/captainAyan/accountlite-android/main/screenshots/1.png"></a>
+<a href="https://github.com/captainAyan/accountlite-android"><img src="https://github.com/captainayan/accountlite-android/blob/main/screenshots/1.png?raw=true"></a>
 </p>
 
 ## About
