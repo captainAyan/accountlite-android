@@ -19,7 +19,6 @@
             style="@style/Widget.AppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/final_statement_menu"
             app:title="@string/final_statement" />
     </com.google.android.material.appbar.AppBarLayout>
 

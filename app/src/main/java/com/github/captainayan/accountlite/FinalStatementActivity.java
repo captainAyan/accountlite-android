@@ -1,19 +1,12 @@
 package com.github.captainayan.accountlite;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.captainayan.accountlite.adapter.FinalStatementViewPagerAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
@@ -25,9 +18,6 @@ import com.github.captainayan.accountlite.utility.StringUtility;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
@@ -125,54 +115,6 @@ public class FinalStatementActivity extends AppCompatActivity {
             }
         });
     }
-
-    // adding menu items
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.final_statement_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        super.onOptionsItemSelected(item);
-        if (item.getItemId() == R.id.final_statement_menu_save) {
-            // createFile();
-            return true;
-        }
-        else return false;
-    }
-
-    /*private void createFile() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.putExtra(Intent.EXTRA_TITLE, "Final Statement.html");
-        intent.setType("text/html");
-        startActivityForResult(intent, CREATE_FILE);
-    }*/
-
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        super.onActivityResult(requestCode, resultCode, resultData);
-        if (requestCode == CREATE_FILE && resultCode == Activity.RESULT_OK) {
-            Uri uri = null;
-            BufferedOutputStream bos = null;
-            if (resultData != null) {
-                uri = resultData.getData();
-                try {
-                    bos = new BufferedOutputStream(getContentResolver().openOutputStream(uri));
-                    bos.write( null
-                            // new FinalStatementToHTML(this).print().getBytes(StandardCharsets.UTF_8)
-                            );
-                    bos.close();
-                } catch (FileNotFoundException e) {
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }*/
 
     @Override
     public void onBackPressed() {
