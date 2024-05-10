@@ -13,7 +13,7 @@
 
 ## About
 
-AccountLite Android is a lightweight accounting app with recording financial transactions (no inventory management available), classification(ledgers), and summarization(trial balance). The data is stored SQLite Database.
+AccountLite Android is a lightweight accounting app with recording financial transactions (no inventory management available), classification(ledgers), and summarization(trial balance). The data is stored in a SQLite Database.
 
 ## Getting Started
 ### As User
