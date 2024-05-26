@@ -139,6 +139,13 @@
     <string name="trial_balance">Trial Balance</string>
     <string name="made_in_india">Made with ❤️ in India</string>
 
+    <string name="journal_entries_icon_content_description">Journal Entries Icon</string>
+    <string name="final_statement_icon_content_description">Final Statement Icon</string>
+    <string name="ledger_account_icon_content_description">Ledger Account Icon</string>
+    <string name="trial_balance_icon_content_description">Trial Balance Icon</string>
+    <string name="change_ledger_name_icon_content_description">Change Ledger Name Icon</string>
+    <string name="change_ledger_type_icon_content_description">Change Ledger Type Icon</string>
+
     <string-array name="ledger_types">
         <item>Revenue Account</item>
         <item>Expenditure Account</item>

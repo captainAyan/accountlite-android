@@ -182,6 +182,7 @@
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/change_ledger_name_icon_content_description"
                         android:src="@drawable/ic_ledger_account_name_change_icon" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -210,6 +211,7 @@
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/change_ledger_type_icon_content_description"
                         android:src="@drawable/ic_ledger_account_type_change_icon" />
                     <TextView
                         android:layout_width="wrap_content"
