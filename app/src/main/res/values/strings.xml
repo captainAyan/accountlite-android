@@ -107,6 +107,10 @@
     <string name="week_range_chip_label">Week</string>
     <string name="fortnite_range_chip_label">Fortnite</string>
     <string name="month_range_chip_label">Month</string>
+    <string name="quarter_range_chip_label">Quarter</string>
+    <string name="half_year_range_chip_label">Half Year</string>
+    <string name="year_range_chip_label">Year</string>
+    <string name="all_range_chip_label">All</string>
     <string name="change_ledger_type_dialog_title">Change Account Type</string>
     <string name="change_ledger_name_dialog_title">Change Account Name</string>
     <string name="debit_account_hint">Debit A/c</string>
@@ -229,11 +233,19 @@
         <item>Week</item>
         <item>Fortnite</item>
         <item>Month</item>
+        <item>Quarter</item>
+        <item>Half Year</item>
+        <item>Year</item>
+        <item>All</item>
     </string-array>
     <string-array name="default_date_range_pref_values">
         <item>day</item>
         <item>week</item>
         <item>fortnite</item>
         <item>month</item>
+        <item>quarter</item>
+        <item>half_year</item>
+        <item>year</item>
+        <item>all</item>
     </string-array>
 </resources>

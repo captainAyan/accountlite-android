@@ -71,6 +71,18 @@ public class JournalEntriesActivity extends AppCompatActivity {
             case "month":
                 c.add(Calendar.MONTH, -1);
                 break;
+            case "quarter":
+                c.add(Calendar.MONTH, -3);
+                break;
+            case "half_year":
+                c.add(Calendar.MONTH, -6);
+                break;
+            case "year":
+                c.add(Calendar.YEAR, -1);
+                break;
+            case "all":
+                c.set(1970, Calendar.JANUARY, 1);
+                break;
         }
         long fromDateTimestamp = c.getTimeInMillis();
 

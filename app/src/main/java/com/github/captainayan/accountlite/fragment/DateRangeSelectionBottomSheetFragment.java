@@ -51,6 +51,10 @@ public class DateRangeSelectionBottomSheetFragment extends BottomSheetDialogFrag
                 else if (id == R.id.weekChip) i.putExtra("duration", "week");
                 else if (id == R.id.fortniteChip) i.putExtra("duration", "fortnite");
                 else if (id == R.id.monthChip) i.putExtra("duration", "month");
+                else if (id == R.id.quarterChip) i.putExtra("duration", "quarter");
+                else if (id == R.id.halfYearChip) i.putExtra("duration", "half_year");
+                else if (id == R.id.yearChip) i.putExtra("duration", "year");
+                else if (id == R.id.allChip) i.putExtra("duration", "all");
 
                 if (t != null) t.onSelect(i);
             }

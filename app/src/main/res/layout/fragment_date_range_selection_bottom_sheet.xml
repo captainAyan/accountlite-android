@@ -64,6 +64,54 @@
             app:checkedIconTint="?attr/colorOnSecondary"
             app:checkedIconEnabled="true"/>
 
+        <com.google.android.material.chip.Chip
+            android:id="@+id/quarterChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quarter_range_chip_label"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            app:chipBackgroundColor="?attr/colorSecondary"
+            android:textColor="?attr/colorOnSecondary"
+            app:checkedIcon="@drawable/ic_check"
+            app:checkedIconTint="?attr/colorOnSecondary"
+            app:checkedIconEnabled="true"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/halfYearChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/half_year_range_chip_label"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            app:chipBackgroundColor="?attr/colorSecondary"
+            android:textColor="?attr/colorOnSecondary"
+            app:checkedIcon="@drawable/ic_check"
+            app:checkedIconTint="?attr/colorOnSecondary"
+            app:checkedIconEnabled="true"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/yearChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/year_range_chip_label"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            app:chipBackgroundColor="?attr/colorSecondary"
+            android:textColor="?attr/colorOnSecondary"
+            app:checkedIcon="@drawable/ic_check"
+            app:checkedIconTint="?attr/colorOnSecondary"
+            app:checkedIconEnabled="true"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/allChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/all_range_chip_label"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            app:chipBackgroundColor="?attr/colorSecondary"
+            android:textColor="?attr/colorOnSecondary"
+            app:checkedIcon="@drawable/ic_check"
+            app:checkedIconTint="?attr/colorOnSecondary"
+            app:checkedIconEnabled="true"/>
+
     </com.google.android.material.chip.ChipGroup>
 
     <Button
