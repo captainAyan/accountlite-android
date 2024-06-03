@@ -53,6 +53,14 @@ public class LedgerAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ledger_account);
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (viewPager.getCurrentItem() != 0) viewPager.setCurrentItem(0, true);
+                else finish();
+            }
+        });
+
         Intent i = getIntent();
         toAndFromDate = TimeUtility.getToAndFromDateTimestampFromIntent(i);
 
@@ -117,9 +125,4 @@ public class LedgerAccountActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        if (viewPager.getCurrentItem() != 0) viewPager.setCurrentItem(0, true);
-        else finish();
-    }
 }
