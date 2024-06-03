@@ -1,5 +1,6 @@
 package com.github.captainayan.accountlite;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
@@ -21,6 +22,7 @@ import com.github.captainayan.accountlite.fragment.LedgerEntriesFragment;
 import com.github.captainayan.accountlite.model.Journal;
 import com.github.captainayan.accountlite.model.Ledger;
 import com.github.captainayan.accountlite.utility.StringUtility;
+import com.github.captainayan.accountlite.utility.TimeUtility;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 
@@ -44,7 +46,7 @@ public class LedgerAccountActivity extends AppCompatActivity {
     private String dateFormat, dateSeparator;
 
     public int ledgerId;
-    public long toDateTimestamp, fromDateTimestamp;
+    public TimeUtility.ToAndFromDate toAndFromDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,45 +54,7 @@ public class LedgerAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ledger_account);
 
         Intent i = getIntent();
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.DAY_OF_MONTH, i.getIntExtra("day", 0));
-        c.set(Calendar.MONTH, i.getIntExtra("month", 0));
-        c.set(Calendar.YEAR, i.getIntExtra("year", 0));
-        c.set(Calendar.HOUR_OF_DAY, 23);
-        c.set(Calendar.MINUTE, 59);
-        c.set(Calendar.SECOND, 59);
-        toDateTimestamp = c.getTimeInMillis();
-
-        c.set(Calendar.DAY_OF_MONTH, i.getIntExtra("day", 0));
-        c.set(Calendar.MONTH, i.getIntExtra("month", 0));
-        c.set(Calendar.YEAR, i.getIntExtra("year", 0));
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        switch (i.getStringExtra("duration")) {
-            case "week":
-                c.add(Calendar.WEEK_OF_MONTH, -1);
-                break;
-            case "fortnite":
-                c.add(Calendar.WEEK_OF_MONTH, -2);
-                break;
-            case "month":
-                c.add(Calendar.MONTH, -1);
-                break;
-            case "quarter":
-                c.add(Calendar.MONTH, -3);
-                break;
-            case "half_year":
-                c.add(Calendar.MONTH, -6);
-                break;
-            case "year":
-                c.add(Calendar.YEAR, -1);
-                break;
-            case "all":
-                c.set(1970, Calendar.JANUARY, 1);
-                break;
-        }
-        fromDateTimestamp = c.getTimeInMillis();
+        toAndFromDate = TimeUtility.getToAndFromDateTimestampFromIntent(i);
 
         ledgerId = i.getIntExtra("ledger_id", 1);
 
@@ -112,9 +76,9 @@ public class LedgerAccountActivity extends AppCompatActivity {
             }
         });
         toolbar.setSubtitle(new StringBuilder()
-                .append(StringUtility.dateFormat(fromDateTimestamp, dateFormat, dateSeparator))
+                .append(StringUtility.dateFormat(toAndFromDate.fromDateTimestamp, dateFormat, dateSeparator))
                 .append(" - ")
-                .append(StringUtility.dateFormat(toDateTimestamp, dateFormat, dateSeparator)).toString());
+                .append(StringUtility.dateFormat(toAndFromDate.toDateTimestamp, dateFormat, dateSeparator)).toString());
 
         // tablayout and viewpager
         ledgerEntriesFragment = new LedgerEntriesFragment();

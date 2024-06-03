@@ -16,10 +16,10 @@ import com.github.captainayan.accountlite.database.AppDatabase;
 import com.github.captainayan.accountlite.database.EntryDao;
 import com.github.captainayan.accountlite.model.Journal;
 import com.github.captainayan.accountlite.utility.StringUtility;
+import com.github.captainayan.accountlite.utility.TimeUtility;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 
 public class JournalEntriesActivity extends AppCompatActivity {
@@ -45,51 +45,12 @@ public class JournalEntriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_journal_entries);
 
         Intent i = getIntent();
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.DAY_OF_MONTH, i.getIntExtra("day", 0));
-        c.set(Calendar.MONTH, i.getIntExtra("month", 0));
-        c.set(Calendar.YEAR, i.getIntExtra("year", 0));
-        c.set(Calendar.HOUR_OF_DAY, 23);
-        c.set(Calendar.MINUTE, 59);
-        c.set(Calendar.SECOND, 59);
-        long toDateTimestamp = c.getTimeInMillis();
-        c.set(Calendar.DAY_OF_MONTH, i.getIntExtra("day", 0));
-        c.set(Calendar.MONTH, i.getIntExtra("month", 0));
-        c.set(Calendar.YEAR, i.getIntExtra("year", 0));
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-
-        Log.d(TAG, "onCreate: DURATION" + i.getStringExtra("duration"));
-        switch (i.getStringExtra("duration")) {
-            case "week":
-                c.add(Calendar.WEEK_OF_MONTH, -1);
-                break;
-            case "fortnite":
-                c.add(Calendar.WEEK_OF_MONTH, -2);
-                break;
-            case "month":
-                c.add(Calendar.MONTH, -1);
-                break;
-            case "quarter":
-                c.add(Calendar.MONTH, -3);
-                break;
-            case "half_year":
-                c.add(Calendar.MONTH, -6);
-                break;
-            case "year":
-                c.add(Calendar.YEAR, -1);
-                break;
-            case "all":
-                c.set(1970, Calendar.JANUARY, 1);
-                break;
-        }
-        long fromDateTimestamp = c.getTimeInMillis();
+        TimeUtility.ToAndFromDate toAndFromDate = TimeUtility.getToAndFromDateTimestampFromIntent(i);
 
         db = AppDatabase.getAppDatabase(this);
         entryDao = db.entryDao();
 
-        journalList = (ArrayList<Journal>) entryDao.getJournals(fromDateTimestamp, toDateTimestamp);
+        journalList = (ArrayList<Journal>) entryDao.getJournals(toAndFromDate.fromDateTimestamp, toAndFromDate.toDateTimestamp);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         adapter = new JournalAdapter(this, journalList);
@@ -118,8 +79,8 @@ public class JournalEntriesActivity extends AppCompatActivity {
             }
         });
         toolbar.setSubtitle(new StringBuilder()
-                .append(StringUtility.dateFormat(fromDateTimestamp, dateFormat, dateSeparator))
+                .append(StringUtility.dateFormat(toAndFromDate.fromDateTimestamp, dateFormat, dateSeparator))
                 .append(" - ")
-                .append(StringUtility.dateFormat(toDateTimestamp, dateFormat, dateSeparator)).toString());
+                .append(StringUtility.dateFormat(toAndFromDate.toDateTimestamp, dateFormat, dateSeparator)).toString());
     }
 }

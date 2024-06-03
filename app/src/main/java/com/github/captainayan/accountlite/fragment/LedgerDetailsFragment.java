@@ -70,8 +70,8 @@ public class LedgerDetailsFragment extends Fragment implements View.OnClickListe
         ledgerDao = AppDatabase.getAppDatabase(getContext()).ledgerDao();
 
         ledger = ledgerDao.getLedgerById(l.ledgerId);
-        openingBalance = ledgerDao.getLedgerBalance(ledger.getId(), l.fromDateTimestamp);
-        closingBalance = ledgerDao.getLedgerBalance(ledger.getId(), l.toDateTimestamp);
+        openingBalance = ledgerDao.getLedgerBalance(ledger.getId(), l.toAndFromDate.fromDateTimestamp);
+        closingBalance = ledgerDao.getLedgerBalance(ledger.getId(), l.toAndFromDate.toDateTimestamp);
 
         accountNameTv = (TextView) view.findViewById(R.id.accountName);
         accountTypeTv = (TextView) view.findViewById(R.id.accountType);

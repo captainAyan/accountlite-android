@@ -48,7 +48,8 @@ public class LedgerEntriesFragment extends Fragment {
         ledgerDao = AppDatabase.getAppDatabase(getContext()).ledgerDao();
 
         LedgerAccountActivity l = (LedgerAccountActivity) getActivity();
-        journalList = (ArrayList<Journal>) entryDao.getJournalsByLedger(l.ledgerId, l.fromDateTimestamp, l.toDateTimestamp);
+        journalList = (ArrayList<Journal>) entryDao.getJournalsByLedger(
+                l.ledgerId, l.toAndFromDate.fromDateTimestamp, l.toAndFromDate.toDateTimestamp);
         ledger = ledgerDao.getLedgerById(l.ledgerId);
         return inflater.inflate(R.layout.fragment_ledger_entries, container, false);
     }
