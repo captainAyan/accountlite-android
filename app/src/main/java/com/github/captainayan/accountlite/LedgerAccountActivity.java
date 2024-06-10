@@ -1,6 +1,7 @@
 package com.github.captainayan.accountlite;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
@@ -10,6 +11,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,11 +26,13 @@ import com.github.captainayan.accountlite.model.Journal;
 import com.github.captainayan.accountlite.model.Ledger;
 import com.github.captainayan.accountlite.utility.StringUtility;
 import com.github.captainayan.accountlite.utility.TimeUtility;
+import com.github.captainayan.accountlite.utility.statement.LedgerAccountHTMLStatement;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class LedgerAccountActivity extends AppCompatActivity {
@@ -125,4 +130,45 @@ public class LedgerAccountActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.statement_download_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.statement_download_menu_save) {
+            downloadFile();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void downloadFile() {
+        EntryDao entryDao = AppDatabase.getAppDatabase(this).entryDao();;
+        LedgerDao ledgerDao = AppDatabase.getAppDatabase(this).ledgerDao();
+
+        Ledger ledger = ledgerDao.getLedgerById(ledgerId);
+        ArrayList<Journal> journalList = (ArrayList<Journal>) entryDao.getJournalsByLedger(
+                ledgerId, toAndFromDate.fromDateTimestamp, toAndFromDate.toDateTimestamp);
+
+        int openingBalance = ledgerDao.getLedgerBalance(ledger.getId(), toAndFromDate.fromDateTimestamp);
+        int closingBalance = ledgerDao.getLedgerBalance(ledger.getId(), toAndFromDate.toDateTimestamp);
+
+        String html = new LedgerAccountHTMLStatement()
+                .setLedger(ledger)
+                .setJournalList(journalList)
+                .setDateRange(toAndFromDate.toDateTimestamp, toAndFromDate.fromDateTimestamp)
+                .setOpeningBalance(openingBalance)
+                .setClosingBalance(closingBalance)
+                .build(this);
+
+        Intent i = new Intent(this, StatementDownloadActivity.class);
+        i.putExtra("html", html);
+        i.putExtra("filename", ledger.getName() + "_ledger_" + toAndFromDate.fromDateTimestamp
+                + "_" + toAndFromDate.toDateTimestamp);
+        startActivity(i);
+    }
 }

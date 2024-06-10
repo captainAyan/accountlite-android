@@ -1,11 +1,15 @@
 package com.github.captainayan.accountlite;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,6 +18,10 @@ import com.github.captainayan.accountlite.database.AppDatabase;
 import com.github.captainayan.accountlite.database.LedgerDao;
 import com.github.captainayan.accountlite.model.Ledger;
 import com.github.captainayan.accountlite.utility.StringUtility;
+import com.github.captainayan.accountlite.utility.statement.JournalEntriesCSVStatement;
+import com.github.captainayan.accountlite.utility.statement.JournalEntriesHTMLStatement;
+import com.github.captainayan.accountlite.utility.statement.TrialBalanceCSVStatement;
+import com.github.captainayan.accountlite.utility.statement.TrialBalanceHTMLStatement;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
@@ -35,13 +43,14 @@ public class TrialBalanceActivity extends AppCompatActivity {
     private ArrayList<Ledger.LedgerWithBalance> ledgerWithBalanceList;
 
     private String dateFormat, dateSeparator;
+    private long asOnDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trial_balance);
 
-        double asOnDate = Calendar.getInstance().getTimeInMillis();
+        asOnDate = Calendar.getInstance().getTimeInMillis();
 
         db = AppDatabase.getAppDatabase(this);
         ledgerDao = db.ledgerDao();
@@ -80,5 +89,38 @@ public class TrialBalanceActivity extends AppCompatActivity {
                 .append(" ")
                 .append(StringUtility.dateFormat(asOnDate, dateFormat, dateSeparator))
                 .toString());
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.statement_download_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.statement_download_menu_save) {
+            downloadFile();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void downloadFile() {
+        String html = new TrialBalanceHTMLStatement()
+                .setAsOnDate(asOnDate)
+                .setLedgerWithBalanceList(ledgerWithBalanceList)
+                .build(this);
+
+        String csv = new TrialBalanceCSVStatement()
+                .setLedgerWithBalanceList(ledgerWithBalanceList)
+                .build();
+
+        Intent i = new Intent(this, StatementDownloadActivity.class);
+        i.putExtra("html", html);
+        i.putExtra("csv", csv);
+        i.putExtra("filename", "trial_balance_" + asOnDate);
+        startActivity(i);
     }
 }

@@ -2,6 +2,7 @@
     <string name="app_name">AccountLite</string>
     <string name="fab_content_desc">Add journal entry button</string>
     <string name="submit">Submit</string>
+    <string name="save">Save</string>
     <string name="view">View</string>
     <string name="saved">Saved</string>
     <string name="as_on_date">As On Date</string>
@@ -97,10 +98,16 @@
     <string name="error_message_invalid_date_error">Invalid Date Error</string>
     <string name="error_message_invalid_ledger_name">Invalid Ledger Name</string>
     <string name="error_message_invalid_ledger_type">Invalid Ledger Type</string>
+    <string name="error_message_storage_permission_denied">Cannot save file without storage permission</string>
+    <string name="error_message_pdf_creation_failed">Sorry, could not create pdf</string>
+
+    <string name="storage_permission_rationale">This app needs access to your external storage to save files.</string>
 
     <string name="voucher_created_success">Voucher Created</string>
     <string name="journal_entry_create_success">Entry Saved</string>
     <string name="ledger_create_success">Ledger Saved</string>
+    <string name="file_saved_success_title">File Saved</string>
+    <string name="file_saved_success_text">Check your Documents folder</string>
 
     <string name="balance_sheet_surplus_label">Add: Surplus</string>
     <string name="balance_sheet_deficit_label">Less: Deficit</string>

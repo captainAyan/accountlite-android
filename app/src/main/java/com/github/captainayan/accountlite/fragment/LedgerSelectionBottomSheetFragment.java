@@ -42,7 +42,7 @@ public class LedgerSelectionBottomSheetFragment extends BottomSheetDialogFragmen
         ledgerList = ((MainActivity)getActivity()).ledgerList;
 
         for (Ledger l : ledgerList) {
-            Chip chip = (Chip) inflater.inflate(R.layout.ledger_selection_chip, chipGroup, false);
+            Chip chip = (Chip) inflater.inflate(R.layout.selection_chip, chipGroup, false);
             chip.setText(StringUtility.accountNameFormat(l.getName()));
             chip.setId(l.getId());
             chipGroup.addView(chip);

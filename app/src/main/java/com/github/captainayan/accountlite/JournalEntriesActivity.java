@@ -1,5 +1,6 @@
 package com.github.captainayan.accountlite;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,6 +19,8 @@ import com.github.captainayan.accountlite.database.EntryDao;
 import com.github.captainayan.accountlite.model.Journal;
 import com.github.captainayan.accountlite.utility.StringUtility;
 import com.github.captainayan.accountlite.utility.TimeUtility;
+import com.github.captainayan.accountlite.utility.statement.JournalEntriesCSVStatement;
+import com.github.captainayan.accountlite.utility.statement.JournalEntriesHTMLStatement;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
@@ -39,13 +43,15 @@ public class JournalEntriesActivity extends AppCompatActivity {
 
     private String dateFormat, dateSeparator;
 
+    private TimeUtility.ToAndFromDate toAndFromDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journal_entries);
 
         Intent i = getIntent();
-        TimeUtility.ToAndFromDate toAndFromDate = TimeUtility.getToAndFromDateTimestampFromIntent(i);
+        toAndFromDate = TimeUtility.getToAndFromDateTimestampFromIntent(i);
 
         db = AppDatabase.getAppDatabase(this);
         entryDao = db.entryDao();
@@ -82,5 +88,38 @@ public class JournalEntriesActivity extends AppCompatActivity {
                 .append(StringUtility.dateFormat(toAndFromDate.fromDateTimestamp, dateFormat, dateSeparator))
                 .append(" - ")
                 .append(StringUtility.dateFormat(toAndFromDate.toDateTimestamp, dateFormat, dateSeparator)).toString());
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.statement_download_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.statement_download_menu_save) {
+            downloadFile();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void downloadFile() {
+        String html = new JournalEntriesHTMLStatement()
+                .setJournalList(journalList)
+                .setDateRange(toAndFromDate.toDateTimestamp, toAndFromDate.fromDateTimestamp)
+                .build(this);
+
+        String csv = new JournalEntriesCSVStatement()
+                .setJournalList(journalList)
+                .build();
+
+        Intent i = new Intent(this, StatementDownloadActivity.class);
+        i.putExtra("html", html);
+        i.putExtra("csv", csv);
+        i.putExtra("filename", "journal_entries_" + toAndFromDate.fromDateTimestamp + "_" + toAndFromDate.toDateTimestamp);
+        startActivity(i);
     }
 }
