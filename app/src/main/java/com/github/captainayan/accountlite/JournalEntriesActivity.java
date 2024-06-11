@@ -22,8 +22,11 @@ import com.github.captainayan.accountlite.utility.TimeUtility;
 import com.github.captainayan.accountlite.utility.statement.JournalEntriesCSVStatement;
 import com.github.captainayan.accountlite.utility.statement.JournalEntriesHTMLStatement;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class JournalEntriesActivity extends AppCompatActivity {
@@ -35,6 +38,8 @@ public class JournalEntriesActivity extends AppCompatActivity {
     private EntryDao entryDao;
 
     private TextView emptyView;
+
+    private ChipGroup chipGroup;
 
     private RecyclerView recyclerView;
     private LinearLayoutManager manager;
@@ -63,6 +68,23 @@ public class JournalEntriesActivity extends AppCompatActivity {
         manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+
+        chipGroup = (ChipGroup) findViewById(R.id.chipGroup);
+        chipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
+                if ((journalList.size() > 2) &&
+                        ((journalList.get(0).getTimestamp() > journalList.get(1).getTimestamp() // newest first
+                        && checkedIds.get(0) == R.id.oldestFirstChip)
+                        || (journalList.get(0).getTimestamp() < journalList.get(1).getTimestamp() // oldest first
+                        && checkedIds.get(0) == R.id.newestFirstChip))
+                ) {
+                    // newest first
+                    Collections.reverse(journalList);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
 
         emptyView = (TextView) findViewById(R.id.emptyView);
         if (!journalList.isEmpty()) emptyView.setVisibility(View.INVISIBLE);
