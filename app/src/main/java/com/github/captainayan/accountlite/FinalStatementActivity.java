@@ -1,5 +1,6 @@
 package com.github.captainayan.accountlite;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
@@ -114,12 +115,14 @@ public class FinalStatementActivity extends AppCompatActivity {
                 tabLayout.setScrollPosition(position, positionOffset, false);
             }
         });
-    }
 
-    @Override
-    public void onBackPressed() {
-        if (viewPager.getCurrentItem() != 0) viewPager.setCurrentItem(0, true);
-        else finish();
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (viewPager.getCurrentItem() != 0) viewPager.setCurrentItem(0, true);
+                else finish();
+            }
+        });
     }
 
 }
