@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">AccountLite</string>
-    <string name="fab_content_desc">Add journal entry button</string>
     <string name="submit">Submit</string>
     <string name="save">Save</string>
     <string name="view">View</string>

@@ -203,7 +203,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:backgroundTint="?attr/colorSecondary"
-        android:contentDescription="@string/fab_content_desc"
         app:fabSize="normal"
         app:tint="?attr/colorOnSecondary"
         app:elevation="0dp"
@@ -214,4 +213,38 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_plus"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/entryFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="?attr/colorSecondary"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:visibility="invisible"
+        app:elevation="0dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@+id/mainFab"
+        app:layout_constraintEnd_toEndOf="@+id/mainFab"
+        app:layout_constraintStart_toStartOf="@+id/mainFab"
+        app:srcCompat="@drawable/ic_entry_add"
+        app:tint="?attr/colorOnSecondary" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ledgerFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="?attr/colorSecondary"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:visibility="invisible"
+        app:elevation="0dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@+id/entryFab"
+        app:layout_constraintEnd_toEndOf="@+id/mainFab"
+        app:layout_constraintStart_toStartOf="@+id/mainFab"
+        app:srcCompat="@drawable/ic_ledger_account_add"
+        app:tint="?attr/colorOnSecondary" />
 </androidx.constraintlayout.widget.ConstraintLayout>

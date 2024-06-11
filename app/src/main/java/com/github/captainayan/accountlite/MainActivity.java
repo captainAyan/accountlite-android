@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.github.captainayan.accountlite.adapter.OverviewBalanceAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
@@ -33,7 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String TAG = "MAIN_ACT";
 
     private MaterialToolbar toolbar;
-    private FloatingActionButton mainFab;
+
+    private FloatingActionButton mainFab, entryFab, ledgerFab;
+    private Animation rotateOpen, rotateClose, fromBottom, toBottom;
+    private boolean fabMenuOpen = false;
 
     private CardView trialBalanceButton, ledgerAccountButton, journalEntriesButton, finalStatementButton;
 
@@ -55,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public ArrayList<Ledger> ledgerList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +78,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainFab = (FloatingActionButton) findViewById(R.id.mainFab);
         mainFab.setOnClickListener(this);
         mainFab.setOnLongClickListener(this);
+
+        entryFab = (FloatingActionButton) findViewById(R.id.entryFab);
+        ledgerFab = (FloatingActionButton) findViewById(R.id.ledgerFab);
+
+        entryFab.setOnClickListener(this);
+        ledgerFab.setOnClickListener(this);
+
+        rotateOpen = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim);
+        rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim);
+        fromBottom = AnimationUtils.loadAnimation(this, R.anim.from_buttom_anim);
+        toBottom = AnimationUtils.loadAnimation(this, R.anim.to_buttom_anim);
+
 
         finalStatementButton = (CardView) findViewById(R.id.final_statement_button);
         finalStatementButton.setOnClickListener(this);
@@ -136,7 +155,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.mainFab) {
+            onAddButtonClicked();
+        } else if (id == R.id.entryFab) {
             startActivity(new Intent(MainActivity.this, CreateJournalEntryActivity.class));
+        } else if (id == R.id.ledgerFab) {
+            startActivity(new Intent(MainActivity.this, CreateLedgerActivity.class));
         } else if (id == R.id.final_statement_button) {
             startActivity(new Intent(MainActivity.this, FinalStatementActivity.class));
         } else if (id == R.id.trial_balance_button) {
@@ -163,9 +186,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         } else if (view.getId() == R.id.journal_entries_button) {
             onClickJournalEntriesButton();
-            return true;
-        } else if (view.getId() == R.id.mainFab) {
-            startActivity(new Intent(MainActivity.this, CreateLedgerActivity.class));
             return true;
         }
         return false;
@@ -247,5 +267,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(i);
             });
         }
+    }
+
+    private void onAddButtonClicked() {
+        if (!fabMenuOpen) {
+            entryFab.startAnimation(fromBottom);
+            ledgerFab.startAnimation(fromBottom);
+            mainFab.startAnimation(rotateOpen);
+
+            entryFab.setVisibility(View.VISIBLE);
+            ledgerFab.setVisibility(View.VISIBLE);
+        }
+        else {
+            entryFab.startAnimation(toBottom);
+            ledgerFab.startAnimation(toBottom);
+            mainFab.startAnimation(rotateClose);
+
+            entryFab.setVisibility(View.INVISIBLE);
+            ledgerFab.setVisibility(View.INVISIBLE);
+        }
+
+        fabMenuOpen = !fabMenuOpen;
     }
 }
