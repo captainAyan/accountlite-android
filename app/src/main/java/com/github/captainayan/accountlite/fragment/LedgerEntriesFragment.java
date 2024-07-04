@@ -21,6 +21,7 @@ import com.github.captainayan.accountlite.database.EntryDao;
 import com.github.captainayan.accountlite.database.LedgerDao;
 import com.github.captainayan.accountlite.model.Journal;
 import com.github.captainayan.accountlite.model.Ledger;
+import com.github.captainayan.accountlite.utility.JournalListUtility;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
@@ -65,6 +66,8 @@ public class LedgerEntriesFragment extends Fragment {
         emptyView = (TextView) view.findViewById(R.id.emptyView);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
+        // ArrayList<Object> journalListWithMonthSeparator = JournalListUtility.createMonthSeparatedListFromJournalList(journalList);
+        // adapter = new JournalAdapter(getContext(), journalListWithMonthSeparator);
         adapter = new JournalAdapter(getContext(), journalList);
         adapter.setLedger(ledger);
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -85,7 +88,7 @@ public class LedgerEntriesFragment extends Fragment {
                 ) {
                     // newest first
                     Collections.reverse(journalList);
-                    adapter.notifyDataSetChanged();
+                    adapter.onOrderChange(journalList);
                 }
             }
         });

@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.captainayan.accountlite.R;
 import com.github.captainayan.accountlite.model.Journal;
 import com.github.captainayan.accountlite.model.Ledger;
+import com.github.captainayan.accountlite.utility.JournalListUtility;
 import com.github.captainayan.accountlite.utility.StringUtility;
 
 import java.util.ArrayList;
@@ -31,11 +33,40 @@ class JournalViewHolder extends RecyclerView.ViewHolder {
         time = (TextView) itemView.findViewById(R.id.time);
         entryId = (TextView) itemView.findViewById(R.id.entryId);
     }
+
+    public void bind(Journal j, String currencyFormat, String currencySymbol, String currencySymbolPosition,
+                     String dateFormat, String dateSeparator ) {
+        debitAccountName.setText(StringUtility.accountNameFormat(j.getDebitLedger().getName()));
+        creditAccountName.setText(StringUtility.accountNameFormat(j.getCreditLedger().getName()));
+        amount.setText(StringUtility.amountFormat(j.getAmount(), currencyFormat, currencySymbol, currencySymbolPosition));
+        narration.setText(StringUtility.narrationFormat(j.getNarration()));
+        time.setText(StringUtility.dateFormat(j.getTimestamp(), dateFormat, dateSeparator));
+        entryId.setText(StringUtility.idFormat(j.getId()));
+
+        debitAccountName.setSelected(true);
+        creditAccountName.setSelected(true);
+    }
 }
 
-public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
+class MonthSeparatorViewHolder extends RecyclerView.ViewHolder {
+    public TextView monthNameTextView;
 
-    private ArrayList<Journal> journalList;
+    public MonthSeparatorViewHolder(@NonNull View itemView) {
+        super(itemView);
+
+        monthNameTextView = (TextView) itemView.findViewById(R.id.monthName);
+    }
+
+    public void bind(String monthName) {
+        monthNameTextView.setText(monthName);
+    }
+}
+
+public class JournalAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    static int TYPE_JOURNAL = 1;
+    static int TYPE_MONTH = 2;
+
+    private ArrayList<Object> journalListWithMonthSeparator;
     private Context ctx;
 
     private final String currencyFormat, currencySymbol, currencySymbolPosition, dateFormat, dateSeparator;
@@ -44,7 +75,7 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
     private Ledger ledger = null;
 
     public JournalAdapter(Context ctx, ArrayList<Journal> journalList) {
-        this.journalList = journalList;
+        this.journalListWithMonthSeparator = JournalListUtility.createMonthSeparatedListFromJournalList(journalList);
         this.ctx = ctx;
 
         currencyFormat = PreferenceManager.getDefaultSharedPreferences(ctx).getString(
@@ -68,45 +99,63 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalViewHolder> {
                 ctx.getResources().getString(R.string.date_separator_default_value));
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (journalListWithMonthSeparator.get(position) instanceof Journal) return TYPE_JOURNAL;
+        else return TYPE_MONTH;
+    }
+
     @NonNull
     @Override
-    public JournalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.journal_card, parent, false);
-        return new JournalViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        if (viewType == TYPE_JOURNAL) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(R.layout.journal_card, parent, false);
+            return new JournalViewHolder(view);
+        }
+        else {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(R.layout.month_separator_item, parent, false);
+            return new MonthSeparatorViewHolder(view);
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull JournalViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder.getItemViewType() == TYPE_JOURNAL) {
+            JournalViewHolder journalViewHolder = (JournalViewHolder) holder;
 
-        if (ledger != null) {
+            if (ledger != null) {
+                boolean isDebitBalance = (ledger.getType() == Ledger.Type.EXPENDITURE || ledger.getType() == Ledger.Type.ASSET);
+                boolean isDebitEntry = ((Journal)journalListWithMonthSeparator.get(position)).getDebitLedger().getId() == ledger.getId();
 
-            boolean isDebitBalance = (ledger.getType() == Ledger.Type.EXPENDITURE || ledger.getType() == Ledger.Type.ASSET);
-            boolean isDebitEntry = journalList.get(position).getDebitLedger().getId() == ledger.getId();
+                if ((isDebitBalance && !isDebitEntry) || (!isDebitBalance && isDebitEntry))
+                    journalViewHolder.amount.setTextColor(ContextCompat.getColor(ctx, R.color.red));
+                else journalViewHolder.amount.setTextColor(ContextCompat.getColor(ctx, R.color.green));
+            }
 
-            if ((isDebitBalance && !isDebitEntry) || (!isDebitBalance && isDebitEntry))
-                holder.amount.setTextColor(ctx.getResources().getColor(R.color.red));
-            else holder.amount.setTextColor(ctx.getResources().getColor(R.color.green));
+            Journal j = (Journal)journalListWithMonthSeparator.get(position);
+            journalViewHolder.bind(j, currencyFormat, currencySymbol, currencySymbolPosition, dateFormat, dateSeparator);
         }
-
-        Journal j = journalList.get(position);
-        holder.debitAccountName.setText(StringUtility.accountNameFormat(j.getDebitLedger().getName()));
-        holder.creditAccountName.setText(StringUtility.accountNameFormat(j.getCreditLedger().getName()));
-        holder.amount.setText(StringUtility.amountFormat(j.getAmount(), currencyFormat, currencySymbol, currencySymbolPosition));
-        holder.narration.setText(StringUtility.narrationFormat(j.getNarration()));
-        holder.time.setText(StringUtility.dateFormat(j.getTimestamp(), dateFormat, dateSeparator));
-        holder.entryId.setText(StringUtility.idFormat(j.getId()));
-
-        holder.debitAccountName.setSelected(true);
-        holder.creditAccountName.setSelected(true);
+        else {
+            MonthSeparatorViewHolder monthSeparatorViewHolder = (MonthSeparatorViewHolder) holder;
+            monthSeparatorViewHolder.bind((String)journalListWithMonthSeparator.get(position));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return journalList.size();
+        return journalListWithMonthSeparator.size();
     }
 
     public void setLedger(Ledger l) {
         this.ledger = l;
+    }
+
+    public void onOrderChange(ArrayList<Journal> journalList) {
+        this.journalListWithMonthSeparator = JournalListUtility.createMonthSeparatedListFromJournalList(journalList);
+        this.notifyDataSetChanged();
     }
 }

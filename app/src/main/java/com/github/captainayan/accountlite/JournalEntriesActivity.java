@@ -17,6 +17,7 @@ import com.github.captainayan.accountlite.adapter.JournalAdapter;
 import com.github.captainayan.accountlite.database.AppDatabase;
 import com.github.captainayan.accountlite.database.EntryDao;
 import com.github.captainayan.accountlite.model.Journal;
+import com.github.captainayan.accountlite.utility.JournalListUtility;
 import com.github.captainayan.accountlite.utility.StringUtility;
 import com.github.captainayan.accountlite.utility.TimeUtility;
 import com.github.captainayan.accountlite.utility.statement.JournalEntriesCSVStatement;
@@ -45,6 +46,7 @@ public class JournalEntriesActivity extends AppCompatActivity {
     private LinearLayoutManager manager;
     private JournalAdapter adapter;
     private ArrayList<Journal> journalList;
+    private ArrayList<Object> journalListWithMonthSeparator;
 
     private String dateFormat, dateSeparator;
 
@@ -64,6 +66,7 @@ public class JournalEntriesActivity extends AppCompatActivity {
         journalList = (ArrayList<Journal>) entryDao.getJournals(toAndFromDate.fromDateTimestamp, toAndFromDate.toDateTimestamp);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        // journalListWithMonthSeparator = JournalListUtility.createMonthSeparatedListFromJournalList(journalList);
         adapter = new JournalAdapter(this, journalList);
         manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
@@ -81,7 +84,8 @@ public class JournalEntriesActivity extends AppCompatActivity {
                 ) {
                     // newest first
                     Collections.reverse(journalList);
-                    adapter.notifyDataSetChanged();
+                    // journalListWithMonthSeparator = JournalListUtility.createMonthSeparatedListFromJournalList(journalList);
+                    adapter.onOrderChange(journalList);
                 }
             }
         });
